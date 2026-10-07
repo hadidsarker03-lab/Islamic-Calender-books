@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="bn" data-m="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ইসলামিক ক্যালেন্ডার ও নামাজের সময়</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#022c22">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ইসলামিক ক্যালেন্ডার">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<style>
+:root{--tx:#fff;--sub:#cbd5e1;--gl:rgba(255,255,255,.07);--ln:rgba(255,255,255,.16);--sheet:rgba(2,28,22,.97);--bgd:radial-gradient(circle at top,#064e3b,#022c22 60%,#01130f);--ac:#10b981;--glow:rgba(16,185,129,.2);--gold:#fbbf24;--ok:#22c55e;--c1:#e2e8f0;--c2:#fbbf24;--c3:#6ee7b7;--k1:var(--c1);--k2:var(--c2);--k3:var(--c3);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+[data-theme=indigo]{--bgd:radial-gradient(circle at top,#1e1b4b,#0f172a,#090d16);--ac:#818cf8;--glow:rgba(129,140,248,.2);--c1:#e0e7ff;--c2:#fbbf24;--c3:#34d399;--sheet:rgba(15,23,42,.97)}
+[data-theme=cyberpunk]{--bgd:radial-gradient(circle at top,#052e16,#022c22,#040d12);--ac:#2dd4bf;--glow:rgba(45,212,191,.2);--c1:#ccfbf1;--c2:#fb7185;--c3:#fde047}
+[data-theme=sunset]{--bgd:radial-gradient(circle at top,#451a03,#290f04,#0f0502);--ac:#f97316;--glow:rgba(249,115,22,.2);--c1:#ffedd5;--c2:#38bdf8;--c3:#a3e635}
+[data-theme=royal-neon]{--bgd:radial-gradient(circle at top,#4c1d95,#2e1065,#0f0728);--ac:#f43f5e;--glow:rgba(244,63,94,.2);--c1:#fce7f3;--c2:#67e8f9;--c3:#fcd34d}
+[data-m=light]{color-scheme:light;--tx:#0f172a;--sub:#475569;--gl:rgba(255,255,255,.7);--ln:rgba(15,23,42,.13);--sheet:rgba(255,255,255,.98);--bgd:linear-gradient(160deg,#d1fae5,#f8fafc 60%,#fef9c3);--gold:#b45309;--ok:#15803d;--k1:color-mix(in srgb,var(--c1) 15%,#1e293b);--k2:color-mix(in srgb,var(--c2) 55%,#1e293b);--k3:color-mix(in srgb,var(--c3) 55%,#1e293b)}
+[data-m=dark]{color-scheme:dark}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
+html{background:#01130f;height:100dvh;overflow:hidden}
+body{background:var(--bgd);color:var(--tx);height:100%;display:flex;justify-content:center;align-items:center;padding:14px;position:relative;overflow:hidden;transition:background .5s,color .4s}
+body::before,body::after{content:"";position:fixed;width:460px;height:460px;border-radius:50%;background:radial-gradient(circle,var(--ac) 0%,transparent 68%);opacity:.15;z-index:0;pointer-events:none}
+body::before{top:-160px;left:-160px}body::after{bottom:-160px;right:-160px}
+@keyframes orb{to{transform:translate(70px,50px) scale(1.25)}}
+.wrap{position:relative;z-index:1;width:100%;max-width:450px;height:100%;max-height:880px;display:flex;flex-direction:column}
+.app{flex:1;min-height:0;display:flex;flex-direction:column;background:var(--gl);border:1px solid var(--ln);border-radius:30px;box-shadow:0 12px 30px rgba(0,0,0,.3),inset 0 1px 2px rgba(255,255,255,.25);overflow:hidden;animation:up .7s cubic-bezier(.2,.9,.3,1)}
+@keyframes up{from{opacity:0;transform:translateY(30px)}}
+footer{flex:none;text-align:center;font-size:.75rem;opacity:.6;margin-top:10px;padding-bottom:2px;letter-spacing:.5px}
+svg{display:block}
+.hd{padding:16px 16px 6px;text-align:center;background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='44' height='44'><path d='M22 2l5 8 9-3-3 9 8 5-8 5 3 9-9-3-5 8-5-8-9 3 3-9-8-5 8-5-3-9 9 3z' fill='none' stroke='%23fbbf24' stroke-opacity='.13'/></svg>")}
+.bis{font-family:'Amiri','Traditional Arabic',serif;font-size:1.25rem;color:var(--gold);margin-bottom:6px;animation:fadeo 1.2s}
+.clock{font-size:2.7rem;font-weight:800;letter-spacing:1px;font-variant-numeric:tabular-nums;display:flex;justify-content:center;align-items:baseline;gap:8px}
+@keyframes pulse{50%{text-shadow:0 0 22px var(--glow)}}
+.dt{background:var(--gl);border:1px solid var(--ln);color:var(--tx);padding:6px 16px;border-radius:99px;margin-top:6px;font-size:.9rem;font-weight:700;cursor:pointer;transition:.25s}
+.dt:active{transform:scale(.95)}
+.cc{display:grid;gap:6px;max-height:0;overflow:hidden;opacity:0;transition:max-height .5s cubic-bezier(.2,.9,.3,1),opacity .4s,margin .4s}
+.cc.open{max-height:200px;opacity:1;margin-top:8px}
+.cc button{background:var(--gl);border:1px solid;padding:8px 14px;border-radius:14px;display:flex;justify-content:space-between;font-size:.88rem;font-weight:700;cursor:pointer;transform:translateX(-30px);transition:transform .45s cubic-bezier(.2,.9,.3,1),box-shadow .2s}
+.cc.open button{transform:none}.cc.open button:nth-child(2){transition-delay:.07s}.cc.open button:nth-child(3){transition-delay:.14s}
+.cc button b{opacity:.8;font-size:.78rem}
+.in4{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:8px 14px}
+.mi{background:var(--gl);border:1px solid var(--ln);border-radius:14px;padding:8px 2px;text-align:center;font-size:.68rem;animation:slx .5s both;animation-delay:calc(var(--i)*70ms)}
+.mi svg{margin:0 auto 3px;color:var(--gold)}.mi b{display:block;font-size:.8rem;margin-top:2px;font-variant-numeric:tabular-nums}
+.live{margin:4px 14px 8px;padding:10px 12px;border-radius:14px;text-align:center;font-weight:700;font-size:.9rem;background:var(--gl);border:1px solid var(--ln);transition:.4s}
+.live.on{background:rgba(34,197,94,.16);border-color:var(--ok);color:var(--ok)}
+.pr{display:flex;justify-content:space-between;align-items:center;margin:0 14px 6px;padding:9px 14px;border-radius:14px;background:var(--gl);border:1px solid var(--ln);font-size:.92rem;animation:slx .5s both;animation-delay:calc(var(--i)*70ms);transition:.4s}
+.pr small{opacity:.85;font-variant-numeric:tabular-nums;font-size:.8rem}
+.pr.now{background:rgba(34,197,94,.18);border-color:var(--ok);color:var(--ok);font-weight:700;box-shadow:0 0 8px rgba(34,197,94,.15)}
+.cal{padding:10px 14px 14px}
+.tab{display:none}.tab.on{display:block;flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;animation:slx .45s cubic-bezier(.2,.9,.3,1)}.tab.pad{padding:16px}
+@keyframes slx{from{opacity:0;transform:translateX(var(--dx,40px))}}
+.sl{animation:slx .4s cubic-bezier(.2,.9,.3,1)}
+@keyframes fadeo{from{opacity:0}}
+nav{flex:none;display:flex;justify-content:space-around;background:var(--gl);border-top:1px solid var(--ln);padding:8px;gap:4px}
+.nb{flex:1;background:none;border:none;color:var(--sub);padding:8px 2px;border-radius:14px;cursor:pointer;font-size:.72rem;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:3px;transition:.3s}
+.nb i{display:block;transition:transform .3s}.nb.on{background:var(--ac);color:#fff;box-shadow:0 0 18px var(--glow)}.nb.on i{transform:scale(1.2)}
+.cn{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:4px}
+.cn strong{text-align:center;cursor:pointer;flex:1}.cn small{display:block;font-family:'Amiri','Traditional Arabic',serif;color:var(--gold);font-size:1rem}
+.cn button{background:var(--gl);border:1px solid var(--ln);color:var(--tx);width:34px;height:34px;border-radius:50%;cursor:pointer;display:grid;place-items:center;transition:.2s}
+button:active{transform:scale(.92)}
+.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+.dn{font-size:.72rem;color:var(--ac);font-weight:700;padding-bottom:3px}
+.cell{position:relative;background:var(--gl);border:1px solid var(--ln);border-radius:12px;padding:4px 1px;min-height:52px;display:flex;flex-direction:column;justify-content:center;align-items:center;cursor:pointer;transition:transform .15s}
+@keyframes pop{from{opacity:0;transform:scale(.6)}}
+.cell:active{transform:scale(.93)}
+.cell .g{font-weight:700;font-size:1rem}
+.cell .s{display:flex;gap:5px;font-size:.58rem;font-weight:700;margin-top:1px}.s i{font-style:normal}
+.cell.fri{border-color:var(--gold)}
+.cell.eid{background:rgba(251,191,36,.2);border-color:var(--gold)}
+.cell.ram{border-bottom:3px solid var(--ok)}
+.cell.today{background:var(--ac)}.cell.today .g,.cell.today i{color:#fff!important}
+.cell.hol::after,.cell.nt::before{content:"";position:absolute;top:3px;width:6px;height:6px;border-radius:50%}
+.cell.hol::after{right:4px;background:#ef4444}.cell.nt::before{left:4px;background:var(--gold)}
+.btn{background:var(--ac);color:#fff;border:none;padding:12px;border-radius:14px;font-weight:700;cursor:pointer;box-shadow:0 0 14px var(--glow);font-size:1rem;transition:.2s;display:flex;justify-content:center;align-items:center}
+.btn.alt{background:var(--gl);color:var(--tx);box-shadow:none;border:1px solid var(--ln)}.btn.w{width:100%;margin-top:10px}
+.in{width:100%;background:var(--gl);border:1px solid var(--ln);color:var(--tx);padding:11px;border-radius:12px;outline:none;font-size:1rem;transition:.2s}
+.in:focus{border-color:var(--ac);box-shadow:0 0 12px var(--glow)}textarea.in{resize:vertical;min-height:80px}
+.form{display:flex;flex-direction:column;gap:9px;margin-bottom:12px}
+.chips{display:flex;gap:4px}
+.chip{flex:1;padding:8px 0;border-radius:10px;border:1px solid var(--ln);background:var(--gl);color:var(--tx);font-size:.72rem;cursor:pointer;transition:.2s}
+.chip.on{background:var(--ac);color:#fff;box-shadow:0 0 10px var(--glow)}
+.al{background:var(--gl);border:1px solid var(--ln);padding:11px 13px;border-radius:14px;margin-bottom:8px;display:flex;align-items:center;gap:10px;animation:slx .4s both;transition:opacity .3s}
+.al.off{opacity:.5}.al strong{color:var(--ac);font-size:1.15rem}.al small{display:block;opacity:.75;font-size:.78rem}.al input{width:20px;height:20px;accent-color:var(--ac)}
+.del{background:rgba(239,68,68,.25);border:1px solid rgba(239,68,68,.5);color:#ef4444;padding:6px 10px;border-radius:9px;cursor:pointer}
+.empty{text-align:center;opacity:.6;padding:14px}
+.glass,.box{position:relative;padding:16px;border-radius:22px;margin-bottom:14px;background:linear-gradient(145deg,rgba(255,255,255,.13),rgba(255,255,255,.04));border:1px solid rgba(255,255,255,.2);box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 10px 28px rgba(0,0,0,.2)}
+[data-m=light] .glass,[data-m=light] .box{background:linear-gradient(145deg,rgba(255,255,255,.92),rgba(255,255,255,.6));border-color:#fff;box-shadow:inset 0 1px 0 #fff,0 8px 24px rgba(15,23,42,.08)}
+.box h4{font-size:.9rem;color:var(--ac);margin-bottom:9px}
+.big{font-size:2rem;font-weight:800;text-align:center;margin:6px 0;font-variant-numeric:tabular-nums}
+.row{display:flex;gap:8px;align-items:center}.row>*{flex:1}.row>.fit{flex:none}
+.sws{display:flex;gap:12px;justify-content:center}
+.sw{width:40px;height:40px;border-radius:50%;border:3px solid transparent;cursor:pointer;transition:.25s}
+.sw.on{border-color:var(--tx);transform:scale(1.15);box-shadow:0 0 16px var(--glow)}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);justify-content:center;align-items:center;z-index:100;padding:16px}
+.modal.bot{align-items:flex-end;padding:0}
+.modal.on{display:flex;animation:fadeo .25s}
+.mc{background:var(--sheet);border:1px solid var(--ac);padding:22px;border-radius:24px;box-shadow:0 0 30px var(--glow);width:100%;max-width:360px;display:flex;flex-direction:column;gap:9px;color:var(--tx);animation:zoom .4s cubic-bezier(.2,1.3,.4,1)}
+@keyframes zoom{from{opacity:0;transform:scale(.7)}}
+.bot .mc,.sheet{max-width:450px;border-radius:26px 26px 0 0;animation:sup .45s cubic-bezier(.2,.9,.3,1)}
+.sheet{background:var(--sheet);border:1px solid var(--ac);padding:18px 16px 24px;width:100%;max-height:92vh;overflow:auto;color:var(--tx)}
+@keyframes sup{from{transform:translateY(100%)}}
+.sh{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-weight:800}
+.nv{display:flex;gap:6px;align-items:center;margin-bottom:10px}.nv strong{flex:1;text-align:center}
+.nv button,.sh button{background:var(--gl);border:1px solid var(--ln);color:var(--tx);width:34px;height:34px;border-radius:50%;cursor:pointer;display:grid;place-items:center}
+.ev{padding:7px 10px;border-radius:10px;background:var(--gl);border:1px solid var(--ln);margin-top:6px;font-size:.88rem;animation:slx .4s both}.ev b{margin-right:6px}
+.ramb{background:rgba(34,197,94,.16);border:1px solid var(--ok);color:var(--ok);border-radius:12px;padding:8px;text-align:center;font-weight:700;margin-bottom:8px;display:flex;gap:6px;justify-content:center;animation:slx .4s}
+.bdg{display:inline-block;background:var(--gold);color:#1c1917;padding:3px 10px;border-radius:99px;font-size:.8rem;margin:2px 3px 0 0;font-weight:700}
+.ap{font-size:1rem;font-weight:700;color:var(--gold);text-shadow:none;letter-spacing:0}
+.mq{overflow:hidden;margin:2px -16px 10px;padding:7px 0;background:linear-gradient(90deg,transparent,var(--gl),transparent);border-block:1px solid var(--ln);-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.mqt{display:flex;width:max-content;animation:mq var(--d,60s) linear infinite;will-change:transform}
+.mqt span{padding:0 22px;white-space:nowrap;font-size:.82rem;font-weight:700;display:flex;gap:10px;align-items:center}
+.mqt span::before{content:"";width:6px;height:6px;background:var(--gold);transform:rotate(45deg);flex:none}
+@keyframes mq{to{transform:translateX(-50%)}}
+.sec{display:flex;align-items:center;gap:10px;margin-bottom:4px}.sec h4{font-size:.98rem;color:var(--tx);margin:0}
+.sic{width:34px;height:34px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,var(--ac),rgba(255,255,255,.08));color:#fff;box-shadow:0 0 14px var(--glow);flex:none}
+.lbl{font-size:.78rem;opacity:.75;margin:14px 0 6px;font-weight:600}
+.seg{display:flex;background:rgba(0,0,0,.2);border:1px solid var(--ln);border-radius:14px;padding:3px;gap:3px}
+[data-m=light] .seg{background:rgba(15,23,42,.06)}
+.seg button{flex:1;border:none;background:none;color:var(--sub);padding:9px 4px;border-radius:11px;font-weight:700;font-size:.82rem;cursor:pointer;transition:background .2s,color .2s}
+.seg button.on{background:var(--ac);color:#fff;box-shadow:0 0 12px var(--glow)}
+.sw2{position:relative;width:50px;height:28px;flex:none;display:block}
+.sw2 input{opacity:0;position:absolute;inset:0;width:100%;height:100%;margin:0;z-index:2;cursor:pointer}
+.sw2 i{position:absolute;inset:0;border-radius:99px;background:var(--ln);transition:.25s}
+.sw2 i::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:transform .25s}
+.sw2 input:checked+i{background:var(--ac);box-shadow:0 0 12px var(--glow)}.sw2 input:checked+i::after{transform:translateX(22px)}
+.up{display:flex;flex-direction:column;align-items:flex-start;width:100%;margin-top:6px;padding:9px 12px;border-radius:12px;background:var(--gl);border:1px solid var(--ln);color:var(--tx);cursor:pointer;text-align:left}.up small{opacity:.7;font-size:.74rem}
+.hid *{animation-play-state:paused!important}
+.cr{margin:80px 0 10px;opacity:.9}
+.crl{font-size:.68rem;letter-spacing:1.6px;text-transform:uppercase;opacity:.6}
+.crn{font-size:1.15rem;font-weight:800;margin:3px 0 10px;color:var(--gold)}
+.crv{font-size:.78rem;opacity:.7}.crv b{color:var(--tx)}
+html.wg nav,html.wg .cal,html.wg .mq,html.wg .bis,html.wg .cc,html.wg #tab-home>button{display:none!important}
+html.wg .tab:not(#tab-home){display:none!important}
+html.wg body{padding:6px}html.wg .clock{font-size:2.2rem}
+.web-only{}html.nat .web-only{display:none!important}
+.bxc{display:flex;flex-direction:column;align-items:flex-start;width:100%;margin-top:8px;padding:12px 14px;border-radius:16px;background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(255,255,255,.04));border:1px solid var(--ln);color:var(--tx);cursor:pointer;text-align:left}.bxc small{opacity:.7;margin-top:2px}
+.bxs{display:flex;align-items:center;gap:10px;width:100%;margin-top:6px;padding:10px 12px;border-radius:14px;background:var(--gl);border:1px solid var(--ln);color:var(--tx);cursor:pointer;text-align:left}.bxs .no{min-width:30px;height:30px;border-radius:10px;display:grid;place-items:center;background:var(--ac);color:#fff;font-size:.8rem;flex:none}.bxs b{flex:1}.bxs small{opacity:.7}
+.bxbar{display:flex;align-items:center;gap:8px;margin-bottom:10px}.bxbar>b{flex:1;font-size:1rem}.bxbar button{background:var(--gl);border:1px solid var(--ln);color:var(--tx);min-width:34px;height:34px;border-radius:12px;cursor:pointer;padding:0 8px;font-weight:700;display:grid;place-items:center}.bxbar .fs{display:flex;gap:4px}
+.ay{padding:12px;margin-top:8px;border-radius:14px;background:var(--gl);border:1px solid var(--ln);font-size:calc(var(--fs,1)*1rem)}
+.ay .an{display:inline-grid;place-items:center;min-width:26px;height:26px;padding:0 6px;border-radius:99px;background:var(--ac);color:#fff;font-size:.72rem;margin-bottom:6px}
+.ar{font-family:'Amiri','Traditional Arabic','Noto Naskh Arabic',serif;font-size:1.7em;line-height:2.1;direction:rtl;text-align:right;margin-bottom:6px}
+.tr{font-size:.95em;line-height:1.75;white-space:pre-wrap}
+.bxpg{display:flex;gap:8px;align-items:center;margin-top:12px}.bxpg>*{flex:1}.bxpg .in{flex:none}
+.rr{display:grid;grid-template-columns:28px 1.4fr 1fr 1fr;gap:6px;padding:7px 8px;border-radius:10px;background:var(--gl);border:1px solid var(--ln);margin-top:5px;font-size:.74rem;align-items:center;font-variant-numeric:tabular-nums}
+.rr.h{background:none;border:none;color:var(--ac);font-weight:700}
+.rr.td{background:rgba(34,197,94,.18);border-color:var(--ok);color:var(--ok);font-weight:700}
+.note{font-size:.76rem;opacity:.7;margin-top:10px;text-align:center}
+.cr{text-align:center;font-size:.75rem;opacity:.6;margin:24px 0 8px;letter-spacing:.5px}
+.gap{gap:8px}.btn.ic{gap:8px}
+#ptr{transition:fill .2s}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="app">
+  <section id="tab-home" class="tab on">
+    <div class="hd">
+      <div class="bis">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>
+      <div class="mq"><div class="mqt" id="mqt"></div></div>
+      <div class="clock"><small class="ap" id="cAp"></small><span id="clock"></span></div>
+      <button class="dt" id="mainDate" onclick="$('cc').classList.toggle('open')"></button>
+      <div class="cc" id="cc"></div>
+    </div>
+    <div class="in4" id="info"></div>
+    <div class="live" id="live"></div>
+    <div id="pr"></div>
+    <button class="btn alt ic" style="margin:0 14px 4px;width:calc(100% - 28px)" onclick="openRam()"><i data-ic="moon"></i><span data-i="ramCal"></span></button>
+    <div class="cal">
+      <div class="cn"><button onclick="mNav(-1,0)"><i data-ic="l"></i></button><strong id="mT" onclick="MV=newView(S.main);drawMain(0)"></strong><button onclick="mNav(1,0)"><i data-ic="r"></i></button></div>
+      <div class="grid" id="mGrid"></div>
+    </div>
+  </section>
+  <section id="tab-alarm" class="tab pad">
+    <div class="form">
+      <input type="time" id="aT" class="in"><input type="text" id="aL" class="in" maxlength="40" data-p="phLabel">
+      <div class="chips" id="chips"></div>
+      <button class="btn" onclick="addAlarm()" data-i="btnAdd"></button>
+    </div>
+    <div id="aList"></div>
+  </section>
+  <section id="tab-books" class="tab pad"><div id="bxMain"></div></section>
+  <section id="tab-tools" class="tab pad">
+    <div class="box"><h4 data-i="sw"></h4><div class="big" id="swD">00:00.0</div>
+      <div class="row"><button class="btn" id="swB" onclick="swToggle()"></button><button class="btn alt" onclick="swReset()" data-i="reset"></button></div></div>
+    <div class="box"><h4 data-i="tm"></h4><div class="big" id="tmD">00:00</div>
+      <div class="row"><input type="number" id="tmIn" class="in" min="1" max="999" value="5"><button class="btn" id="tmB" onclick="tmToggle()"></button></div></div>
+    <div class="box"><h4 data-i="conv"></h4><input type="date" id="cv" class="in" onchange="convert()"><div id="cvO" style="margin-top:8px;display:grid;gap:5px;font-weight:600"></div></div>
+  </section>
+  <section id="tab-settings" class="tab pad">
+    <div class="glass"><div class="sec"><span class="sic"><i data-ic="palette"></i></span><h4 data-i="sCh"></h4></div>
+      <div class="lbl" data-i="tTheme"></div><div class="sws" id="sws"></div>
+      <div class="lbl" data-i="tMode"></div><div class="seg" data-k="mode" data-o="auto,light,dark" data-l="~auto,~light,~dark"></div>
+      <div class="lbl" data-i="tLang"></div><div class="seg" data-k="lang" data-o="bn,en" data-l="বাংলা,English"></div></div>
+    <div class="glass"><div class="sec"><span class="sic"><i data-ic="pin"></i></span><h4 data-i="sLoc"></h4></div>
+      <button class="btn alt w ic" style="margin-top:10px" onclick="getLoc()"><i data-ic="pin"></i><span data-i="locBtn"></span></button><div id="locS" class="note" style="text-align:left;margin-top:8px"></div>
+      <div class="lbl" data-i="tCity"></div><select id="city" class="in" onchange="upd('city',this.value)"></select>
+      <div class="lbl" data-i="tUp"></div><div class="row"><input id="upQ" class="in" data-p="upPh" onkeydown="if(event.key==='Enter')upSearch()"><button class="btn fit" style="width:48px" onclick="upSearch()"><i data-ic="search"></i></button></div><div id="upR"></div>
+      <div class="lbl" data-i="tMain"></div><div class="seg" data-k="main" data-o="h,b,g" data-l="~lblH,~lblB,~lblG"></div>
+      <div class="lbl" data-i="tHadj"></div><div class="seg" data-k="hadj" data-o="-1,0,1" data-l="-1,0,+1"></div></div>
+    <div class="glass"><div class="sec"><span class="sic"><i data-ic="spk"></i></span><h4 data-i="sAd"></h4></div>
+      <div class="row" style="margin-top:12px"><span data-i="adhanOn" style="font-weight:600"></span><label class="sw2 fit"><input type="checkbox" id="adhanOn" onchange="upd('adhan',this.checked)"><i></i></label></div>
+      <div class="row web-only" style="margin-top:14px"><span data-i="notifOn" style="font-weight:600"></span><label class="sw2 fit"><input type="checkbox" id="notifOn" onchange="setNotif(this)"><i></i></label></div><div class="note web-only" style="text-align:left" data-i="notifNote"></div>
+      <input type="file" id="adF" accept="audio/*" class="in web-only" style="margin-top:12px" onchange="loadAdhan(this)"><div id="adS" class="note web-only" style="text-align:left"></div>
+      <div class="lbl" data-i="tSnz"></div><div class="seg" data-k="snz" data-o="5,10,15" data-l="5,10,15"></div>
+      <div class="lbl" data-i="tTone"></div><div class="row"><select id="tone" class="in" onchange="upd('tone',+this.value)"><option value="0">Beep</option><option value="1">Soft</option><option value="2">Digital</option></select><button class="btn alt fit" style="width:48px" onclick="unlock();beep(.3)"><i data-ic="play"></i></button></div></div>
+    <div class="glass"><div class="sec"><span class="sic"><i data-ic="db"></i></span><h4 data-i="sBk"></h4></div>
+      <textarea id="bk" class="in" style="min-height:60px;margin-top:10px"></textarea>
+      <div class="row" style="margin-top:8px"><button class="btn alt" onclick="exportD()" data-i="exp"></button><button class="btn alt" onclick="importD()" data-i="imp"></button></div></div>
+    <div class="glass web-only" id="instBox" style="display:none"><button class="btn w ic" style="margin-top:0" onclick="doInstall()"><i data-ic="down"></i><span data-i="inst"></span></button></div>
+    <div class="cr"><div class="crl">Design &amp; Developed By</div><div class="crn">Hadid Sarker</div><div class="crv">App Version <b id="ver"></b></div></div>
+  </section>
+  <nav>
+    <button class="nb on" data-t="home" onclick="tab('home')"><i data-ic="home"></i><span data-i="navHome"></span></button>
+    <button class="nb" data-t="alarm" onclick="tab('alarm')"><i data-ic="bell"></i><span data-i="navAlarm"></span></button>
+    <button class="nb" data-t="books" onclick="tab('books')"><i data-ic="book"></i><span data-i="navBooks"></span></button>
+    <button class="nb" data-t="tools" onclick="tab('tools')"><i data-ic="timer"></i><span data-i="navTools"></span></button>
+    <button class="nb" data-t="settings" onclick="tab('settings')"><i data-ic="sliders"></i><span data-i="navSettings"></span></button>
+  </nav>
+</div>
+</div>
+
+<div class="modal" id="locFx"><div class="mc" style="text-align:center">
+  <h3 data-i="lfT"></h3><p data-i="lfP" style="opacity:.85;font-size:.9rem"></p>
+  <button class="btn" onclick="locRetry()" data-i="lfRetry"></button><button class="btn alt" onclick="$('locFx').classList.remove('on')" data-i="later"></button></div></div>
+
+<div class="modal" id="locM"><div class="mc" style="text-align:center">
+  <h3 data-i="locAskT"></h3><p data-i="locAskP" style="opacity:.85;font-size:.9rem"></p>
+  <button class="btn" onclick="closeLocM(1)" data-i="allow"></button><button class="btn alt" onclick="closeLocM(0)" data-i="later"></button></div></div>
+
+<div class="modal bot" id="ramM" onclick="if(event.target===this)closeRam()"><div class="sheet">
+  <div class="sh"><span id="rT"></span><button onclick="closeRam()"><i data-ic="x"></i></button></div>
+  <div class="nv"><button onclick="rNav(-1)"><i data-ic="l"></i></button><strong id="rY"></strong><button onclick="rNav(1)"><i data-ic="r"></i></button></div>
+  <div id="rList"></div></div></div>
+
+<div class="modal" id="ringM"><div class="mc" style="text-align:center">
+  <h2 style="display:flex;gap:8px;justify-content:center;align-items:center"><i data-ic="bell"></i><span id="ringT"></span></h2><p id="mLabel" style="opacity:.85"></p>
+  <button class="btn" onclick="stopAlarm()" data-i="stop"></button><button class="btn alt" onclick="snooze()" id="snzB"></button></div></div>
+
+<div class="modal bot" id="fullM" onclick="if(event.target===this)closeFull()"><div class="sheet">
+  <div class="sh"><span id="fType"></span><button onclick="closeFull()"><i data-ic="x"></i></button></div>
+  <div class="nv"><button onclick="fNav(0,-1)"><i data-ic="ll"></i></button><button onclick="fNav(-1,0)"><i data-ic="l"></i></button><strong id="fT"></strong><button onclick="fNav(1,0)"><i data-ic="r"></i></button><button onclick="fNav(0,1)"><i data-ic="rr"></i></button></div>
+  <div id="fBan"></div><div class="grid" id="fGrid"></div><div id="fList"></div>
+  <button class="btn alt w" onclick="FV=newView(FV.type);drawFull(0)" data-i="today"></button></div></div>
+
+<div class="modal bot" id="dayM" onclick="if(event.target===this)closeDay()"><div class="mc">
+  <h3 id="dT"></h3><div id="dI" style="display:grid;gap:5px;font-weight:600"></div><div id="dH"></div>
+  <textarea id="dN" class="in" data-p="noteph"></textarea>
+  <div class="row"><button class="btn" onclick="saveNote()" data-i="noteSave"></button><button class="btn alt" onclick="closeDay()" data-i="close"></button></div></div></div>
+
+<script>
+const P={home:'<path d="M3 11l9-8 9 8M5 9.5V21h14V9.5M10 21v-6h4v6"/>',bell:'<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a2 2 0 0 0 3.4 0"/>',timer:'<circle cx="12" cy="14" r="8"/><path d="M12 10v4l2 2M9 2h6"/>',sliders:'<path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/>',sunrise:'<path d="M12 2v6M4.9 10.9l1.4 1.4M2 18h2M20 18h2M17.7 12.3l1.4-1.4M22 22H2M16 18a4 4 0 0 0-8 0M8 6l4-4 4 4"/>',sunset:'<path d="M12 10V2M4.9 10.9l1.4 1.4M2 18h2M20 18h2M17.7 12.3l1.4-1.4M22 22H2M16 18a4 4 0 0 0-8 0M16 5l-4 4-4-4"/>',moon:'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/>',bowl:'<path d="M3 11h18a9 9 0 0 1-18 0zM8 21h8M12 3v4"/>',play:'<path d="M6 4l14 8-14 8z"/>',l:'<path d="M15 18l-6-6 6-6"/>',r:'<path d="M9 18l6-6-6-6"/>',ll:'<path d="M18 17l-5-5 5-5M11 17l-5-5 5-5"/>',rr:'<path d="M6 17l5-5-5-5M13 17l5-5-5-5"/>',x:'<path d="M18 6L6 18M6 6l12 12"/>',palette:'<circle cx="12" cy="12" r="9"/><circle cx="8" cy="11" r="1.2"/><circle cx="12" cy="7.5" r="1.2"/><circle cx="16" cy="11" r="1.2"/>',db:'<ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/>',spk:'<path d="M11 5L6 9H3v6h3l5 4zM15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/>',search:'<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>',book:'<path d="M4 4h6a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H4zM20 4h-6a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h7z"/>',plus:'<path d="M12 5v14M5 12h14"/>',pin:'<path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/>',down:'<path d="M12 3v12M7 10l5 5 5-5M4 21h16"/>'};
+const ic=(n,s=20)=>`<svg viewBox="0 0 24 24" width="${s}" height="${s}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${P[n]}</svg>`;
+const T={
+bn:{navHome:"হোম",navBooks:"বই",bkT:"ইসলামিক বই",bkQ:"আল-কুরআন",bkQs:"১১৪টি সূরা · আরবি ও বাংলা অনুবাদ",bkH:"হাদিস গ্রন্থ (বাংলা)",bkMy:"আমার বই",bkAdd:"নিজের বই যোগ করুন (.txt)",bkPrev:"আগের",bkNext:"পরের",bkSec:"অধ্যায়",bkGo:"যান",bkLoad:"লোড হচ্ছে...",bkErr:"লোড করা যায়নি। ইন্টারনেট দিয়ে আবার চেষ্টা করুন। একবার খোলা অংশ পরে অফলাইনেও পড়া যায়।",bkAr:"আরবি",bkBn:"অনুবাদ",bkBoth:"উভয়",bkDl:"পুরো কুরআন অফলাইনে সংরক্ষণ করুন",bkDlD:"সংরক্ষিত হয়েছে",bkCont:"চালিয়ে পড়ুন",bkNone:"কোনো বই নেই",bkDel:"বইটি মুছুন",bkAyah:"আয়াত",bkFull:"জায়গা শেষ, ছোট ফাইল দিন",bkSrc:"সূত্র: alquran.cloud ও Hadith API (fawazahmed0), উন্মুক্ত ডেটা।",adhanBody:"আজানের সময় হয়েছে",alarmBody:"অ্যালার্ম",lfT:"লোকেশন চালু করুন",lfP:"সঠিক নামাজের সময়ের জন্য লোকেশন প্রয়োজন। ফোনের লোকেশন (GPS) চালু করুন এবং অ্যাপ বা ব্রাউজারে লোকেশনের অনুমতি দিন (ঠিকানার পাশের তালা আইকন → Location → Allow)।",lfRetry:"আবার চেষ্টা করুন",notifOn:"নামাজ ও অ্যালার্মের নোটিফিকেশন",notifNote:"অ্যাপ ব্যাকগ্রাউন্ডে চালু থাকলে সময় হলে নোটিফিকেশন আসবে। ব্রাউজার বা অ্যাপ সম্পূর্ণ বন্ধ করে দিলে আসবে না।",sCh:"চেহারা",sLoc:"সময় ও এলাকা",sAd:"আজান ও অ্যালার্ম",sBk:"ব্যাকআপ",tUp:"উপজেলা খুঁজুন (আরও নিখুঁত সময়ের জন্য)",upPh:"উপজেলার নাম, যেমন: সাভার",upNone:"কিছু পাওয়া যায়নি",upErr:"খুঁজতে ইন্টারনেট লাগবে",locUp:"উপজেলা",locFail:"লোকেশন পাওয়া যায়নি, আবার চেষ্টা করুন",locDenHelp:"লোকেশনের অনুমতি বন্ধ আছে। ব্রাউজারের ঠিকানার পাশের তালা/সেটিংস আইকনে চেপে Location চালু (Allow) করুন। এখানে ফিরে এলে নিজে থেকেই চালু হবে।",dleft:"দিন বাকি",todayW:"আজ",tLoc:"লোকেশন",locBtn:"বর্তমান লোকেশন ব্যবহার করুন",locUse:"জিপিএস লোকেশন ব্যবহার হচ্ছে",locMan:"শহর হাতে বাছাই করা আছে",locDen:"লোকেশনের অনুমতি পাওয়া যায়নি",locWait:"লোকেশন খোঁজা হচ্ছে...",locAskT:"লোকেশনের অনুমতি",locAskP:"আপনার এলাকা অনুযায়ী নামাজ, সাহরি, ইফতার ও সূর্যোদয়-সূর্যাস্তের সঠিক সময় দেখাতে লোকেশন প্রয়োজন।",allow:"অনুমতি দিন",later:"পরে",ramCal:"রমজান ক্যালেন্ডার",ramNote:"চাঁদ দেখার উপর নির্ভর করে তারিখ ১ দিন এদিক-ওদিক হতে পারে।",dateL:"তারিখ",sehriS:"সাহরি",iftarS:"ইফতার",inst:"অ্যাপ ইনস্টল করুন",navAlarm:"অ্যালার্ম",navTools:"টুলস",navSettings:"সেটিংস",lblG:"ইংরেজি",lblB:"বাংলা",lblH:"হিজরি (আরবি)",btnAdd:"অ্যালার্ম যোগ করুন",phLabel:"অ্যালার্মের নাম",ringing:"অ্যালার্ম বাজছে!",adhan:"আজান",stop:"বন্ধ করুন",today:"আজকের দিনে যান",del:"মুছুন",none:"কোনো অ্যালার্ম নেই",def:"অ্যালার্ম",am:"পূর্বাহ্ণ",pm:"অপরাহ্ণ",once:"একবার",daily:"প্রতিদিন",tLang:"ভাষা",tTheme:"থিম",tMode:"মোড",tHadj:"হিজরি তারিখ সমন্বয় (দিন)",tSnz:"স্নুজ (মিনিট)",tTone:"অ্যালার্ম রিংটোন",tBackup:"ব্যাকআপ (অ্যালার্ম ও নোট)",tMain:"মেইন ক্যালেন্ডার",tCity:"জেলা (সময়সূচির জন্য)",tAdhan:"আজান",adhanOn:"নামাজের ওয়াক্তে আজান",adhanFile:"নিজের আজানের অডিও",adSaved:"কাস্টম আজান সংরক্ষিত",adBig:"ফাইল বেশি বড় (৩ MB-এর মধ্যে দিন)",exp:"এক্সপোর্ট",imp:"ইমপোর্ট",noteSave:"সংরক্ষণ",noteph:"এই দিনের নোট লিখুন...",close:"বন্ধ",sw:"স্টপওয়াচ",tm:"টাইমার",conv:"তারিখ কনভার্টার",start:"শুরু",pause:"থামান",reset:"রিসেট",auto:"অটো (সিস্টেম)",light:"লাইট",dark:"ডার্ক",snz:"স্নুজ",sehri:"সাহরি শেষ",iftar:"ইফতার",srise:"সূর্যোদয়",sset:"সূর্যাস্ত",running:"চলছে",left:"শেষ হতে বাকি",next:"পরবর্তী",tostart:"শুরু হতে বাকি",evh:"এই মাসের বিশেষ দিন",ramBan:"রমজান — রোজার মাস",ramFast:"রোজা (রমজান)",
+pn:{fajr:"ফজর",dhuhr:"যোহর",asr:"আসর",maghrib:"মাগরিব",isha:"এশা"},
+city:{dhaka:"ঢাকা",ctg:"চট্টগ্রাম",rajshahi:"রাজশাহী",khulna:"খুলনা",barishal:"বরিশাল",sylhet:"সিলেট",rangpur:"রংপুর",mymensingh:"ময়মনসিংহ"},
+days:["রবি","সোম","মঙ্গল","বুধ","বৃহঃ","শুক্র","শনি"],
+months:["জানুয়ারি","ফেব্রুয়ারি","মার্চ","এপ্রিল","মে","জুন","জুলাই","আগস্ট","সেপ্টেম্বর","অক্টোবর","নভেম্বর","ডিসেম্বর"],
+bm:["বৈশাখ","জ্যৈষ্ঠ","আষাঢ়","শ্রাবণ","ভাদ্র","আশ্বিন","কার্তিক","অগ্রহায়ণ","পৌষ","মাঘ","ফাল্গুন","চৈত্র"],
+hm:["মুহাররম","সফর","রবিউল আউয়াল","রবিউস সানি","জুমাদাল উলা","জুমাদাস সানি","রজব","শাবান","রমজান","শাওয়াল","জিলকদ","জিলহজ"]},
+en:{navHome:"Home",navBooks:"Books",bkT:"Islamic books",bkQ:"Al-Quran",bkQs:"114 surahs · Arabic & Bengali translation",bkH:"Hadith books (Bengali)",bkMy:"My books",bkAdd:"Add your own book (.txt)",bkPrev:"Previous",bkNext:"Next",bkSec:"Section",bkGo:"Go",bkLoad:"Loading...",bkErr:"Could not load. Retry online. Parts you opened once can be read offline.",bkAr:"Arabic",bkBn:"Translation",bkBoth:"Both",bkDl:"Save the whole Quran offline",bkDlD:"Saved",bkCont:"Continue reading",bkNone:"No books",bkDel:"Delete this book",bkAyah:"ayahs",bkFull:"Storage full, use a smaller file",bkSrc:"Sources: alquran.cloud and Hadith API (fawazahmed0), open data.",adhanBody:"It is time for prayer",alarmBody:"Alarm",lfT:"Turn on location",lfP:"Location is needed for accurate prayer times. Turn on your phone location (GPS) and allow location permission in the app or browser (lock icon next to the address → Location → Allow).",lfRetry:"Try again",notifOn:"Prayer & alarm notifications",notifNote:"Notifications arrive while the app is alive in the background. They will not arrive if the browser or app is fully closed.",sCh:"Appearance",sLoc:"Time & area",sAd:"Adhan & alarm",sBk:"Backup",tUp:"Find upazila (for more precise times)",upPh:"Upazila name, e.g. Savar",upNone:"Nothing found",upErr:"Internet is needed to search",locUp:"Upazila",locFail:"Could not get location, try again",locDenHelp:"Location permission is blocked. Tap the lock/settings icon next to the address bar and allow Location. It turns on automatically when you return here.",dleft:"days left",todayW:"Today",tLoc:"Location",locBtn:"Use my current location",locUse:"Using GPS location",locMan:"City selected manually",locDen:"Location permission not granted",locWait:"Finding location...",locAskT:"Location permission",locAskP:"Your location is needed to show accurate prayer, Sehri and Iftar times for your area.",allow:"Allow",later:"Later",ramCal:"Ramadan calendar",ramNote:"Dates may shift by a day depending on moon sighting.",dateL:"Date",sehriS:"Sehri",iftarS:"Iftar",inst:"Install app",navAlarm:"Alarm",navTools:"Tools",navSettings:"Settings",lblG:"Gregorian",lblB:"Bengali",lblH:"Hijri (Arabic)",btnAdd:"Add Alarm",phLabel:"Alarm label",ringing:"Alarm Ringing!",adhan:"Adhan",stop:"Dismiss",today:"Go to today",del:"Delete",none:"No alarms yet",def:"Alarm",am:"AM",pm:"PM",once:"Once",daily:"Every day",tLang:"Language",tTheme:"Theme",tMode:"Mode",tHadj:"Hijri date adjustment (days)",tSnz:"Snooze (minutes)",tTone:"Alarm ringtone",tBackup:"Backup (alarms & notes)",tMain:"Main calendar",tCity:"District (for timings)",tAdhan:"Adhan",adhanOn:"Adhan at prayer time",adhanFile:"Your own adhan audio",adSaved:"Custom adhan saved",adBig:"File too large (max 3 MB)",exp:"Export",imp:"Import",noteSave:"Save",noteph:"Write a note for this day...",close:"Close",sw:"Stopwatch",tm:"Timer",conv:"Date converter",start:"Start",pause:"Pause",reset:"Reset",auto:"Auto (system)",light:"Light",dark:"Dark",snz:"Snooze",sehri:"Sehri ends",iftar:"Iftar",srise:"Sunrise",sset:"Sunset",running:"in progress",left:"ends in",next:"Next",tostart:"starts in",evh:"Special days this month",ramBan:"Ramadan — month of fasting",ramFast:"Fasting (Ramadan)",
+pn:{fajr:"Fajr",dhuhr:"Dhuhr",asr:"Asr",maghrib:"Maghrib",isha:"Isha"},
+city:{dhaka:"Dhaka",ctg:"Chattogram",rajshahi:"Rajshahi",khulna:"Khulna",barishal:"Barishal",sylhet:"Sylhet",rangpur:"Rangpur",mymensingh:"Mymensingh"},
+days:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],
+months:["January","February","March","April","May","June","July","August","September","October","November","December"],
+bm:["Boishakh","Joishtho","Asharh","Shrabon","Bhadro","Ashwin","Kartik","Agrahayan","Poush","Magh","Falgun","Choitro"],
+hm:["Muharram","Safar","Rabi I","Rabi II","Jumada I","Jumada II","Rajab","Sha'ban","Ramadan","Shawwal","Dhul Qadah","Dhul Hijjah"]}};
+const AR=["محرم","صفر","ربيع الأول","ربيع الآخر","جمادى الأولى","جمادى الآخرة","رجب","شعبان","رمضان","شوال","ذو القعدة","ذو الحجة"];
+const NAT={"g":{"2-21":["শহীদ দিবস","Language Martyrs' Day"],"3-26":["স্বাধীনতা দিবস","Independence Day"],"5-1":["মে দিবস","May Day"],"8-5":["গণঅভ্যুত্থান দিবস","Mass Uprising Day"],"12-16":["বিজয় দিবস","Victory Day"]},"b":{"0-1":["পহেলা বৈশাখ","Pohela Boishakh"]}};
+const HE={"1-1":["ইসলামী নববর্ষ","Islamic New Year","e"],"1-10":["আশুরা","Ashura","n"],"3-12":["ঈদে মিলাদুন্নবী","Eid-e-Miladunnabi","e"],"7-27":["শবে মিরাজ","Shab-e-Meraj","n"],"8-15":["শবে বরাত","Shab-e-Barat","n"],"9-1":["রমজান শুরু","Ramadan begins","n"],"9-27":["শবে কদর (প্রচলিত)","Shab-e-Qadr (commonly observed)","n"],"10-1":["ঈদুল ফিতর","Eid al-Fitr","e"],"10-2":["ঈদের ছুটি","Eid holiday","n"],"10-3":["ঈদের ছুটি","Eid holiday","n"],"12-9":["আরাফার দিন","Day of Arafah","n"],"12-10":["ঈদুল আযহা","Eid al-Adha","e"],"12-11":["আইয়ামে তাশরিক","Days of Tashreeq","n"],"12-12":["আইয়ামে তাশরিক","Days of Tashreeq","n"],"12-13":["আইয়ামে তাশরিক","Days of Tashreeq","n"]};
+const DIV=[['Dhaka','ঢাকা বিভাগ','dhaka|Dhaka|ঢাকা|23.8103|90.4125;gazipur|Gazipur|গাজীপুর|24.0023|90.4264;narayanganj|Narayanganj|নারায়ণগঞ্জ|23.6238|90.5;narsingdi|Narsingdi|নরসিংদী|23.9193|90.7176;manikganj|Manikganj|মানিকগঞ্জ|23.8617|90.0003;munshiganj|Munshiganj|মুন্সিগঞ্জ|23.5422|90.5305;tangail|Tangail|টাঙ্গাইল|24.2513|89.9167;kishoreganj|Kishoreganj|কিশোরগঞ্জ|24.4449|90.7766;faridpur|Faridpur|ফরিদপুর|23.607|89.8429;madaripur|Madaripur|মাদারীপুর|23.1641|90.1896;shariatpur|Shariatpur|শরীয়তপুর|23.2423|90.4348;rajbari|Rajbari|রাজবাড়ী|23.7574|89.6445;gopalganj|Gopalganj|গোপালগঞ্জ|23.005|89.8266'],
+['Chattogram','চট্টগ্রাম বিভাগ','ctg|Chattogram|চট্টগ্রাম|22.3569|91.7832;coxsbazar|Cox\'s Bazar|কক্সবাজার|21.4272|92.0058;cumilla|Cumilla|কুমিল্লা|23.4607|91.1809;brahmanbaria|Brahmanbaria|ব্রাহ্মণবাড়িয়া|23.9571|91.1119;chandpur|Chandpur|চাঁদপুর|23.2333|90.6713;lakshmipur|Lakshmipur|লক্ষ্মীপুর|22.9425|90.8412;noakhali|Noakhali|নোয়াখালী|22.8696|91.0995;feni|Feni|ফেনী|23.0159|91.3976;khagrachhari|Khagrachhari|খাগড়াছড়ি|23.1193|91.9847;rangamati|Rangamati|রাঙ্গামাটি|22.7324|92.2985;bandarban|Bandarban|বান্দরবান|22.1953|92.2184'],
+['Rajshahi','রাজশাহী বিভাগ','rajshahi|Rajshahi|রাজশাহী|24.3745|88.6042;bogura|Bogura|বগুড়া|24.8465|89.3773;joypurhat|Joypurhat|জয়পুরহাট|25.0968|89.0227;naogaon|Naogaon|নওগাঁ|24.7936|88.9318;natore|Natore|নাটোর|24.4206|89;chapainawabganj|Chapainawabganj|চাঁপাইনবাবগঞ্জ|24.5965|88.2775;pabna|Pabna|পাবনা|24.0064|89.2372;sirajganj|Sirajganj|সিরাজগঞ্জ|24.4534|89.7006'],
+['Khulna','খুলনা বিভাগ','khulna|Khulna|খুলনা|22.8456|89.5403;bagerhat|Bagerhat|বাগেরহাট|22.6602|89.7895;chuadanga|Chuadanga|চুয়াডাঙ্গা|23.6401|88.8418;jashore|Jashore|যশোর|23.1665|89.2081;jhenaidah|Jhenaidah|ঝিনাইদহ|23.545|89.1726;kushtia|Kushtia|কুষ্টিয়া|23.9013|89.1205;magura|Magura|মাগুরা|23.4873|89.4199;meherpur|Meherpur|মেহেরপুর|23.7622|88.6318;narail|Narail|নড়াইল|23.1725|89.5126;satkhira|Satkhira|সাতক্ষীরা|22.7185|89.0705'],
+['Barishal','বরিশাল বিভাগ','barishal|Barishal|বরিশাল|22.701|90.3535;barguna|Barguna|বরগুনা|22.1591|90.1119;bhola|Bhola|ভোলা|22.6859|90.6482;jhalokati|Jhalokati|ঝালকাঠি|22.6406|90.1987;patuakhali|Patuakhali|পটুয়াখালী|22.3596|90.3299;pirojpur|Pirojpur|পিরোজপুর|22.5841|89.972'],
+['Sylhet','সিলেট বিভাগ','sylhet|Sylhet|সিলেট|24.8949|91.8687;habiganj|Habiganj|হবিগঞ্জ|24.3745|91.4155;moulvibazar|Moulvibazar|মৌলভীবাজার|24.4829|91.7774;sunamganj|Sunamganj|সুনামগঞ্জ|25.0658|91.395'],
+['Rangpur','রংপুর বিভাগ','rangpur|Rangpur|রংপুর|25.7439|89.2752;dinajpur|Dinajpur|দিনাজপুর|25.6279|88.6332;gaibandha|Gaibandha|গাইবান্ধা|25.3288|89.543;kurigram|Kurigram|কুড়িগ্রাম|25.8054|89.6361;lalmonirhat|Lalmonirhat|লালমনিরহাট|25.9923|89.2847;nilphamari|Nilphamari|নীলফামারী|25.9318|88.856;panchagarh|Panchagarh|পঞ্চগড়|26.3411|88.5542;thakurgaon|Thakurgaon|ঠাকুরগাঁও|26.0337|88.4617'],
+['Mymensingh','ময়মনসিংহ বিভাগ','mymensingh|Mymensingh|ময়মনসিংহ|24.7471|90.4203;jamalpur|Jamalpur|জামালপুর|24.9375|89.9378;netrokona|Netrokona|নেত্রকোণা|24.8703|90.7279;sherpur|Sherpur|শেরপুর|25.0204|90.0152']];
+const CITIES={},CN={};
+DIV.forEach(g=>g[2].split(';').forEach(x=>{const a=x.split('|');CITIES[a[0]]=[+a[3],+a[4]];CN[a[0]]=[a[2],a[1]]}));
+const $=id=>document.getElementById(id);
+function ld(k,d){try{const v=localStorage.getItem(k);return v===null?d:JSON.parse(v)}catch(e){return d}}
+function sv(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){return false}}
+let S=Object.assign({lang:'bn',theme:'islamic',mode:'auto',main:'h',city:'dhaka',adhan:true,hadj:0,snz:5,tone:0,alarms:ld('cal_alarms',[]),notes:{}},ld('cal_v4',{}));
+if(S.theme==='default')S.theme='islamic';
+const save=()=>{sv('cal_v4',S);qPush()};
+const NATIVE=typeof AndroidApp!=='undefined';
+let SUN=ld('sun_api',{}),mqKey='';
+const coords=()=>S.gps&&S.loc?S.loc:S.up?[S.up.la,S.up.lo]:CITIES[S.city],locKey=()=>S.gps&&S.loc?'g'+S.loc[0].toFixed(1)+','+S.loc[1].toFixed(1):S.up?'u'+S.up.la.toFixed(2)+','+S.up.lo.toFixed(2):S.city;
+const t=k=>T[S.lang][k],L=S.lang==='bn'?0:1;
+const APP_VER='1.1.0';
+const pad=n=>String(n).padStart(2,'0');
+const tod=h=>S.lang==='en'?(h>=12?'PM':'AM'):(h<4?'রাত':h<6?'ভোর':h<12?'সকাল':h<16?'দুপুর':h<18?'বিকেল':h<20?'সন্ধ্যা':'রাত');
+const wrapT=(h,b)=>S.lang==='en'?b+' '+tod(h):tod(h)+' '+b;
+const dg=n=>S.lang==='en'?String(n):String(n).replace(/\d/g,d=>'০১২৩৪৫৬৭৮৯'[d]);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const K={g:1,b:2,h:3},TY=['g','b','h'],LB={g:'lblG',b:'lblB',h:'lblH'};
+let sel=new Set(),ringing=null,ringTimer=null,snoozeAt=0,snoozeLabel='',audio=null,adA=null,vol=.05,dayKey='',lastSec=-1,lastR='',MV,FV,SC={key:''},fired={},tabs=['home','alarm','books','tools','settings'],curTab='home';
+const today0=()=>{const n=new Date();return new Date(n.getFullYear(),n.getMonth(),n.getDate(),12)};
+const addD=(d,i)=>new Date(d.getFullYear(),d.getMonth(),d.getDate()+i,12);
+
+/* তারিখ */
+function bnLens(y){const gy=y+594,lp=(gy%4===0&&gy%100!==0)||gy%400===0;return[31,31,31,31,31,30,30,30,30,30,lp?31:30,30]}
+function bnParts(d){
+  const date=new Date(d.getFullYear(),d.getMonth(),d.getDate());let y=date.getFullYear(),st=new Date(y,3,14);
+  if(date<st){y--;st=new Date(y,3,14)}
+  const Ls=bnLens(y-593);let diff=Math.round((date-st)/864e5),i=0;
+  while(i<11&&diff>=Ls[i]){diff-=Ls[i];i++}
+  return{d:diff+1,m:i,y:y-593};
+}
+let HF;try{HF=new Intl.DateTimeFormat('en-u-ca-islamic-umalqura',{day:'numeric',month:'numeric',year:'numeric'})}catch(e){}
+function hjParts(d){
+  try{const a=new Date(d.getFullYear(),d.getMonth(),d.getDate()+S.hadj,12),o={};HF.formatToParts(a).forEach(p=>o[p.type]=parseInt(p.value));return{d:o.day,m:o.month,y:o.year||o.relatedYear}}
+  catch(e){return{d:1,m:1,y:1447}}
+}
+const num=(ty,c)=>ty==='g'?c.getDate():ty==='b'?bnParts(c).d:hjParts(c).d;
+const grStr=d=>`${dg(d.getDate())} ${t('months')[d.getMonth()]}, ${dg(d.getFullYear())}`;
+const bnStr=d=>{const p=bnParts(d);return`${dg(p.d)} ${t('bm')[p.m]}, ${dg(p.y)}`};
+const hjStr=d=>{const p=hjParts(d);return`${dg(p.d)} ${t('hm')[p.m-1]}, ${dg(p.y)}`};
+const strOf=(ty,d)=>ty==='g'?grStr(d):ty==='b'?bnStr(d):hjStr(d);
+function evOf(c){
+  const o=[],h=hjParts(c),b=bnParts(c),g=NAT.g[(c.getMonth()+1)+'-'+c.getDate()],bb=NAT.b[b.m+'-'+b.d],he=HE[h.m+'-'+h.d];
+  if(g)o.push([g[L],'nat']);if(bb)o.push([bb[L],'nat']);if(he)o.push([he[L],he[2]]);
+  if(h.m===9)o.push([t('ramFast'),'r']);
+  else if([13,14,15].includes(h.d))o.push([S.lang==='bn'?'আইয়ামে বীজ (নফল রোজা)':'Ayyam al-Bid (voluntary fast)','f']);
+  return o;
+}
+function hjStart(y,m){
+  const n=today0(),cp=hjParts(n),cs=addD(n,-(cp.d-1)),delta=(y-cp.y)*12+(m-(cp.m-1)),ap=new Date(cs.getTime()+delta*29.530589*864e5);
+  for(let i=0;i<=4;i++)for(const s of[i,-i]){const c=addD(ap,s),p=hjParts(c);if(p.d===1&&p.m===m+1)return c}
+  return addD(ap,0);
+}
+function model(ty,y,m){
+  if(ty==='g')return{start:new Date(y,m,1,12),len:new Date(y,m+1,0).getDate(),title:`${t('months')[m]} ${dg(y)}`};
+  if(ty==='b'){const Ls=bnLens(y);return{start:new Date(y+593,3,14+Ls.slice(0,m).reduce((a,b)=>a+b,0),12),len:Ls[m],title:`${t('bm')[m]} ${dg(y)}`}}
+  const s=hjStart(y,m);return{start:s,len:hjParts(addD(s,29)).d===1?29:30,title:`${t('hm')[m]} ${dg(y)}`,ar:AR[m],ram:m===8};
+}
+function newView(ty){const n=today0();if(ty==='g')return{type:ty,y:n.getFullYear(),m:n.getMonth()};if(ty==='b'){const p=bnParts(n);return{type:ty,y:p.y,m:p.m}}const p=hjParts(n);return{type:ty,y:p.y,m:p.m-1}}
+function step(v,dm,dy){v.m+=dm;while(v.m>11){v.m-=12;v.y++}while(v.m<0){v.m+=12;v.y--}v.y+=dy}
+function drawGrid(el,mod,big,small,dir){
+  el.innerHTML='';const td=new Date().toDateString();
+  [6,0,1,2,3,4,5].forEach(i=>{const e=document.createElement('div');e.className='dn';e.textContent=t('days')[i];el.appendChild(e)});
+  for(let i=0,p=(mod.start.getDay()+1)%7;i<p;i++)el.appendChild(document.createElement('div'));
+  for(let i=0;i<mod.len;i++){
+    const c=addD(mod.start,i),ev=evOf(c),e=document.createElement('div');
+    e.className='cell'+(c.getDay()===5?' fri':'')+(c.toDateString()===td?' today':'')+(ev.some(x=>x[1]==='e')?' eid':'')+(hjParts(c).m===9?' ram':'')+(ev.some(x=>x[1]==='nat'||x[1]==='n')?' hol':'')+(S.notes[dk(c)]?' nt':'');
+    e.style.setProperty('--i',i);
+    e.innerHTML=`<span class="g" style="color:var(--k${K[big]})">${dg(num(big,c))}</span><span class="s">${small.map(s=>`<i style="color:var(--k${K[s]})">${dg(num(s,c))}</i>`).join('')}</span>`;
+    e.onclick=()=>openDay(c);el.appendChild(e);
+  }
+  el.style.setProperty('--dx',dir*50+'px');el.classList.remove('sl');void el.offsetWidth;el.classList.add('sl');
+}
+const dk=c=>`${c.getFullYear()}-${c.getMonth()}-${c.getDate()}`;
+
+/* হোম ক্যালেন্ডার */
+function drawMain(dir){
+  const m=model(MV.type,MV.y,MV.m);
+  $('mT').innerHTML=m.title+(m.ar?`<small>${m.ar}</small>`:'');
+  drawGrid($('mGrid'),m,MV.type,TY.filter(x=>x!==MV.type),dir);
+}
+function mNav(dm,dy){step(MV,dm,dy);drawMain(dm||dy)}
+/* পূর্ণ ক্যালেন্ডার */
+function openFull(ty){FV=newView(ty);$('fullM').classList.add('on');drawFull(0)}
+function closeFull(){$('fullM').classList.remove('on')}
+function fNav(dm,dy){step(FV,dm,dy);drawFull(dm||dy)}
+function drawFull(dir){
+  const ty=FV.type,m=model(ty,FV.y,FV.m);
+  $('fType').innerHTML=`<span style="color:var(--k${K[ty]})">${t(LB[ty])}</span>`;
+  $('fT').innerHTML=m.title+(m.ar?`<small style="font-family:serif;color:var(--gold);font-size:1rem">${m.ar}</small>`:'');
+  $('fBan').innerHTML=m.ram?`<div class="ramb">${ic('moon',18)} ${t('ramBan')}</div>`:'';
+  drawGrid($('fGrid'),m,ty,ty==='g'?['b','h']:['g'],dir);
+  let h='';
+  for(let i=0;i<m.len;i++){const c=addD(m.start,i),ev=evOf(c).filter(x=>x[1]!=='r');
+    if(ev.length)h+=`<div class="ev" style="animation-delay:${i*15}ms"><b style="color:var(--k${K[ty]})">${dg(num(ty,c))}</b>${ev.map(x=>esc(x[0])).join(' · ')}</div>`}
+  $('fList').innerHTML=h?`<h4 style="margin:12px 0 0;color:var(--ac)">${t('evh')}</h4>`+h:'';
+}
+function openDay(c){
+  dayKey=dk(c);$('dT').textContent=t('days')[c.getDay()];
+  $('dI').innerHTML=`<div style="color:var(--k1)">${grStr(c)}</div><div style="color:var(--k2)">${bnStr(c)}</div><div style="color:var(--k3)">${hjStr(c)}</div>`;
+  $('dH').innerHTML=evOf(c).map(x=>`<span class="bdg">${esc(x[0])}</span>`).join('');
+  $('dN').value=S.notes[dayKey]||'';$('dayM').classList.add('on');
+}
+function saveNote(){const v=$('dN').value.trim();if(v)S.notes[dayKey]=v;else delete S.notes[dayKey];save();closeDay();drawMain(0)}
+function closeDay(){$('dayM').classList.remove('on')}
+function convert(){
+  const v=$('cv').value;if(!v){$('cvO').innerHTML='';return}
+  const[y,m,d]=v.split('-').map(Number),c=new Date(y,m-1,d,12);
+  $('cvO').innerHTML=`<div style="color:var(--k1)">${grStr(c)}</div><div style="color:var(--k2)">${bnStr(c)}</div><div style="color:var(--k3)">${hjStr(c)}</div>`;
+}
+
+/* নামাজের সময় (কারাচি পদ্ধতি, হানাফি আসর) — ডিভাইসেই হিসাব */
+const D=Math.PI/180,sin=a=>Math.sin(a*D),cos=a=>Math.cos(a*D),tan=a=>Math.tan(a*D),asin=x=>Math.asin(x)/D,acos=x=>Math.acos(x)/D,atan2=(y,x)=>Math.atan2(y,x)/D,fx=(a,n)=>a-n*Math.floor(a/n);
+function jd(y,m,d){if(m<=2){y--;m+=12}const A=Math.floor(y/100),B=2-A+Math.floor(A/4);return Math.floor(365.25*(y+4716))+Math.floor(30.6001*(m+1))+d+B-1524.5}
+function sunTimes(date){
+  const[lat,lon]=coords(),tz=-date.getTimezoneOffset()/60,J=jd(date.getFullYear(),date.getMonth()+1,date.getDate())-lon/360;
+  const sp=q0=>{const Dd=J+q0-2451545,g=fx(357.529+.98560028*Dd,360),q=fx(280.459+.98564736*Dd,360),Lg=fx(q+1.915*sin(g)+.02*sin(2*g),360),e=23.439-3.6e-7*Dd,RA=fx(atan2(cos(e)*sin(Lg),cos(Lg))/15,24);return{dc:asin(sin(e)*sin(Lg)),eq:q/15-RA}};
+  const mid=q=>fx(12-sp(q).eq,24),ang=(a,q,ccw)=>{const dc=sp(q).dc,v=acos((-sin(a)-sin(dc)*sin(lat))/(cos(dc)*cos(lat)))/15;return mid(q)+(ccw?-v:v)};
+  const asr=q=>ang(-atan2(1,2+tan(Math.abs(lat-sp(q).dc))),q,0),base=new Date(date.getFullYear(),date.getMonth(),date.getDate()).getTime();
+  const A=h=>new Date(Math.round((base+(h+tz-lon/15)*3600e3)/6e4)*6e4);
+  const r={sunrise:A(ang(.833,6/24,1)),sunset:A(ang(.833,18/24,0))},ak=date.getFullYear()+'-'+pad(date.getMonth()+1)+'-'+pad(date.getDate()),w=SUN[locKey()+'|'+ak];
+  if(w){r.sunrise=new Date(w[0]);r.sunset=new Date(w[1])}
+  const fj=A(ang(18,5/24,1)),mm=x=>new Date(x.getTime()+18e4);
+  return{sehri:new Date(fj.getTime()-18e4),fajr:mm(fj),sunrise:r.sunrise,dhuhr:A(mid(.5)+1/60),asr:A(asr(13/24)),sunset:r.sunset,iftar:mm(r.sunset),maghrib:mm(r.sunset),isha:A(ang(18,18/24,0))};
+}
+function getSched(n){
+  const key=n.toDateString()+locKey();if(SC.key!==key){
+    const Y=sunTimes(new Date(n.getFullYear(),n.getMonth(),n.getDate()-1)),Z=sunTimes(n),M=sunTimes(new Date(n.getFullYear(),n.getMonth(),n.getDate()+1));
+    SC={key,Z,list:[['isha0',Y.isha,Z.fajr],['fajr',Z.fajr,Z.sunrise],['dhuhr',Z.dhuhr,Z.asr],['asr',Z.asr,Z.sunset],['maghrib',Z.maghrib,Z.isha],['isha',Z.isha,M.fajr]]};
+  }
+  return SC;
+}
+const fmtT=d=>{const h=d.getHours();return wrapT(h,`${dg(h%12||12)}:${dg(pad(d.getMinutes()))}`)};
+const hms=ms=>{const s=Math.max(0,Math.floor(ms/1000));return`${dg(pad(Math.floor(s/3600)))}:${dg(pad(Math.floor(s%3600/60)))}:${dg(pad(s%60))}`};
+function prayUpdate(n){
+  const sc=getSched(n),cur=sc.list.find(x=>n>=x[1]&&n<x[2]),ck=cur?(cur[0]==='isha0'?'isha':cur[0]):'',rk=ck+sc.key+S.lang;
+  if(rk!==lastR){lastR=rk;
+    const Z=sc.Z;
+    $('info').innerHTML=[['moon','sehri',Z.sehri],['bowl','iftar',Z.iftar],['sunrise','srise',Z.sunrise],['sunset','sset',Z.sunset]].map(([i,k,d],j)=>`<div class="mi" style="--i:${j}">${ic(i,22)}${t(k)}<b>${fmtT(d)}</b></div>`).join('');
+    $('pr').innerHTML=sc.list.slice(1).map((x,j)=>`<div class="pr${x[0]===ck?' now':''}" style="--i:${j+4}"><span>${t('pn')[x[0]]}</span><small>${fmtT(x[1])} – ${fmtT(x[2])}</small></div>`).join('');
+  }
+  const lv=$('live');
+  if(cur){lv.className='live on';lv.textContent=`${t('pn')[ck]} ${t('running')} · ${t('left')} ${hms(cur[2]-n)}`}
+  else{const nx=sc.list.find(x=>x[1]>n);lv.className='live';if(nx)lv.textContent=`${t('next')}: ${t('pn')[nx[0]]} · ${t('tostart')} ${hms(nx[1]-n)}`}
+  adhanCheck(n);
+}
+
+/* সূর্যোদয়/সূর্যাস্ত — Open-Meteo ওয়েদার API (অফলাইনে ডিভাইসের হিসাব) */
+async function fetchSun(){
+  try{const[la,lo]=coords(),kk=locKey(),r=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${la}&longitude=${lo}&daily=sunrise,sunset&timezone=auto&past_days=1&forecast_days=7`),j=await r.json(),d=j.daily,o=j.utc_offset_seconds,a=Math.abs(o),os=(o<0?'-':'+')+pad(Math.floor(a/3600))+':'+pad(Math.floor(a%3600/60));
+    d.time.forEach((k,i)=>{SUN[kk+'|'+k]=[Date.parse(d.sunrise[i]+':00'+os),Date.parse(d.sunset[i]+':00'+os)]});
+    Object.keys(SUN).forEach(k=>{if(k.split('|')[1]<d.time[0])delete SUN[k]});
+    sv('sun_api',SUN);SC={key:''};lastR='';tick(true);qPush()}catch(e){}
+}
+
+/* ব্যাকগ্রাউন্ড ও নোটিফিকেশন */
+function adhanCheck(n){if(NATIVE)return;const sc=getSched(n);sc.list.slice(1).forEach(x=>{const k=sc.key+x[0];if(S.adhan&&!fired[k]&&ringing===null&&n>=x[1]&&n-x[1]<12e4){fired[k]=1;ring(t('pn')[x[0]],true)}})}
+function setNotif(el){
+  if(!el.checked){S.notif=false;save();return}
+  if(!('Notification' in window)){el.checked=false;return}
+  Notification.requestPermission().then(p=>{S.notif=p==='granted';el.checked=S.notif;save()}).catch(()=>{el.checked=false});
+}
+function notify(title,body){
+  if(NATIVE||!S.notif||!('Notification' in window)||Notification.permission!=='granted'||!navigator.serviceWorker)return;
+  navigator.serviceWorker.getRegistration().then(r=>r&&r.showNotification(title,{body:body||'',icon:'icons/icon-192.png',badge:'icons/icon-192.png',tag:'ic-'+title,renotify:true,vibrate:[200,100,200]}));
+}
+
+/* উৎসব স্লাইডার */
+const SKIP=new Set(['10-2','10-3','12-11','12-12','12-13']);
+function drawMq(){
+  const n=today0(),cp=hjParts(n),o=[];
+  for(let y=cp.y;y<=cp.y+1;y++)Object.keys(HE).forEach(k=>{if(SKIP.has(k))return;const[m,d]=k.split('-').map(Number),c=addD(hjStart(y,m-1),d-1),df=Math.round((c-n)/864e5);if(df>=0)o.push([df,c,HE[k][L]])});
+  o.sort((a,b)=>a[0]-b[0]);const tx=o.slice(0,8).map(x=>`${x[2]} · ${grStr(x[1])} · ${x[0]?dg(x[0])+' '+t('dleft'):t('todayW')}`),sp=tx.map(x=>`<span>${esc(x)}</span>`).join('');
+  $('mqt').innerHTML=sp+sp;$('mqt').style.setProperty('--d',Math.max(30,tx.join('').length*.3)+'s');
+}
+
+/* লোকেশন */
+let locDenied=false,UPR=[];
+function getLoc(quiet){
+  if(!navigator.geolocation){$('locS').textContent=t('locFail');return}
+  if(!quiet)$('locS').textContent=t('locWait');
+  navigator.geolocation.getCurrentPosition(p=>{locDenied=false;S.loc=[p.coords.latitude,p.coords.longitude];S.gps=true;S.up=null;save();SC={key:''};lastR='';locName();fetchSun();locStat();tick(true)},
+    e=>{if(e.code===1||e.code===2){if(e.code===1)locDenied=true;locStat();if(!quiet||(!S.gps&&!S.up&&!lfShown)){lfShown=true;showLocFix()}}else if(!quiet)$('locS').textContent=t('locFail')},{enableHighAccuracy:false,timeout:20000,maximumAge:3e5});
+}
+async function locName(){try{const[la,lo]=S.loc,r=await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${la}&longitude=${lo}&localityLanguage=${S.lang}`),j=await r.json();S.locName=[j.locality,j.city||j.principalSubdivision].filter(Boolean).join(', ');save();locStat()}catch(e){}}
+function locStat(){
+  const e=$('locS');if(!e)return;
+  e.textContent=S.gps&&S.loc?t('locUse')+(S.locName?' · '+S.locName:''):S.up?t('locUp')+': '+S.up.n:t('locMan')+' · '+CN[S.city][L];
+  if(locDenied&&!S.gps)e.textContent+=' — '+t('locDenHelp');
+}
+function closeLocM(go){$('locM').classList.remove('on');if(go)getLoc()}
+async function locInit(){
+  let st='unknown';
+  try{const ps=await navigator.permissions.query({name:'geolocation'});st=ps.state;ps.onchange=()=>{if(ps.state==='granted'){locDenied=false;getLoc()}else if(ps.state==='denied'){locDenied=true;locStat()}}}catch(e){}
+  if(st==='denied'){locDenied=true;locStat();if(!S.gps&&!S.up){lfShown=true;setTimeout(showLocFix,1200)}}
+  else if(st==='granted'||S.gps)getLoc(true);
+  else if(!S.up)setTimeout(()=>$('locM').classList.add('on'),1200);
+  document.addEventListener('visibilitychange',async()=>{if(document.hidden||S.gps)return;try{const q=await navigator.permissions.query({name:'geolocation'});if(q.state==='granted'){locDenied=false;getLoc()}}catch(e){}});
+}
+async function upSearch(){
+  const q=$('upQ').value.trim();if(q.length<2)return;$('upR').innerHTML=`<div class="note">${t('locWait')}</div>`;
+  try{const r=await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(q)}&count=10&language=${S.lang}&countryCode=BD&format=json`),j=await r.json();UPR=(j.results||[]).filter(x=>x.country_code==='BD');
+    $('upR').innerHTML=UPR.length?UPR.map((x,i)=>`<button class="up" onclick="upPick(${i})"><b>${esc(x.name)}</b><small>${esc([x.admin3,x.admin2,x.admin1].filter(Boolean).join(', '))}</small></button>`).join(''):`<div class="note">${t('upNone')}</div>`}
+  catch(e){$('upR').innerHTML=`<div class="note">${t('upErr')}</div>`}
+}
+function upPick(i){const x=UPR[i];S.up={n:x.name,la:x.latitude,lo:x.longitude};S.gps=false;save();SC={key:''};lastR='';$('upR').innerHTML='';fetchSun();locStat();tick(true)}
+
+/* রমজান ক্যালেন্ডার */
+let RY=0;
+function openRam(){const p=hjParts(today0());RY=p.m>9?p.y+1:p.y;$('ramM').classList.add('on');drawRam()}
+function closeRam(){$('ramM').classList.remove('on')}
+function rNav(d){RY+=d;drawRam()}
+function drawRam(){
+  const s=hjStart(RY,8),len=hjParts(addD(s,29)).d===1?29:30,td=new Date().toDateString();
+  $('rT').textContent=t('ramCal');$('rY').innerHTML=`${t('hm')[8]} ${dg(RY)}<small style="display:block;font-family:serif;color:var(--gold)">${AR[8]}</small>`;
+  let h=`<div class="rr h"><span>#</span><span>${t('dateL')}</span><span>${t('sehriS')}</span><span>${t('iftarS')}</span></div>`;
+  for(let i=0;i<len;i++){const c=addD(s,i),z=sunTimes(c);
+    h+=`<div class="rr${c.toDateString()===td?' td':''}"><b>${dg(i+1)}</b><span>${t('days')[c.getDay()]}, ${dg(c.getDate())} ${t('months')[c.getMonth()]}</span><span>${fmtT(z.sehri)}</span><span>${fmtT(z.iftar)}</span></div>`}
+  $('rList').innerHTML=h+`<p class="note">${t('ramNote')}</p>`;
+}
+
+/* ইসলামিক বই */
+const ED='https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1/';
+const QN=["ফাতিহা","বাকারা","আলে ইমরান","নিসা","মায়িদা","আনআম","আ'রাফ","আনফাল","তাওবা","ইউনুস","হূদ","ইউসুফ","রা'দ","ইবরাহীম","হিজর","নাহল","বনী ইসরাঈল","কাহফ","মারইয়াম","ত্ব-হা","আম্বিয়া","হজ্জ","মু'মিনূন","নূর","ফুরকান","শুআরা","নামল","কাসাস","আনকাবূত","রূম","লুকমান","সাজদাহ","আহযাব","সাবা","ফাতির","ইয়াসীন","সাফফাত","সোয়াদ","যুমার","গাফির","ফুসসিলাত","শূরা","যুখরুফ","দুখান","জাসিয়া","আহকাফ","মুহাম্মাদ","ফাতহ","হুজুরাত","ক্বাফ","যারিয়াত","তূর","নাজম","ক্বামার","রহমান","ওয়াকিয়া","হাদীদ","মুজাদালা","হাশর","মুমতাহিনা","সাফ","জুমুআ","মুনাফিকূন","তাগাবুন","তালাক","তাহরীম","মুলক","ক্বালাম","হাক্কাহ","মাআরিজ","নূহ","জিন","মুয্যাম্মিল","মুদ্দাসসির","ক্বিয়ামাহ","ইনসান","মুরসালাত","নাবা","নাযিআত","আবাসা","তাকবীর","ইনফিতার","মুতাফফিফীন","ইনশিকাক","বুরূজ","তারিক","আ'লা","গাশিয়া","ফাজর","বালাদ","শামস","লাইল","দুহা","ইনশিরাহ","তীন","আলাক","ক্বদর","বাইয়্যিনাহ","যিলযাল","আদিয়াত","ক্বারিআ","তাকাসুর","আসর","হুমাযাহ","ফীল","কুরাইশ","মাঊন","কাওসার","কাফিরূন","নাসর","লাহাব","ইখলাস","ফালাক","নাস"];
+const QC=[7,286,200,176,120,165,206,75,129,109,123,111,43,52,99,128,111,110,98,135,112,78,118,64,77,227,93,88,69,60,34,30,73,54,45,83,182,88,75,85,54,53,89,59,37,35,38,29,18,45,60,49,62,55,78,96,29,22,24,13,14,11,11,18,12,12,30,52,52,44,28,28,20,56,40,31,50,40,46,42,29,19,36,25,22,17,19,26,30,20,15,21,11,8,8,19,5,8,8,11,11,8,3,9,5,4,7,3,6,3,5,4,5,6];
+let BK={v:'home'},HED=null;
+const qUrl=n=>`https://api.alquran.cloud/v1/surah/${n}/editions/quran-uthmani,bn.bengali`;
+async function bget(urls){
+  let C=null;try{C=await caches.open('books')}catch(e){}
+  for(const u of urls){try{let r=C&&await C.match(u);if(!r){r=await fetch(u);if(!r.ok)continue;if(C)C.put(u,r.clone())}return await r.json()}catch(e){}}
+  throw new Error('net');
+}
+async function loadHED(){
+  if(HED)return HED;const j=await bget([ED+'editions.min.json',ED+'editions.json']),o=[];
+  (function w(x){if(Array.isArray(x))x.forEach(w);else if(x&&typeof x==='object'){if(x.name&&x.language&&x.link)o.push(x);else Object.values(x).forEach(w)}})(j);
+  return HED=o;
+}
+const bxSet=h=>{const m=$('bxMain');m.innerHTML=h;m.style.setProperty('--fs',S.fs||1);$('tab-books').scrollTop=0};
+const bxBar=(title,back)=>`<div class="bxbar"><button onclick="${back}">${ic('l',18)}</button><b>${esc(title)}</b><span class="fs"><button onclick="bxFs(-.1)">A-</button><button onclick="bxFs(.1)">A+</button></span></div>`;
+function bxFs(d){S.fs=Math.max(.8,Math.min(1.8,(S.fs||1)+d));save();$('bxMain').style.setProperty('--fs',S.fs)}
+const bxModeBar=()=>`<div class="seg">${[['both',t('bkBoth')],['ar',t('bkAr')],['bn',t('bkBn')]].map(([v,l])=>`<button class="${(S.qm||'both')===v?'on':''}" onclick="bxMode('${v}')">${l}</button>`).join('')}</div>`;
+function bxMode(v){S.qm=v;save();BK.v==='q'?bxQ(BK.n):bxHad(BK.ed,BK.sec)}
+function bxBack(){BK.v==='q'?bxQList():bxHome()}
+function bxHome(){
+  BK={v:'home'};const r=S.rd,ub=ld('ub',[]);
+  let h=`<div class="sec"><span class="sic">${ic('book')}</span><h4>${t('bkT')}</h4></div>`;
+  if(r)h+=`<button class="bxc" onclick="bxResume()"><b>${t('bkCont')}</b><small>${esc(r.title)}</small></button>`;
+  h+=`<button class="bxc" onclick="bxQList()"><b>${t('bkQ')}</b><small>${t('bkQs')}</small></button>`;
+  h+=`<div class="lbl">${t('bkH')}</div><div id="bxHL"><div class="note">${t('bkLoad')}</div></div>`;
+  h+=`<div class="lbl">${t('bkMy')}</div>`+(ub.length?ub.map(b=>`<button class="bxc" onclick="bxUb(${b.id},0)"><b>${esc(b.title)}</b></button>`).join(''):`<div class="note" style="text-align:left">${t('bkNone')}</div>`);
+  h+=`<label class="btn alt w ic" style="margin-top:10px">${ic('plus',18)}<span>${t('bkAdd')}</span><input type="file" accept=".txt,text/plain" hidden onchange="bxImport(this)"></label><div class="note">${t('bkSrc')}</div>`;
+  bxSet(h);bxLoadEd();
+}
+async function bxLoadEd(){
+  const put=h=>{const e=$('bxHL');if(e)e.innerHTML=h};
+  try{const bn=(await loadHED()).filter(x=>/^ben-/.test(x.name));
+    put(bn.length?bn.map(x=>`<button class="bxc" onclick="bxHad('${x.name}',${(S.hs&&S.hs[x.name])||1})"><b>${esc(x.book||x.name)}</b><small>${esc(x.author||'')}</small></button>`).join(''):`<div class="note">${t('bkNone')}</div>`)}
+  catch(e){put(`<div class="note" style="text-align:left">${t('bkErr')}</div>`)}
+}
+function bxResume(){const r=S.rd;if(!r)return;r.t==='q'?bxQ(r.n):bxHad(r.ed,r.sec)}
+function bxQList(){
+  BK={v:'ql'};
+  bxSet(bxBar(t('bkQ'),'bxHome()')+`<button class="btn alt w" id="bxDl" style="margin-top:0" onclick="bxDlAll()">${t('bkDl')}</button><div id="bxDlS" class="note"></div>`+QN.map((n,i)=>`<button class="bxs" onclick="bxQ(${i+1})"><span class="no">${dg(i+1)}</span><b>${S.lang==='bn'?n:'Surah '+(i+1)}</b><small>${dg(QC[i])} ${t('bkAyah')}</small></button>`).join(''));
+}
+async function bxDlAll(){
+  const b=$('bxDl'),st=$('bxDlS');b.disabled=true;let ok=0;
+  for(let n=1;n<=114;n++){try{await bget([qUrl(n)]);ok++}catch(e){}st.textContent=`${dg(n)} / ${dg(114)}`}
+  st.textContent=ok===114?t('bkDlD'):t('bkErr');b.disabled=false;
+}
+const bxPager=(prev,next,mid)=>`<div class="bxpg">${prev?`<button class="btn alt" onclick="${prev}">${t('bkPrev')}</button>`:'<span></span>'}${mid||''}${next?`<button class="btn alt" onclick="${next}">${t('bkNext')}</button>`:'<span></span>'}</div>`;
+async function bxQ(n){
+  const nm=S.lang==='bn'?QN[n-1]:'Surah '+n;BK={v:'q',n};S.rd={t:'q',n,title:nm};save();
+  bxSet(bxBar(nm,'bxQList()')+`<div class="note">${t('bkLoad')}</div>`);
+  try{const j=await bget([qUrl(n)]),ar=j.data[0].ayahs,bn=j.data[1].ayahs;if(BK.v!=='q'||BK.n!==n)return;const m=S.qm||'both';
+    bxSet(bxBar(nm+' · '+dg(QC[n-1])+' '+t('bkAyah'),'bxQList()')+bxModeBar()+ar.map((a,i)=>`<div class="ay"><span class="an">${dg(a.numberInSurah)}</span>${m!=='bn'?`<div class="ar">${esc(a.text)}</div>`:''}${m!=='ar'?`<div class="tr">${esc(bn[i]?bn[i].text:'')}</div>`:''}</div>`).join('')+bxPager(n>1?`bxQ(${n-1})`:'',n<114?`bxQ(${n+1})`:''));}
+  catch(e){if(BK.v==='q'&&BK.n===n)bxSet(bxBar(nm,'bxQList()')+`<div class="note">${t('bkErr')}</div>`)}
+}
+async function bxHad(ed,sec){
+  BK={v:'h',ed,sec};if(!HED)try{await loadHED()}catch(e){}
+  const nm=(HED&&HED.find(x=>x.name===ed)||{}).book||ed,ttl=nm+' · '+t('bkSec')+' '+dg(sec);S.hs=S.hs||{};S.hs[ed]=sec;S.rd={t:'h',ed,sec,title:ttl};save();
+  bxSet(bxBar(ttl,'bxHome()')+`<div class="note">${t('bkLoad')}</div>`);
+  const u=e=>[`${ED}editions/${e}/sections/${sec}.min.json`,`${ED}editions/${e}/sections/${sec}.json`],arE='ara-'+ed.slice(4),hasAr=HED&&HED.some(x=>x.name===arE);
+  try{const[b,a]=await Promise.all([bget(u(ed)),hasAr?bget(u(arE)).catch(()=>null):null]);if(BK.v!=='h'||BK.ed!==ed||BK.sec!==sec)return;
+    const am={};if(a&&a.hadiths)a.hadiths.forEach(x=>am[x.hadithnumber]=x.text);const m=S.qm||'both',sn=b.metadata&&b.metadata.section&&b.metadata.section[sec]||'',hs=b.hadiths||[];
+    const mid=`<input id="bxSN" type="number" class="in" min="0" value="${sec}" style="max-width:90px"><button class="btn" onclick="bxHad('${ed}',Math.max(0,+$('bxSN').value||0))">${t('bkGo')}</button>`;
+    bxSet(bxBar(ttl,'bxHome()')+bxModeBar()+(sn?`<div class="lbl">${esc(sn)}</div>`:'')+(hs.length?hs.map(x=>`<div class="ay"><span class="an">${dg(x.hadithnumber)}</span>${m!=='bn'&&am[x.hadithnumber]?`<div class="ar">${esc(am[x.hadithnumber])}</div>`:''}${m!=='ar'||!am[x.hadithnumber]?`<div class="tr">${esc(x.text)}</div>`:''}${(x.grades||[]).length?`<small style="opacity:.7">${esc(x.grades.map(g=>g.grade).filter(Boolean).join(', '))}</small>`:''}</div>`).join(''):`<div class="note">${t('bkNone')}</div>`)+bxPager(sec>0?`bxHad('${ed}',${sec-1})`:'',hs.length?`bxHad('${ed}',${sec+1})`:'',mid));}
+  catch(e){if(BK.v==='h'&&BK.ed===ed&&BK.sec===sec)bxSet(bxBar(ttl,'bxHome()')+`<div class="note" style="text-align:left">${t('bkErr')}</div>`+bxPager(sec>0?`bxHad('${ed}',${sec-1})`:'',`bxHad('${ed}',${sec+1})`))}
+}
+function bxImport(i){
+  const f=i.files[0];if(!f)return;const r=new FileReader();
+  r.onload=()=>{const a=ld('ub',[]);a.push({id:Date.now(),title:f.name.replace(/\.[^.]+$/,''),text:String(r.result)});if(!sv('ub',a))alert(t('bkFull'));bxHome()};r.readAsText(f,'utf-8');
+}
+function bxUb(id,p){
+  const b=ld('ub',[]).find(x=>x.id===id);if(!b)return bxHome();BK={v:'u',id,p};
+  const pg=[];let r=b.text;while(r.length){let k=Math.min(6000,r.length);if(r.length>6000){const q=r.lastIndexOf('\n',6000);if(q>2000)k=q}pg.push(r.slice(0,k));r=r.slice(k)}
+  p=Math.max(0,Math.min(pg.length-1,p));
+  bxSet(bxBar(b.title,'bxHome()')+`<div class="ay"><div class="tr">${esc(pg[p]||'')}</div></div>`+bxPager(p>0?`bxUb(${id},${p-1})`:'',p<pg.length-1?`bxUb(${id},${p+1})`:'',`<span class="note">${dg(p+1)} / ${dg(pg.length||1)}</span>`)+`<button class="del" style="margin-top:12px;width:100%" onclick="bxUbDel(${id})">${t('bkDel')}</button>`);
+}
+function bxUbDel(id){sv('ub',ld('ub',[]).filter(x=>x.id!==id));bxHome()}
+
+/* Android ব্রিজ */
+let qT2=0;
+function qPush(){if(!NATIVE)return;clearTimeout(qT2);qT2=setTimeout(pushNative,800)}
+function pushNative(){
+  const n=today0(),out=[],now=Date.now(),seen=new Set();
+  for(let d=0;d<14;d++){const c=addD(n,d),z=sunTimes(c),ds=c.getFullYear()+pad(c.getMonth()+1)+pad(c.getDate());
+    if(S.adhan)[['fajr',z.fajr],['dhuhr',z.dhuhr],['asr',z.asr],['maghrib',z.maghrib],['isha',z.isha]].forEach(([k,x])=>{if(+x>now)out.push({t:+x,id:'p'+ds+k,n:t('pn')[k],b:t('adhanBody'),k:'adhan'})});
+    S.alarms.forEach(a=>{if(!a.active)return;const dd=a.days||[];if(dd.length&&!dd.includes(c.getDay()))return;const[h,m]=a.time.split(':').map(Number),x=new Date(c.getFullYear(),c.getMonth(),c.getDate(),h,m).getTime();if(x<=now)return;if(!dd.length){if(seen.has(a.id))return;seen.add(a.id)}out.push({t:x,id:'a'+a.id+'_'+ds,n:a.label,b:t('alarmBody'),k:'alarm',aid:dd.length?0:a.id})});
+  }
+  try{AndroidApp.setSchedule(JSON.stringify(out))}catch(e){}
+}
+function applyFired(){if(!NATIVE)return;try{const ids=JSON.parse(AndroidApp.consumeFired()||'[]');if(ids.length){S.alarms.forEach(a=>{if(ids.includes(a.id))a.active=false});sv('cal_v4',S);renderAlarms()}}catch(e){}}
+window.onNativeResume=()=>{applyFired();if(!S.gps&&!S.up)getLoc(true);qPush()};
+window.onNativeBack=()=>{const m=document.querySelector('.modal.on');if(m){m.classList.remove('on');return true}if(curTab==='books'&&BK.v!=='home'){bxBack();return true}if(curTab!=='home'){tab('home');return true}return false};
+let lfShown=false;
+function showLocFix(){if(NATIVE){try{AndroidApp.fixLocation()}catch(e){}return}$('locFx').classList.add('on')}
+function locRetry(){$('locFx').classList.remove('on');getLoc()}
+
+/* ইনস্টল */
+let DP=null;
+addEventListener('beforeinstallprompt',e=>{e.preventDefault();DP=e;$('instBox').style.display=''});
+addEventListener('appinstalled',()=>{$('instBox').style.display='none'});
+function doInstall(){if(DP){DP.prompt();DP=null;$('instBox').style.display='none'}}
+
+/* UI */
+function tab(n){
+  const d=tabs.indexOf(n)>tabs.indexOf(curTab)?1:-1;curTab=n;if(n==='books'&&!$('bxMain').innerHTML)bxHome();
+  document.querySelectorAll('.tab,.nb').forEach(e=>e.classList.remove('on'));
+  const e=$('tab-'+n);e.style.setProperty('--dx',d*60+'px');e.classList.add('on');e.scrollTop=0;document.querySelector(`.nb[data-t=${n}]`).classList.add('on');
+}
+function applyLook(){
+  const r=document.documentElement;r.dataset.theme=S.theme;
+  r.dataset.m=S.mode==='auto'?(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'):S.mode;
+  document.querySelectorAll('.sw').forEach(e=>e.classList.toggle('on',e.dataset.th===S.theme));
+}
+function segs(){document.querySelectorAll('.seg').forEach(e=>{const k=e.dataset.k,o=e.dataset.o.split(','),l=e.dataset.l.split(',');e.innerHTML=o.map((v,i)=>`<button class="${String(S[k])===v?'on':''}" onclick="upd('${k}',${isNaN(v)?"'"+v+"'":v})">${l[i][0]==='~'?t(l[i].slice(1)):l[i]}</button>`).join('')})}
+function upd(k,v){S[k]=v;if(k==='lang'){save();location.reload();return}if(k==='city'){S.gps=false;S.up=null}save();if(k==='city'){SC={key:''};fetchSun()}if(k==='main')MV=newView(v);if(['lang','hadj','main','city'].includes(k)){if(k==='hadj')MV=newView(S.main);applyLang()}else applyLook();segs()}
+function applyLang(){
+  document.documentElement.lang=S.lang;
+  document.querySelectorAll('[data-i]').forEach(e=>e.textContent=t(e.dataset.i));
+  document.querySelectorAll('[data-p]').forEach(e=>e.placeholder=t(e.dataset.p));
+  document.querySelectorAll('[data-ic]').forEach(e=>e.innerHTML=ic(e.dataset.ic));
+  $('city').innerHTML=DIV.map(g=>`<optgroup label="${L?g[0]+' Division':g[1]}">${g[2].split(';').map(x=>{const k=x.split('|')[0];return`<option value="${k}">${CN[k][L]}</option>`}).join('')}</optgroup>`).join('');
+  ['tone','city'].forEach(k=>$(k).value=S[k]);segs();mqKey='';$('adhanOn').checked=S.adhan;$('notifOn').checked=!!S.notif;
+  $('snzB').textContent=`${t('snz')} ${dg(S.snz)}`;$('swB').textContent=t(swRun?'pause':'start');$('tmB').textContent=t(tmEnd?'pause':'start');
+  $('adS').textContent=ld('adhan_a','')?t('adSaved'):t('adhanFile');
+  $('chips').innerHTML=t('days').map((d,i)=>`<button class="chip${sel.has(i)?' on':''}" onclick="chip(${i})">${d}</button>`).join('');
+  $('cc').innerHTML=TY.map(ty=>`<button style="color:var(--k${K[ty]});border-color:var(--k${K[ty]})" onclick="openFull('${ty}')"><b>${t(LB[ty])}</b><span id="c_${ty}"></span></button>`).join('');
+  lastR='';tick(true);drawMain(0);renderAlarms();convert();locStat();
+}
+function tick(force){
+  const n=new Date();if(!force&&n.getSeconds()===lastSec)return;lastSec=n.getSeconds();
+  const H=n.getHours(),tm=`${dg(pad(H%12||12))}:${dg(pad(n.getMinutes()))}:${dg(pad(n.getSeconds()))}`;if(S.lang==='en'){$('cAp').textContent='';$('clock').textContent=tm+' '+tod(H)}else{$('cAp').textContent=tod(H);$('clock').textContent=tm}
+  const d=today0(),md=$('mainDate');md.textContent=strOf(S.main,d);md.style.color=`var(--k${K[S.main]})`;
+  TY.forEach(ty=>{const e=$('c_'+ty);if(e)e.textContent=strOf(ty,d)});
+  const ds=d.toDateString()+S.lang+S.hadj;if(ds!==mqKey){mqKey=ds;drawMq()}
+  prayUpdate(n);checkAlarms(n);
+}
+
+/* অ্যালার্ম */
+function unlock(){try{if(!audio)audio=new(window.AudioContext||window.webkitAudioContext)();if(audio.state==='suspended')audio.resume()}catch(e){}}
+function chip(i){sel.has(i)?sel.delete(i):sel.add(i);document.querySelectorAll('.chip').forEach((e,j)=>e.classList.toggle('on',sel.has(j)))}
+function fmt12(tm){const[h,m]=tm.split(':').map(Number);return wrapT(h,`${dg(pad(h%12||12))}:${dg(pad(m))}`)}
+function addAlarm(){
+  unlock();const tm=$('aT').value;if(!tm)return;
+  S.alarms.push({id:Date.now(),time:tm,label:$('aL').value.trim()||t('def'),active:true,days:[...sel],last:''});
+  $('aT').value='';$('aL').value='';sel.clear();document.querySelectorAll('.chip').forEach(e=>e.classList.remove('on'));save();renderAlarms();
+}
+const repTxt=a=>{const d=a.days||[];return!d.length?t('once'):d.length===7?t('daily'):d.map(i=>t('days')[i]).join(', ')};
+function renderAlarms(){
+  const l=$('aList');if(!S.alarms.length){l.innerHTML=`<div class="empty">${t('none')}</div>`;return}
+  l.innerHTML=[...S.alarms].sort((a,b)=>a.time.localeCompare(b.time)).map(a=>`<div class="al${a.active?'':' off'}"><input type="checkbox" ${a.active?'checked':''} onchange="togAlarm(${a.id})"><div style="flex:1"><strong>${fmt12(a.time)}</strong><small>${esc(a.label)} · ${repTxt(a)}</small></div><button class="del" onclick="delAlarm(${a.id})">${t('del')}</button></div>`).join('');
+}
+function togAlarm(id){const a=S.alarms.find(x=>x.id===id);if(a){a.active=!a.active;save();renderAlarms()}}
+function delAlarm(id){S.alarms=S.alarms.filter(a=>a.id!==id);save();renderAlarms()}
+function checkAlarms(n){if(NATIVE)return;
+  if(ringing!==null)return;
+  const hm=pad(n.getHours())+':'+pad(n.getMinutes()),st=n.toDateString()+hm;
+  for(const a of S.alarms){const d=a.days||[];
+    if(a.active&&a.time===hm&&a.last!==st&&(!d.length||d.includes(n.getDay()))){a.last=st;if(!d.length)a.active=false;save();renderAlarms();ring(a.label);return}}
+  if(snoozeAt&&Date.now()>=snoozeAt){snoozeAt=0;ring(snoozeLabel)}
+}
+function beep(v,f,dur){
+  if(!audio)return;const o=audio.createOscillator(),g=audio.createGain(),c=[['triangle',880],['sine',660],['square',520]][S.tone];
+  o.type=f?'sine':c[0];o.frequency.value=f||c[1];g.gain.value=v;o.connect(g);g.connect(audio.destination);o.start();o.stop(audio.currentTime+(dur||.3));
+}
+function ring(label,ad){
+  notify(label,t(ad?'adhan':'ringing'));
+  ringing=label;$('mLabel').textContent=label;$('ringT').textContent=t(ad?'adhan':'ringing');$('snzB').style.display=ad?'none':'';$('ringM').classList.add('on');
+  unlock();clearInterval(ringTimer);vol=.05;
+  if(ad){const src=ld('adhan_a','');if(src){adA=new Audio(src);adA.play().catch(()=>{});return}
+    const N=[392,440,494,523,494,440];let i=0;const go=()=>beep(.35,N[i++%6],.55);go();ringTimer=setInterval(go,700);return}
+  const go=()=>{vol=Math.min(.7,vol+.04);beep(vol)};go();ringTimer=setInterval(go,600);
+  if(navigator.vibrate)navigator.vibrate([300,150,300]);
+}
+function stopAlarm(){clearInterval(ringTimer);if(adA){adA.pause();adA=null}ringing=null;$('ringM').classList.remove('on')}
+function snooze(){snoozeLabel=ringing;stopAlarm();snoozeAt=Date.now()+S.snz*60000}
+function loadAdhan(i){
+  const f=i.files[0];if(!f)return;if(f.size>3e6){$('adS').textContent=t('adBig');return}
+  const r=new FileReader();r.onload=()=>{sv('adhan_a',r.result);$('adS').textContent=t('adSaved')};r.readAsDataURL(f);
+}
+
+/* স্টপওয়াচ ও টাইমার */
+let swRun=false,swStart=0,swEl=0,tmEnd=0,tmLeft=0;
+function swToggle(){swRun?(swEl+=performance.now()-swStart,swRun=false):(swStart=performance.now(),swRun=true);$('swB').textContent=t(swRun?'pause':'start');if(swRun)(function f(){swDraw();if(swRun)requestAnimationFrame(f)})()}
+function swReset(){swRun=false;swEl=0;$('swB').textContent=t('start');swDraw()}
+function swDraw(){const ms=swEl+(swRun?performance.now()-swStart:0),s=ms/1000;$('swD').textContent=`${dg(pad(Math.floor(s/60)))}:${dg(pad(Math.floor(s%60)))}.${dg(Math.floor(ms%1000/100))}`}
+function tmToggle(){unlock();if(tmEnd){tmLeft=tmEnd-Date.now();tmEnd=0}else{if(!tmLeft)tmLeft=Math.max(1,+$('tmIn').value||1)*60000;tmEnd=Date.now()+tmLeft}$('tmB').textContent=t(tmEnd?'pause':'start');tmDraw()}
+function tmDraw(){
+  if(tmEnd&&Date.now()>=tmEnd){tmEnd=0;tmLeft=0;$('tmB').textContent=t('start');ring(t('tm'))}
+  const s=Math.ceil((tmEnd?Math.max(0,tmEnd-Date.now()):tmLeft)/1000);$('tmD').textContent=`${dg(pad(Math.floor(s/60)))}:${dg(pad(s%60))}`;
+}
+
+/* ব্যাকআপ */
+function exportD(){const j=JSON.stringify({alarms:S.alarms,notes:S.notes});$('bk').value=j;try{navigator.clipboard.writeText(j)}catch(e){}}
+function importD(){try{const o=JSON.parse($('bk').value);if(Array.isArray(o.alarms))S.alarms=o.alarms;if(o.notes&&typeof o.notes==='object')S.notes=o.notes;save();renderAlarms();drawMain(0);$('bk').value=''}catch(e){$('bk').value='JSON error'}}
+
+/* শুরু */
+$('sws').innerHTML=[['islamic','#10b981'],['indigo','#818cf8'],['cyberpunk','#2dd4bf'],['royal-neon','#f43f5e'],['sunset','#f97316']].map(([n,c])=>`<button class="sw" data-th="${n}" style="background:${c}" aria-label="${n}" onclick="upd('theme','${n}')"></button>`).join('');
+try{matchMedia('(prefers-color-scheme: light)').addEventListener('change',applyLook)}catch(e){}
+document.addEventListener('pointerdown',unlock,{once:true});
+MV=newView(S.main);applyLook();applyLang();
+fetchSun();setInterval(fetchSun,6*36e5);
+locInit();$('ver').textContent=APP_VER;
+if(NATIVE){document.documentElement.classList.add('nat');applyFired();qPush()}
+{const q=new URLSearchParams(location.search);if(q.get('view')==='widget')document.documentElement.classList.add('wg');if(q.get('tab'))tab(q.get('tab'));if(q.get('ram'))openRam()}
+if(!NATIVE&&'serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+(function loop(){let d;if(document.hidden){const n=new Date();checkAlarms(n);adhanCheck(n);d=5000}else{tick();if(tmEnd)tmDraw();d=1000-Date.now()%1000+10}setTimeout(loop,d)})();
+document.addEventListener('visibilitychange',()=>{document.documentElement.classList.toggle('hid',document.hidden);if(!document.hidden)tick(true)});
+</script>
+</body>
+</html>

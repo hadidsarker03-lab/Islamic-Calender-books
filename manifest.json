@@ -1,0 +1,82 @@
+{
+  "id": "./",
+  "name": "ইসলামিক ক্যালেন্ডার ও নামাজের সময়",
+  "short_name": "ইসলামিক ক্যাল",
+  "description": "হিজরি, বাংলা ও ইংরেজি ক্যালেন্ডার, নামাজের সময়, সাহরি-ইফতার, রমজান ক্যালেন্ডার এবং কুরআন ও ইসলামিক বই",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#022c22",
+  "theme_color": "#022c22",
+  "lang": "bn",
+  "dir": "ltr",
+  "categories": [
+    "lifestyle",
+    "utilities"
+  ],
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "নামাজের সময় (কমপ্যাক্ট)",
+      "short_name": "নামাজ",
+      "url": "./?view=widget",
+      "icons": [
+        {
+          "src": "icons/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "ইসলামিক বই",
+      "short_name": "বই",
+      "url": "./?tab=books",
+      "icons": [
+        {
+          "src": "icons/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "রমজান ক্যালেন্ডার",
+      "short_name": "রমজান",
+      "url": "./?ram=1",
+      "icons": [
+        {
+          "src": "icons/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ]
+}

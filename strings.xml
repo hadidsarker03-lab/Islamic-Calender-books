@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">ইসলামিক ক্যালেন্ডার</string>
+    <string name="ch_adhan">নামাজের আজান</string>
+    <string name="ch_alarm">অ্যালার্ম</string>
+    <string name="loc_title">লোকেশন চালু করুন</string>
+    <string name="loc_msg">সঠিক নামাজ, সাহরি ও ইফতারের সময় দেখাতে আপনার ফোনের লোকেশন (GPS) চালু থাকা প্রয়োজন। এখন চালু করবেন?</string>
+    <string name="perm_title">লোকেশনের অনুমতি দিন</string>
+    <string name="perm_msg">লোকেশনের অনুমতি বন্ধ আছে। অ্যাপ সেটিংসে গিয়ে Permissions → Location → \"Allow only while using the app\" বেছে নিন।</string>
+    <string name="open_settings">সেটিংস খুলুন</string>
+    <string name="later">পরে</string>
+</resources>
