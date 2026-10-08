@@ -2,6 +2,8 @@ name: Build APK
 on:
   push:
   workflow_dispatch:
+permissions:
+  contents: write
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -11,6 +13,9 @@ jobs:
         with: { distribution: temurin, java-version: '17' }
       - uses: gradle/actions/setup-gradle@v4
         with: { gradle-version: '8.9' }
+      - name: Stamp version from release tag
+        if: startsWith(github.ref, 'refs/tags/')
+        run: sed -i "s/const APP_VER='[^']*'/const APP_VER='${GITHUB_REF_NAME#v}'/" index.html
       - name: Arrange project
         run: |
           set -e
@@ -21,7 +26,6 @@ jobs:
           cp AndroidManifest.xml $M/
           cp strings.xml styles.xml $M/res/values/
           cp index.html manifest.json $M/assets/www/
-          cp icon-192.png icon-512.png maskable-512.png icon.svg $M/assets/www/icons/
           cat > proj/settings.gradle <<'E'
           pluginManagement { repositories { google(); mavenCentral(); gradlePluginPortal() } }
           dependencyResolutionManagement { repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS); repositories { google(); mavenCentral() } }
@@ -45,8 +49,22 @@ jobs:
                   applicationId 'com.hadid.islamiccal'
                   minSdk 24
                   targetSdk 35
-                  versionCode 5
-                  versionName '5.0'
+                  versionCode 1
+                  versionName '1.0'
+              }
+              signingConfigs {
+                  release {
+                      storeFile file(System.getenv('KS_PATH') ?: 'missing.jks')
+                      storePassword System.getenv('KS_PASS')
+                      keyAlias System.getenv('KS_ALIAS')
+                      keyPassword System.getenv('KS_PASS')
+                  }
+              }
+              buildTypes {
+                  release {
+                      signingConfig signingConfigs.release
+                      minifyEnabled false
+                  }
               }
               compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
           }
@@ -60,21 +78,80 @@ jobs:
           pip install pillow -q
           python3 - <<'E'
           from PIL import Image
-          import os
-          src = Image.open('icon-512.png')
-          for k, v in {'mdpi':48,'hdpi':72,'xhdpi':96,'xxhdpi':144,'xxxhdpi':192}.items():
-              p = f'proj/app/src/main/res/mipmap-{k}'
+          import os, base64
+          src = Image.open('icon-512.png').convert('RGBA')
+          bgc = src.getpixel((2, 2))[:3]
+          hexc = '#%02X%02X%02X' % bgc
+          flat = Image.new('RGBA', src.size, bgc + (255,))
+          flat.alpha_composite(src)
+          flat = flat.convert('RGB')
+          M = 'proj/app/src/main'
+          W = M + '/assets/www/icons'
+          os.makedirs(W, exist_ok=True)
+          flat.resize((192, 192), Image.LANCZOS).save(W + '/icon-192.png')
+          flat.save(W + '/icon-512.png')
+          mk = Image.new('RGB', (512, 512), bgc)
+          mk.paste(flat.resize((410, 410), Image.LANCZOS), (51, 51))
+          mk.save(W + '/maskable-512.png')
+          for k, v in {'mdpi': 48, 'hdpi': 72, 'xhdpi': 96, 'xxhdpi': 144, 'xxxhdpi': 192}.items():
+              p = M + '/res/mipmap-' + k
               os.makedirs(p, exist_ok=True)
-              im = src.resize((v, v))
+              im = flat.resize((v, v), Image.LANCZOS)
               im.save(p + '/ic_launcher.png')
               im.save(p + '/ic_launcher_round.png')
+          for k, v in {'mdpi': 108, 'hdpi': 162, 'xhdpi': 216, 'xxhdpi': 324, 'xxxhdpi': 432}.items():
+              fg = Image.new('RGBA', (v, v), (0, 0, 0, 0))
+              n = round(v * 0.62)
+              fg.paste(flat.resize((n, n), Image.LANCZOS).convert('RGBA'), ((v - n) // 2, (v - n) // 2))
+              fg.save(M + '/res/mipmap-' + k + '/ic_foreground.png')
+          os.makedirs(M + '/res/mipmap-anydpi-v26', exist_ok=True)
+          xml = '<?xml version="1.0" encoding="utf-8"?>\n<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">\n<background android:drawable="@color/ic_bg"/>\n<foreground android:drawable="@mipmap/ic_foreground"/>\n</adaptive-icon>\n'
+          open(M + '/res/mipmap-anydpi-v26/ic_launcher.xml', 'w').write(xml)
+          open(M + '/res/mipmap-anydpi-v26/ic_launcher_round.xml', 'w').write(xml)
+          os.makedirs(M + '/res/values', exist_ok=True)
+          open(M + '/res/values/ic_colors.xml', 'w').write('<resources><color name="ic_bg">' + hexc + '</color></resources>\n')
+          b = base64.b64encode(open(W + '/icon-512.png', 'rb').read()).decode()
+          open(W + '/icon.svg', 'w').write('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><image width="512" height="512" href="data:image/png;base64,' + b + '"/></svg>')
+          print('icons generated, bg', hexc)
           E
+      - name: Stamp version numbers
+        run: |
+          VC=$((100 + GITHUB_RUN_NUMBER))
+          VN=$(grep -o "const APP_VER='[^']*'" index.html | head -1 | cut -d"'" -f2)
+          sed -i "s/versionCode 1$/versionCode $VC/; s/versionName '1.0'/versionName '$VN'/" proj/app/build.gradle
+          echo "versionCode=$VC versionName=$VN"
+      - name: Prepare signing key
+        env:
+          KS_B64: ${{ secrets.KEYSTORE_BASE64 }}
+        run: |
+          if [ -z "$KS_B64" ]; then
+            echo "SIGNED=0" >> "$GITHUB_ENV"
+            echo "::warning::KEYSTORE_BASE64 secret নেই, তাই debug APK বানানো হচ্ছে (আপডেটে আনইনস্টল লাগবে)"
+          else
+            echo "$KS_B64" | base64 -d > "$RUNNER_TEMP/release.jks"
+            echo "SIGNED=1" >> "$GITHUB_ENV"
+            echo "KS_PATH=$RUNNER_TEMP/release.jks" >> "$GITHUB_ENV"
+            echo "KS_PASS=${{ secrets.KEYSTORE_PASSWORD }}" >> "$GITHUB_ENV"
+            echo "KS_ALIAS=${{ secrets.KEY_ALIAS }}" >> "$GITHUB_ENV"
+          fi
       - name: Install SDK
         run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platforms;android-35" "build-tools;35.0.0" > /dev/null
-      - name: Build
+      - name: Build APK
         working-directory: proj
-        run: gradle assembleDebug --no-daemon
+        run: |
+          if [ "$SIGNED" = "1" ]; then
+            gradle assembleRelease --no-daemon
+            cp app/build/outputs/apk/release/app-release.apk ../islamic-calendar.apk
+          else
+            gradle assembleDebug --no-daemon
+            cp app/build/outputs/apk/debug/app-debug.apk ../islamic-calendar.apk
+          fi
       - uses: actions/upload-artifact@v4
         with:
           name: islamic-calendar-apk
-          path: proj/app/build/outputs/apk/debug/app-debug.apk
+          path: islamic-calendar.apk
+      - name: Attach APK to release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: islamic-calendar.apk
