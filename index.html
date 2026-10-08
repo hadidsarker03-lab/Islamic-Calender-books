@@ -15,9 +15,17 @@
 <style>
 :root{--tx:#fff;--sub:#cbd5e1;--gl:rgba(255,255,255,.07);--ln:rgba(255,255,255,.16);--sheet:rgba(2,28,22,.97);--bgd:radial-gradient(circle at top,#064e3b,#022c22 60%,#01130f);--ac:#10b981;--glow:rgba(16,185,129,.2);--gold:#fbbf24;--ok:#22c55e;--c1:#e2e8f0;--c2:#fbbf24;--c3:#6ee7b7;--k1:var(--c1);--k2:var(--c2);--k3:var(--c3);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 [data-theme=indigo]{--bgd:radial-gradient(circle at top,#1e1b4b,#0f172a,#090d16);--ac:#818cf8;--glow:rgba(129,140,248,.2);--c1:#e0e7ff;--c2:#fbbf24;--c3:#34d399;--sheet:rgba(15,23,42,.97)}
-[data-theme=cyberpunk]{--bgd:radial-gradient(circle at top,#052e16,#022c22,#040d12);--ac:#2dd4bf;--glow:rgba(45,212,191,.2);--c1:#ccfbf1;--c2:#fb7185;--c3:#fde047}
 [data-theme=sunset]{--bgd:radial-gradient(circle at top,#451a03,#290f04,#0f0502);--ac:#f97316;--glow:rgba(249,115,22,.2);--c1:#ffedd5;--c2:#38bdf8;--c3:#a3e635}
-[data-theme=royal-neon]{--bgd:radial-gradient(circle at top,#4c1d95,#2e1065,#0f0728);--ac:#f43f5e;--glow:rgba(244,63,94,.2);--c1:#fce7f3;--c2:#67e8f9;--c3:#fcd34d}
+[data-theme=midnight]{--bgd:radial-gradient(circle at top,#172554,#020617 65%,#000);--ac:#60a5fa;--glow:rgba(96,165,250,.22);--c1:#dbeafe;--c2:#fde047;--c3:#c4b5fd;--sheet:rgba(2,6,23,.97)}
+[data-theme=makkah]{--bgd:radial-gradient(circle at top,#2b2b2b,#0f0f0f 60%,#000);--ac:#e0b84d;--glow:rgba(224,184,77,.25);--c1:#f5f5f4;--c2:#fcd34d;--c3:#d6d3d1;--sheet:rgba(15,15,15,.97)}
+[data-theme=ramadan]{--bgd:radial-gradient(circle at top,#4c1d95,#1e1b4b 60%,#0b0420);--ac:#f59e0b;--glow:rgba(245,158,11,.25);--c1:#ede9fe;--c2:#fde047;--c3:#c4b5fd;--sheet:rgba(24,16,60,.97)}
+:root[data-theme=cream]{color-scheme:light;--tx:#3b2f1e;--sub:#6b5a43;--gl:rgba(255,255,255,.55);--ln:rgba(120,90,50,.2);--sheet:rgba(255,250,240,.98);--bgd:linear-gradient(160deg,#fffaf0,#f6ead2 55%,#efdfbf);--ac:#a16207;--glow:rgba(161,98,7,.25);--gold:#b45309;--ok:#15803d;--c1:#5b3a12;--c2:#a16207;--c3:#15803d}
+:root[data-theme=beige]{color-scheme:light;--tx:#3a2f23;--sub:#675643;--gl:rgba(255,255,255,.5);--ln:rgba(100,80,55,.2);--sheet:rgba(245,240,230,.98);--bgd:linear-gradient(160deg,#f5f0e6,#e8dfcf 55%,#d9ccb4);--ac:#7a5c3a;--glow:rgba(122,92,58,.25);--gold:#a16207;--ok:#15803d;--c1:#4a3a28;--c2:#92400e;--c3:#166534}
+:root[data-theme=sand]{color-scheme:light;--tx:#34301f;--sub:#605a42;--gl:rgba(255,255,255,.5);--ln:rgba(95,100,60,.22);--sheet:rgba(247,241,226,.98);--bgd:linear-gradient(160deg,#f7f1e1,#ebe2c9 55%,#ddd1b0);--ac:#5f7a4d;--glow:rgba(95,122,77,.28);--gold:#a16207;--ok:#166534;--c1:#3f4a2c;--c2:#a16207;--c3:#166534}
+:root[data-theme=cream] .seg,:root[data-theme=beige] .seg,:root[data-theme=sand] .seg{background:rgba(120,90,50,.1)}
+:root[data-theme=cream] #wp.on,:root[data-theme=beige] #wp.on,:root[data-theme=sand] #wp.on{opacity:.4}
+:root[data-theme=cream] #wp::after,:root[data-theme=beige] #wp::after,:root[data-theme=sand] #wp::after{background:rgba(255,255,255,.25)}
+.seg button.on,.nb.on,.sic,.chip.on{background-color:var(--ac);background-color:color-mix(in srgb,var(--ac) 78%,transparent);background-image:linear-gradient(180deg,rgba(255,255,255,.42),rgba(255,255,255,.06) 50%,rgba(255,255,255,0) 51%),linear-gradient(145deg,rgba(255,255,255,.28),rgba(255,255,255,0) 55%,rgba(0,0,0,.14));backdrop-filter:blur(10px) saturate(1.6);-webkit-backdrop-filter:blur(10px) saturate(1.6);box-shadow:inset 0 1px 1px rgba(255,255,255,.7),inset 0 -6px 12px rgba(0,0,0,.12),0 6px 16px var(--glow)}
 [data-m=light]{color-scheme:light;--tx:#0f172a;--sub:#475569;--gl:rgba(255,255,255,.7);--ln:rgba(15,23,42,.13);--sheet:rgba(255,255,255,.98);--bgd:linear-gradient(160deg,#d1fae5,#f8fafc 60%,#fef9c3);--gold:#b45309;--ok:#15803d;--k1:color-mix(in srgb,var(--c1) 15%,#1e293b);--k2:color-mix(in srgb,var(--c2) 55%,#1e293b);--k3:color-mix(in srgb,var(--c3) 55%,#1e293b)}
 [data-m=dark]{color-scheme:dark}
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
@@ -27,11 +35,11 @@ body::before,body::after{content:"";position:fixed;width:460px;height:460px;bord
 body::before{top:-160px;left:-160px}body::after{bottom:-160px;right:-160px}
 @keyframes orb{to{transform:translate(70px,50px) scale(1.25)}}
 .wrap{position:relative;z-index:1;width:100%;max-width:450px;height:100%;max-height:880px;display:flex;flex-direction:column}
-.app{flex:1;min-height:0;display:flex;flex-direction:column;background:var(--gl);border:1px solid var(--ln);border-radius:30px;box-shadow:0 12px 30px rgba(0,0,0,.3),inset 0 1px 2px rgba(255,255,255,.25);overflow:hidden;animation:up .7s cubic-bezier(.2,.9,.3,1)}
+.app{flex:1;min-height:0;display:flex;flex-direction:column;background:var(--gl);border:1px solid var(--ln);border-radius:30px;box-shadow:0 12px 30px rgba(0,0,0,.3);overflow:hidden;animation:up .7s cubic-bezier(.2,.9,.3,1)}
 @keyframes up{from{opacity:0;transform:translateY(30px)}}
 footer{flex:none;text-align:center;font-size:.75rem;opacity:.6;margin-top:10px;padding-bottom:2px;letter-spacing:.5px}
 svg{display:block}
-.hd{padding:16px 16px 6px;text-align:center;background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='44' height='44'><path d='M22 2l5 8 9-3-3 9 8 5-8 5 3 9-9-3-5 8-5-8-9 3 3-9-8-5 8-5-3-9 9 3z' fill='none' stroke='%23fbbf24' stroke-opacity='.13'/></svg>")}
+.hd{padding:16px 16px 6px;text-align:center;background-image:var(--skyg,none),url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='44' height='44'><path d='M22 2l5 8 9-3-3 9 8 5-8 5 3 9-9-3-5 8-5-8-9 3 3-9-8-5 8-5-3-9 9 3z' fill='none' stroke='%23fbbf24' stroke-opacity='.13'/></svg>")}
 .bis{font-family:'Amiri','Traditional Arabic',serif;font-size:1.25rem;color:var(--gold);margin-bottom:6px;animation:fadeo 1.2s}
 .clock{font-size:2.7rem;font-weight:800;letter-spacing:1px;font-variant-numeric:tabular-nums;display:flex;justify-content:center;align-items:baseline;gap:8px}
 @keyframes pulse{50%{text-shadow:0 0 22px var(--glow)}}
@@ -50,6 +58,25 @@ svg{display:block}
 .pr{display:flex;justify-content:space-between;align-items:center;margin:0 14px 6px;padding:9px 14px;border-radius:14px;background:var(--gl);border:1px solid var(--ln);font-size:.92rem;animation:slx .5s both;animation-delay:calc(var(--i)*70ms);transition:.4s}
 .pr small{opacity:.85;font-variant-numeric:tabular-nums;font-size:.8rem}
 .pr.now{background:rgba(34,197,94,.18);border-color:var(--ok);color:var(--ok);font-weight:700;box-shadow:0 0 8px rgba(34,197,94,.15)}
+.pr.past{background:rgba(239,68,68,.16);border-color:#ef4444;color:#ef4444;font-weight:700}
+[data-m=light] .pr.past{border-color:#dc2626;color:#dc2626}
+.locbar{display:flex;align-items:center;justify-content:center;gap:6px;margin:2px 14px 8px;padding:8px 12px;border-radius:14px;background:var(--gl);border:1px solid var(--ln);color:var(--tx);font-size:.82rem;font-weight:700;cursor:pointer;text-align:center}
+.locbar svg{color:var(--gold);flex:none}.locbar span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}.locbar small{opacity:.7;font-weight:600;font-size:.68rem;flex:none}
+.dtop{display:flex;align-items:center;gap:6px}.dtop h4{flex:1}.dib{background:none;border:none;color:var(--tx);width:40px;height:40px;border-radius:12px;display:grid;place-items:center;cursor:pointer}.dib.on{background:var(--ac);color:#fff}
+.dg{font-weight:800;font-size:1.05rem;margin:18px 4px 2px}
+.dcr{display:flex;align-items:center;gap:16px;width:100%;padding:14px 4px;background:none;border:none;border-bottom:1px solid var(--ln);color:var(--tx);font-size:1rem;cursor:pointer;text-align:left}.dcr b{flex:1;font-weight:500}.dcr .cv{opacity:.85;transition:transform .25s;display:grid}.dcr.on .cv{transform:rotate(180deg)}
+.dcp{padding:2px 0 10px}.dhd{display:flex;align-items:center;justify-content:space-between;gap:8px}.bm{background:none;border:none;color:var(--sub);cursor:pointer;display:grid;padding:4px}.bm.on{color:var(--gold)}.bm.on svg{fill:var(--gold)}
+.lchips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.lchip{display:inline-flex;align-items:center;gap:6px;padding:5px 6px 5px 11px;border-radius:99px;background:var(--gl);border:1px solid var(--ln);font-size:.78rem;font-weight:700}
+.lchip button{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;border:none;background:rgba(239,68,68,.25);color:#ef4444;cursor:pointer}
+.cpr .cpl{text-align:center;font-weight:800;margin:10px 0 2px}
+.cpr .cpl small{display:block;font-weight:600;opacity:.7;font-size:.74rem;margin-top:2px}
+.cpr .cpt{font-size:.76rem;line-height:1.65;opacity:.8;margin-top:10px;text-align:justify}
+.cpr .cph{text-align:center}
+.cpr a.btn{text-decoration:none}
+.cpr .btn{padding:10px 6px;font-size:.82rem}
+.cpr hr{border:none;border-top:1px solid var(--ln);margin:14px 0 4px}
+.cpr .crv{text-align:center;margin-top:14px}
 .cal{padding:10px 14px 14px}
 .tab{display:none}.tab.on{display:block;flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;animation:slx .45s cubic-bezier(.2,.9,.3,1)}.tab.pad{padding:16px}
 @keyframes slx{from{opacity:0;transform:translateX(var(--dx,40px))}}
@@ -57,7 +84,7 @@ svg{display:block}
 @keyframes fadeo{from{opacity:0}}
 nav{flex:none;display:flex;justify-content:space-around;background:var(--gl);border-top:1px solid var(--ln);padding:8px;gap:4px}
 .nb{flex:1;background:none;border:none;color:var(--sub);padding:8px 2px;border-radius:14px;cursor:pointer;font-size:.72rem;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:3px;transition:.3s}
-.nb i{display:block;transition:transform .3s}.nb.on{background:var(--ac);color:#fff;box-shadow:0 0 18px var(--glow)}.nb.on i{transform:scale(1.2)}
+.nb span{white-space:nowrap;font-size:.66rem;letter-spacing:-.1px}.nb i{display:block;transition:transform .3s}.nb.on{background:var(--ac);color:#fff;box-shadow:0 0 18px var(--glow)}.nb.on i{transform:scale(1.2)}
 .cn{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:4px}
 .cn strong{text-align:center;cursor:pointer;flex:1}.cn small{display:block;font-family:'Amiri','Traditional Arabic',serif;color:var(--gold);font-size:1rem}
 .cn button{background:var(--gl);border:1px solid var(--ln);color:var(--tx);width:34px;height:34px;border-radius:50%;cursor:pointer;display:grid;place-items:center;transition:.2s}
@@ -87,12 +114,12 @@ button:active{transform:scale(.92)}
 .al.off{opacity:.5}.al strong{color:var(--ac);font-size:1.15rem}.al small{display:block;opacity:.75;font-size:.78rem}.al input{width:20px;height:20px;accent-color:var(--ac)}
 .del{background:rgba(239,68,68,.25);border:1px solid rgba(239,68,68,.5);color:#ef4444;padding:6px 10px;border-radius:9px;cursor:pointer}
 .empty{text-align:center;opacity:.6;padding:14px}
-.glass,.box{position:relative;padding:16px;border-radius:22px;margin-bottom:14px;background:linear-gradient(145deg,rgba(255,255,255,.13),rgba(255,255,255,.04));border:1px solid rgba(255,255,255,.2);box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 10px 28px rgba(0,0,0,.2)}
-[data-m=light] .glass,[data-m=light] .box{background:linear-gradient(145deg,rgba(255,255,255,.92),rgba(255,255,255,.6));border-color:#fff;box-shadow:inset 0 1px 0 #fff,0 8px 24px rgba(15,23,42,.08)}
+.glass,.box{position:relative;padding:16px;border-radius:22px;margin-bottom:14px;background:var(--gl);border:1px solid var(--ln);box-shadow:0 8px 22px rgba(0,0,0,.14)}
+[data-m=light] .glass,[data-m=light] .box{box-shadow:0 6px 18px rgba(15,23,42,.08)}
 .box h4{font-size:.9rem;color:var(--ac);margin-bottom:9px}
 .big{font-size:2rem;font-weight:800;text-align:center;margin:6px 0;font-variant-numeric:tabular-nums}
 .row{display:flex;gap:8px;align-items:center}.row>*{flex:1}.row>.fit{flex:none}
-.sws{display:flex;gap:12px;justify-content:center}
+.sws{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
 .sw{width:40px;height:40px;border-radius:50%;border:3px solid transparent;cursor:pointer;transition:.25s}
 .sw.on{border-color:var(--tx);transform:scale(1.15);box-shadow:0 0 16px var(--glow)}
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);justify-content:center;align-items:center;z-index:100;padding:16px}
@@ -116,7 +143,7 @@ button:active{transform:scale(.92)}
 .mqt span::before{content:"";width:6px;height:6px;background:var(--gold);transform:rotate(45deg);flex:none}
 @keyframes mq{to{transform:translateX(-50%)}}
 .sec{display:flex;align-items:center;gap:10px;margin-bottom:4px}.sec h4{font-size:.98rem;color:var(--tx);margin:0}
-.sic{width:34px;height:34px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,var(--ac),rgba(255,255,255,.08));color:#fff;box-shadow:0 0 14px var(--glow);flex:none}
+.sic{width:34px;height:34px;border-radius:12px;display:grid;place-items:center;background:var(--ac);color:#fff;box-shadow:0 0 14px var(--glow);flex:none}
 .lbl{font-size:.78rem;opacity:.75;margin:14px 0 6px;font-weight:600}
 .seg{display:flex;background:rgba(0,0,0,.2);border:1px solid var(--ln);border-radius:14px;padding:3px;gap:3px}
 [data-m=light] .seg{background:rgba(15,23,42,.06)}
@@ -137,8 +164,8 @@ html.wg nav,html.wg .cal,html.wg .mq,html.wg .bis,html.wg .cc,html.wg #tab-home>
 html.wg .tab:not(#tab-home){display:none!important}
 html.wg body{padding:6px}html.wg .clock{font-size:2.2rem}
 .web-only{}html.nat .web-only{display:none!important}
-.bxc{display:flex;flex-direction:column;align-items:flex-start;width:100%;margin-top:8px;padding:12px 14px;border-radius:16px;background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(255,255,255,.04));border:1px solid var(--ln);color:var(--tx);cursor:pointer;text-align:left}.bxc small{opacity:.7;margin-top:2px}
-.bxs{display:flex;align-items:center;gap:10px;width:100%;margin-top:6px;padding:10px 12px;border-radius:14px;background:var(--gl);border:1px solid var(--ln);color:var(--tx);cursor:pointer;text-align:left}.bxs .no{min-width:30px;height:30px;border-radius:10px;display:grid;place-items:center;background:var(--ac);color:#fff;font-size:.8rem;flex:none}.bxs b{flex:1}.bxs small{opacity:.7}
+.bxc{display:flex;flex-direction:column;align-items:flex-start;width:100%;margin-top:8px;padding:12px 14px;border-radius:16px;background:var(--gl);border:1px solid var(--ln);color:var(--tx);cursor:pointer;text-align:left}.bxc small{opacity:.7;margin-top:2px}
+.bxs{display:flex;align-items:center;gap:10px;width:100%;margin-top:6px;padding:10px 12px;border-radius:14px;background:var(--gl);border:1px solid var(--ln);color:var(--tx);cursor:pointer;text-align:left}.bxs .no{min-width:30px;height:30px;border-radius:10px;display:grid;place-items:center;background:var(--ac);color:#fff;font-size:.8rem;flex:none}.bxs b{flex:1;font-size:1.02rem}.bxs small{opacity:.7}
 .bxbar{display:flex;align-items:center;gap:8px;margin-bottom:10px}.bxbar>b{flex:1;font-size:1rem}.bxbar button{background:var(--gl);border:1px solid var(--ln);color:var(--tx);min-width:34px;height:34px;border-radius:12px;cursor:pointer;padding:0 8px;font-weight:700;display:grid;place-items:center}.bxbar .fs{display:flex;gap:4px}
 .ay{padding:12px;margin-top:8px;border-radius:14px;background:var(--gl);border:1px solid var(--ln);font-size:calc(var(--fs,1)*1rem)}
 .ay .an{display:inline-grid;place-items:center;min-width:26px;height:26px;padding:0 6px;border-radius:99px;background:var(--ac);color:#fff;font-size:.72rem;margin-bottom:6px}
@@ -152,10 +179,42 @@ html.wg body{padding:6px}html.wg .clock{font-size:2.2rem}
 .cr{text-align:center;font-size:.75rem;opacity:.6;margin:24px 0 8px;letter-spacing:.5px}
 .gap{gap:8px}.btn.ic{gap:8px}
 #ptr{transition:fill .2s}
+.hd{background-repeat:no-repeat,repeat;background-size:100% 100%,auto}
+#wp{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0;transition:opacity 1s;background-size:cover;background-position:center}
+#wp.on{opacity:1}#wp svg{width:100%;height:100%;display:block}
+#wp::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.25)}
+[data-m=light] #wp{opacity:0}[data-m=light] #wp.on{opacity:.4}[data-m=light] #wp::after{background:rgba(255,255,255,.25)}
+.rs{margin-top:12px;border-radius:20px;overflow:hidden;border:1px solid var(--ln);background:var(--gl);animation:slx .45s both}
+.rsh{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;color:#fff;background:linear-gradient(135deg,var(--rc),color-mix(in srgb,var(--rc) 45%,#000))}
+.rsh b{font-size:1.1rem}.rsh small{opacity:.92;font-size:.74rem;text-align:right}
+.rd{display:grid;grid-template-columns:30px 1.5fr 1fr 1fr;gap:6px;padding:8px 12px;font-size:.76rem;align-items:center;border-top:1px solid var(--ln);font-variant-numeric:tabular-nums}
+.rd.h{color:var(--rc);font-weight:700;border-top:none}
+.rd .no{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--rc);color:#fff;font-weight:700;font-size:.72rem}
+.rd.td{background:rgba(34,197,94,.2);color:var(--ok);font-weight:700}
+.rd .qd{color:var(--gold);font-weight:800}
+.ry{text-align:center;font-weight:800;font-size:1.3rem}.ry small{display:block;font-weight:600;font-size:.8rem;color:var(--gold)}
+[data-ui=clear]{--gl:transparent;--ln:transparent;--sheet:rgba(2,28,22,.6)}
+[data-ui=clear][data-m=light]{--gl:transparent;--ln:transparent;--sheet:rgba(255,255,255,.65)}
+[data-ui=clear] *,[data-ui=clear] *::before,[data-ui=clear] *::after{box-shadow:none!important;outline:none!important}
+[data-ui=clear] *,[data-ui=clear] *::before,[data-ui=clear] *::after{border-color:transparent!important}
+[data-ui=clear] .sw{position:relative}
+[data-ui=clear] .sw.on::after{content:"";position:absolute;inset:13px;border-radius:50%;background:#fff}
+[data-ui=clear] .app{background:transparent;box-shadow:none}
+[data-ui=clear] :is(.glass,.box,.bxc,.seg,.in,select,textarea,.chip:not(.on),.btn.alt,.app,nav){background:transparent!important;box-shadow:none!important;border-color:transparent!important}
+[data-ui=clear] .sw2 i{background:rgba(128,128,128,.4)}
+[data-ui=clear] .cell.ram{border-bottom-color:var(--ok)!important}
+[data-ui=clear] hr{display:none}
+[data-ui=clear] nav{background:transparent}
+[data-ui=clear] .mc,[data-ui=clear] .sheet{backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+.updbn{display:flex;align-items:center;gap:8px;margin:6px 14px 8px;padding:10px 12px;border-radius:14px;background:rgba(34,197,94,.16);border:1px solid var(--ok);animation:slx .4s}
+.updbn div{flex:1;min-width:0;font-size:.85rem}.updbn small{display:block;opacity:.75;font-size:.7rem;margin-top:2px}
+.updbn .btn{width:auto;margin:0;padding:8px 12px;font-size:.8rem;text-decoration:none;flex:none}
+html:not(.nat) .nat-only{display:none!important}
 </style>
 </head>
 <body>
+<div id="wp"></div>
 <div class="wrap">
 <div class="app">
   <section id="tab-home" class="tab on">
@@ -166,6 +225,8 @@ html.wg body{padding:6px}html.wg .clock{font-size:2.2rem}
       <button class="dt" id="mainDate" onclick="$('cc').classList.toggle('open')"></button>
       <div class="cc" id="cc"></div>
     </div>
+    <div class="updbn nat-only" id="updBn" style="display:none"></div>
+    <div class="locbar" id="locBar" role="button" tabindex="0" onclick="S.stTab='gen';tab('settings')"></div>
     <div class="in4" id="info"></div>
     <div class="live" id="live"></div>
     <div id="pr"></div>
@@ -178,12 +239,22 @@ html.wg body{padding:6px}html.wg .clock{font-size:2.2rem}
   <section id="tab-alarm" class="tab pad">
     <div class="form">
       <input type="time" id="aT" class="in"><input type="text" id="aL" class="in" maxlength="40" data-p="phLabel">
+      <select id="aTone" class="in"></select>
       <div class="chips" id="chips"></div>
       <button class="btn" onclick="addAlarm()" data-i="btnAdd"></button>
     </div>
     <div id="aList"></div>
+    <div class="glass"><div class="sec"><span class="sic"><i data-ic="spk"></i></span><h4 data-i="sAd"></h4></div>
+      <div class="row" style="margin-top:12px"><span data-i="adhanOn" style="font-weight:600"></span><label class="sw2 fit"><input type="checkbox" id="adhanOn" onchange="upd('adhan',this.checked)"><i></i></label></div>
+      <div id="adSwS"></div>
+      <div class="row web-only" style="margin-top:14px"><span data-i="notifOn" style="font-weight:600"></span><label class="sw2 fit"><input type="checkbox" id="notifOn" onchange="setNotif(this)"><i></i></label></div><div class="note web-only" style="text-align:left" data-i="notifNote"></div>
+      <input type="file" id="adF" accept="audio/*" class="in web-only" style="margin-top:12px" onchange="loadAdhan(this)"><div id="adS" class="note web-only" style="text-align:left"></div>
+      <div class="lbl" data-i="tSnz"></div><div class="seg" data-k="snz" data-o="5,10,15" data-l="5,10,15"></div>
+      <div class="lbl" data-i="tTone"></div><div class="row"><select id="tone" class="in" onchange="upd('tone',this.value==='c'?'c':+this.value)"></select><button class="btn alt fit" style="width:48px" onclick="unlock();previewTone(S.tone)"><i data-ic="play"></i></button></div>
+      <div class="lbl" data-i="tToneC"></div><input type="file" id="alF" accept="audio/*" class="in" onchange="loadAlTone(this)"><div id="alS" class="note" style="text-align:left"></div></div>
   </section>
   <section id="tab-books" class="tab pad"><div id="bxMain"></div></section>
+  <section id="tab-dua" class="tab pad"><div class="dtop"><h4 style="font-size:1.1rem" data-i="duaT"></h4><button class="dib" id="dBmB" onclick="dView('bm')"><i data-ic="bookmark"></i></button><button class="dib" id="dSrB" onclick="dView('sr')"><i data-ic="search"></i></button></div><input id="duaQ" class="in" data-p="duaSearch" oninput="renderDua()" style="display:none;margin-top:10px"><div id="duaList"></div></section>
   <section id="tab-tools" class="tab pad">
     <div class="box"><h4 data-i="sw"></h4><div class="big" id="swD">00:00.0</div>
       <div class="row"><button class="btn" id="swB" onclick="swToggle()"></button><button class="btn alt" onclick="swReset()" data-i="reset"></button></div></div>
@@ -192,37 +263,57 @@ html.wg body{padding:6px}html.wg .clock{font-size:2.2rem}
     <div class="box"><h4 data-i="conv"></h4><input type="date" id="cv" class="in" onchange="convert()"><div id="cvO" style="margin-top:8px;display:grid;gap:5px;font-weight:600"></div></div>
   </section>
   <section id="tab-settings" class="tab pad">
+    <div class="seg" data-k="stTab" data-o="gen,thm" data-l="~stGen,~stThm" style="margin-bottom:12px"></div>
+    <div id="stThm" style="display:none"><div class="glass"><div class="sec"><span class="sic"><i data-ic="palette"></i></span><h4 data-i="tTheme"></h4></div>
+      <div class="sws" id="sws"></div><div class="note" id="thN"></div></div></div>
+    <div id="stGen">
     <div class="glass"><div class="sec"><span class="sic"><i data-ic="palette"></i></span><h4 data-i="sCh"></h4></div>
-      <div class="lbl" data-i="tTheme"></div><div class="sws" id="sws"></div>
       <div class="lbl" data-i="tMode"></div><div class="seg" data-k="mode" data-o="auto,light,dark" data-l="~auto,~light,~dark"></div>
+      <div class="lbl" data-i="tUI"></div><div class="seg" data-k="ui" data-o="normal,clear" data-l="~uiNormal,~uiClear"></div>
       <div class="lbl" data-i="tLang"></div><div class="seg" data-k="lang" data-o="bn,en" data-l="বাংলা,English"></div></div>
     <div class="glass"><div class="sec"><span class="sic"><i data-ic="pin"></i></span><h4 data-i="sLoc"></h4></div>
+      <div class="lbl" data-i="tLocMode"></div><div class="seg" data-k="locMode" data-o="auto,manual" data-l="~lmAuto,~lmMan"></div>
       <button class="btn alt w ic" style="margin-top:10px" onclick="getLoc()"><i data-ic="pin"></i><span data-i="locBtn"></span></button><div id="locS" class="note" style="text-align:left;margin-top:8px"></div>
-      <div class="lbl" data-i="tCity"></div><select id="city" class="in" onchange="upd('city',this.value)"></select>
-      <div class="lbl" data-i="tUp"></div><div class="row"><input id="upQ" class="in" data-p="upPh" onkeydown="if(event.key==='Enter')upSearch()"><button class="btn fit" style="width:48px" onclick="upSearch()"><i data-ic="search"></i></button></div><div id="upR"></div>
+      <div id="manBox"><div class="lbl" data-i="tCity"></div><select id="city" class="in" onchange="upd('city',this.value)"></select>
+      <div class="lbl" data-i="tUp"></div><div class="row"><input id="upQ" class="in" data-p="upPh" onkeydown="if(event.key==='Enter')placeSearch('u')"><button class="btn fit" style="width:48px" onclick="placeSearch('u')"><i data-ic="search"></i></button></div><div id="upR"></div>
+      <div class="lbl" data-i="tVil"></div><div class="row"><input id="vlQ" class="in" data-p="vlPh" onkeydown="if(event.key==='Enter')placeSearch('v')"><button class="btn fit" style="width:48px" onclick="placeSearch('v')"><i data-ic="search"></i></button></div><div id="vlR"></div>
+      <div class="lchips" id="selLoc"></div></div>
       <div class="lbl" data-i="tMain"></div><div class="seg" data-k="main" data-o="h,b,g" data-l="~lblH,~lblB,~lblG"></div>
       <div class="lbl" data-i="tHadj"></div><div class="seg" data-k="hadj" data-o="-1,0,1" data-l="-1,0,+1"></div></div>
-    <div class="glass"><div class="sec"><span class="sic"><i data-ic="spk"></i></span><h4 data-i="sAd"></h4></div>
-      <div class="row" style="margin-top:12px"><span data-i="adhanOn" style="font-weight:600"></span><label class="sw2 fit"><input type="checkbox" id="adhanOn" onchange="upd('adhan',this.checked)"><i></i></label></div>
-      <div class="row web-only" style="margin-top:14px"><span data-i="notifOn" style="font-weight:600"></span><label class="sw2 fit"><input type="checkbox" id="notifOn" onchange="setNotif(this)"><i></i></label></div><div class="note web-only" style="text-align:left" data-i="notifNote"></div>
-      <input type="file" id="adF" accept="audio/*" class="in web-only" style="margin-top:12px" onchange="loadAdhan(this)"><div id="adS" class="note web-only" style="text-align:left"></div>
-      <div class="lbl" data-i="tSnz"></div><div class="seg" data-k="snz" data-o="5,10,15" data-l="5,10,15"></div>
-      <div class="lbl" data-i="tTone"></div><div class="row"><select id="tone" class="in" onchange="upd('tone',+this.value)"><option value="0">Beep</option><option value="1">Soft</option><option value="2">Digital</option></select><button class="btn alt fit" style="width:48px" onclick="unlock();beep(.3)"><i data-ic="play"></i></button></div></div>
-    <div class="glass"><div class="sec"><span class="sic"><i data-ic="db"></i></span><h4 data-i="sBk"></h4></div>
-      <textarea id="bk" class="in" style="min-height:60px;margin-top:10px"></textarea>
-      <div class="row" style="margin-top:8px"><button class="btn alt" onclick="exportD()" data-i="exp"></button><button class="btn alt" onclick="importD()" data-i="imp"></button></div></div>
+    <div class="glass nat-only" id="updSec"><div class="sec"><span class="sic"><i data-ic="down"></i></span><h4 data-i="updT"></h4></div>
+      <div class="row" style="margin-top:12px"><span data-i="updAuto" style="font-weight:600"></span><label class="sw2 fit"><input type="checkbox" id="updOn" onchange="upd('autoUpd',this.checked)"><i></i></label></div>
+      <button class="btn alt w" style="margin-top:10px" onclick="updCheck(true)" data-i="updNow"></button>
+      <div id="updS" class="note" style="text-align:left;margin-top:8px"></div></div>
+    <div class="glass" id="accSec"><div class="sec"><span class="sic"><i data-ic="heart"></i></span><h4 data-i="acT"></h4></div><div id="accBox"></div></div>
     <div class="glass web-only" id="instBox" style="display:none"><button class="btn w ic" style="margin-top:0" onclick="doInstall()"><i data-ic="down"></i><span data-i="inst"></span></button></div>
-    <div class="cr"><div class="crl">Design &amp; Developed By</div><div class="crn">Hadid Sarker</div><div class="crv">App Version <b id="ver"></b></div></div>
+    <div class="glass cpr"><div class="sec"><span class="sic"><i data-ic="shield"></i></span><h4 data-i="crT"></h4></div>
+      <div class="cph"><div class="crl" style="margin-top:12px">Design &amp; Developed By</div><div class="crn">Hadid Sarker</div></div>
+      <div class="cpl">&copy; <span id="crY"></span> Hadid Sarker<small data-i="crRights"></small></div>
+      <p class="cpt" data-i="crLaw"></p><p class="cpt" data-i="crProhib"></p><p class="cpt" data-i="crThird"></p>
+      <hr><div class="lbl cph" data-i="crContact"></div>
+      <div class="row"><a class="btn alt" href="https://github.com/hadidsarker03-lab" target="_blank" rel="noopener noreferrer">GitHub</a><button class="btn alt" id="waB" onclick="copyWa()">WhatsApp: @hadidsarker</button></div>
+      <div class="crv">App Version <b id="ver"></b></div></div>
+  
+    </div>
   </section>
   <nav>
     <button class="nb on" data-t="home" onclick="tab('home')"><i data-ic="home"></i><span data-i="navHome"></span></button>
     <button class="nb" data-t="alarm" onclick="tab('alarm')"><i data-ic="bell"></i><span data-i="navAlarm"></span></button>
     <button class="nb" data-t="books" onclick="tab('books')"><i data-ic="book"></i><span data-i="navBooks"></span></button>
+    <button class="nb" data-t="dua" onclick="tab('dua')"><i data-ic="heart"></i><span data-i="navDua"></span></button>
     <button class="nb" data-t="tools" onclick="tab('tools')"><i data-ic="timer"></i><span data-i="navTools"></span></button>
     <button class="nb" data-t="settings" onclick="tab('settings')"><i data-ic="sliders"></i><span data-i="navSettings"></span></button>
   </nav>
 </div>
 </div>
+
+<div class="modal" id="onb" style="z-index:200;background:var(--bgd)"><div class="mc" style="max-width:400px;max-height:92vh;overflow:auto;text-align:center">
+  <div id="onb1" style="display:flex;flex-direction:column;gap:12px"><span class="sic" style="margin:0 auto;width:60px;height:60px;border-radius:20px"><i data-ic="pin"></i></span><h3 data-i="ob1T"></h3><p data-i="ob1P" style="opacity:.85;font-size:.9rem"></p><button class="btn" onclick="obLoc()" data-i="allow"></button><button class="btn alt" onclick="obNext()" data-i="later"></button></div>
+  <div id="onb2" style="display:none"><span class="sic" style="margin:0 auto 10px;width:60px;height:60px;border-radius:20px"><i data-ic="bell"></i></span><h3 data-i="ob2T"></h3><p data-i="ob2P" style="opacity:.85;font-size:.9rem;margin:8px 0"></p>
+    <div class="row web-only" style="margin-top:12px"><span data-i="notifOn" style="font-weight:600;text-align:left"></span><label class="sw2 fit"><input type="checkbox" id="onbN" onchange="setNotif(this)"><i></i></label></div>
+    <button class="btn alt w" id="obAb" onclick="obAl()" data-i="obA"></button>
+    <div id="adSwO" style="margin:6px 0 12px"></div><button class="btn w" onclick="obNext2()" data-i="bkNext"></button></div>
+  <div id="onb3" style="display:none"><span class="sic" style="margin:0 auto 10px;width:60px;height:60px;border-radius:20px"><i data-ic="heart"></i></span><h3 data-i="ob3T"></h3><p data-i="ob3P" style="opacity:.85;font-size:.9rem;margin:8px 0 12px"></p><div id="accOb"></div><button class="btn w" onclick="obFin()" data-i="obFin"></button></div></div></div>
 
 <div class="modal" id="locFx"><div class="mc" style="text-align:center">
   <h3 data-i="lfT"></h3><p data-i="lfP" style="opacity:.85;font-size:.9rem"></p>
@@ -234,7 +325,7 @@ html.wg body{padding:6px}html.wg .clock{font-size:2.2rem}
 
 <div class="modal bot" id="ramM" onclick="if(event.target===this)closeRam()"><div class="sheet">
   <div class="sh"><span id="rT"></span><button onclick="closeRam()"><i data-ic="x"></i></button></div>
-  <div class="nv"><button onclick="rNav(-1)"><i data-ic="l"></i></button><strong id="rY"></strong><button onclick="rNav(1)"><i data-ic="r"></i></button></div>
+  <div class="nv"><button onclick="rNav(-1)"><i data-ic="l"></i></button><strong id="rY" class="ry"></strong><button onclick="rNav(1)"><i data-ic="r"></i></button></div>
   <div id="rList"></div></div></div>
 
 <div class="modal" id="ringM"><div class="mc" style="text-align:center">
@@ -253,23 +344,33 @@ html.wg body{padding:6px}html.wg .clock{font-size:2.2rem}
   <div class="row"><button class="btn" onclick="saveNote()" data-i="noteSave"></button><button class="btn alt" onclick="closeDay()" data-i="close"></button></div></div></div>
 
 <script>
-const P={home:'<path d="M3 11l9-8 9 8M5 9.5V21h14V9.5M10 21v-6h4v6"/>',bell:'<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a2 2 0 0 0 3.4 0"/>',timer:'<circle cx="12" cy="14" r="8"/><path d="M12 10v4l2 2M9 2h6"/>',sliders:'<path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/>',sunrise:'<path d="M12 2v6M4.9 10.9l1.4 1.4M2 18h2M20 18h2M17.7 12.3l1.4-1.4M22 22H2M16 18a4 4 0 0 0-8 0M8 6l4-4 4 4"/>',sunset:'<path d="M12 10V2M4.9 10.9l1.4 1.4M2 18h2M20 18h2M17.7 12.3l1.4-1.4M22 22H2M16 18a4 4 0 0 0-8 0M16 5l-4 4-4-4"/>',moon:'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/>',bowl:'<path d="M3 11h18a9 9 0 0 1-18 0zM8 21h8M12 3v4"/>',play:'<path d="M6 4l14 8-14 8z"/>',l:'<path d="M15 18l-6-6 6-6"/>',r:'<path d="M9 18l6-6-6-6"/>',ll:'<path d="M18 17l-5-5 5-5M11 17l-5-5 5-5"/>',rr:'<path d="M6 17l5-5-5-5M13 17l5-5-5-5"/>',x:'<path d="M18 6L6 18M6 6l12 12"/>',palette:'<circle cx="12" cy="12" r="9"/><circle cx="8" cy="11" r="1.2"/><circle cx="12" cy="7.5" r="1.2"/><circle cx="16" cy="11" r="1.2"/>',db:'<ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/>',spk:'<path d="M11 5L6 9H3v6h3l5 4zM15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/>',search:'<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>',book:'<path d="M4 4h6a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H4zM20 4h-6a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h7z"/>',plus:'<path d="M12 5v14M5 12h14"/>',pin:'<path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/>',down:'<path d="M12 3v12M7 10l5 5 5-5M4 21h16"/>'};
+const P={sleep:'<path d="M3 19V5M3 15h18v4M21 15v-2.5a3 3 0 0 0-3-3h-7V15"/><circle cx="7" cy="11" r="1.6"/>',toilet:'<path d="M8 3h8v6H8zM6 9h12l-1 6a5 5 0 0 1-10 0zM10 20.5h4"/>',drop:'<path d="M8 3c2 3 3 4.5 3 6.5a3 3 0 0 1-6 0C5 7.5 6 6 8 3zM16 10c2 3 3 4.5 3 6.5a3 3 0 0 1-6 0c0-2 1-3.5 3-6.5z"/>',mosque:'<path d="M4 21V11h16v10M7 11a5 5 0 0 1 10 0M12 6V3M10 21v-4a2 2 0 0 1 4 0v4"/>',hands:'<path d="M8 21v-5L5 12V6M8 16V7.5a1.5 1.5 0 0 1 3 0V13M16 21v-5l3-4V6M16 16V7.5a1.5 1.5 0 0 0-3 0V13"/>',shirt:'<path d="M8 3L3 6l2 4 3-1v12h8V9l3 1 2-4-5-3a4 4 0 0 1-8 0z"/>',plane:'<path d="M2 14l8-2-4-8h2l7 7 6-2a2 2 0 0 1 1 3l-6 3-3 7h-2l1-7-5-1z"/>',fork:'<path d="M6 3v7a2 2 0 0 0 4 0V3M8 3v18M17 3c-2 2-3 5-3 8h3v10"/>',beads:'<circle cx="12" cy="4.5" r="1.7"/><circle cx="18" cy="8.5" r="1.7"/><circle cx="6" cy="8.5" r="1.7"/><circle cx="17.5" cy="15" r="1.7"/><circle cx="6.5" cy="15" r="1.7"/><circle cx="12" cy="19.5" r="1.7"/>',apple:'<path d="M12 7c-4-3-8 0-7 5 1 4 3 8 7 8s6-4 7-8c1-5-3-8-7-5zM12 7c0-2 1-3 3-4"/>',bookmark:'<path d="M6 3h12v18l-6-5-6 5z"/>',dn:'<path d="M6 9l6 6 6-6"/>',heart:'<path d="M12 21s-8-5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6-8 11-8 11z"/>',shield:'<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/>',home:'<path d="M3 11l9-8 9 8M5 9.5V21h14V9.5M10 21v-6h4v6"/>',bell:'<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a2 2 0 0 0 3.4 0"/>',timer:'<circle cx="12" cy="14" r="8"/><path d="M12 10v4l2 2M9 2h6"/>',sliders:'<path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/>',sunrise:'<path d="M12 2v6M4.9 10.9l1.4 1.4M2 18h2M20 18h2M17.7 12.3l1.4-1.4M22 22H2M16 18a4 4 0 0 0-8 0M8 6l4-4 4 4"/>',sunset:'<path d="M12 10V2M4.9 10.9l1.4 1.4M2 18h2M20 18h2M17.7 12.3l1.4-1.4M22 22H2M16 18a4 4 0 0 0-8 0M16 5l-4 4-4-4"/>',moon:'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/>',bowl:'<path d="M3 11h18a9 9 0 0 1-18 0zM8 21h8M12 3v4"/>',play:'<path d="M6 4l14 8-14 8z"/>',l:'<path d="M15 18l-6-6 6-6"/>',r:'<path d="M9 18l6-6-6-6"/>',ll:'<path d="M18 17l-5-5 5-5M11 17l-5-5 5-5"/>',rr:'<path d="M6 17l5-5-5-5M13 17l5-5-5-5"/>',x:'<path d="M18 6L6 18M6 6l12 12"/>',palette:'<circle cx="12" cy="12" r="9"/><circle cx="8" cy="11" r="1.2"/><circle cx="12" cy="7.5" r="1.2"/><circle cx="16" cy="11" r="1.2"/>',db:'<ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/>',spk:'<path d="M11 5L6 9H3v6h3l5 4zM15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/>',search:'<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>',book:'<path d="M4 4h6a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H4zM20 4h-6a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h7z"/>',plus:'<path d="M12 5v14M5 12h14"/>',pin:'<path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/>',down:'<path d="M12 3v12M7 10l5 5 5-5M4 21h16"/>'};
 const ic=(n,s=20)=>`<svg viewBox="0 0 24 24" width="${s}" height="${s}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${P[n]}</svg>`;
 const T={
-bn:{navHome:"হোম",navBooks:"বই",bkT:"ইসলামিক বই",bkQ:"আল-কুরআন",bkQs:"১১৪টি সূরা · আরবি ও বাংলা অনুবাদ",bkH:"হাদিস গ্রন্থ (বাংলা)",bkMy:"আমার বই",bkAdd:"নিজের বই যোগ করুন (.txt)",bkPrev:"আগের",bkNext:"পরের",bkSec:"অধ্যায়",bkGo:"যান",bkLoad:"লোড হচ্ছে...",bkErr:"লোড করা যায়নি। ইন্টারনেট দিয়ে আবার চেষ্টা করুন। একবার খোলা অংশ পরে অফলাইনেও পড়া যায়।",bkAr:"আরবি",bkBn:"অনুবাদ",bkBoth:"উভয়",bkDl:"পুরো কুরআন অফলাইনে সংরক্ষণ করুন",bkDlD:"সংরক্ষিত হয়েছে",bkCont:"চালিয়ে পড়ুন",bkNone:"কোনো বই নেই",bkDel:"বইটি মুছুন",bkAyah:"আয়াত",bkFull:"জায়গা শেষ, ছোট ফাইল দিন",bkSrc:"সূত্র: alquran.cloud ও Hadith API (fawazahmed0), উন্মুক্ত ডেটা।",adhanBody:"আজানের সময় হয়েছে",alarmBody:"অ্যালার্ম",lfT:"লোকেশন চালু করুন",lfP:"সঠিক নামাজের সময়ের জন্য লোকেশন প্রয়োজন। ফোনের লোকেশন (GPS) চালু করুন এবং অ্যাপ বা ব্রাউজারে লোকেশনের অনুমতি দিন (ঠিকানার পাশের তালা আইকন → Location → Allow)।",lfRetry:"আবার চেষ্টা করুন",notifOn:"নামাজ ও অ্যালার্মের নোটিফিকেশন",notifNote:"অ্যাপ ব্যাকগ্রাউন্ডে চালু থাকলে সময় হলে নোটিফিকেশন আসবে। ব্রাউজার বা অ্যাপ সম্পূর্ণ বন্ধ করে দিলে আসবে না।",sCh:"চেহারা",sLoc:"সময় ও এলাকা",sAd:"আজান ও অ্যালার্ম",sBk:"ব্যাকআপ",tUp:"উপজেলা খুঁজুন (আরও নিখুঁত সময়ের জন্য)",upPh:"উপজেলার নাম, যেমন: সাভার",upNone:"কিছু পাওয়া যায়নি",upErr:"খুঁজতে ইন্টারনেট লাগবে",locUp:"উপজেলা",locFail:"লোকেশন পাওয়া যায়নি, আবার চেষ্টা করুন",locDenHelp:"লোকেশনের অনুমতি বন্ধ আছে। ব্রাউজারের ঠিকানার পাশের তালা/সেটিংস আইকনে চেপে Location চালু (Allow) করুন। এখানে ফিরে এলে নিজে থেকেই চালু হবে।",dleft:"দিন বাকি",todayW:"আজ",tLoc:"লোকেশন",locBtn:"বর্তমান লোকেশন ব্যবহার করুন",locUse:"জিপিএস লোকেশন ব্যবহার হচ্ছে",locMan:"শহর হাতে বাছাই করা আছে",locDen:"লোকেশনের অনুমতি পাওয়া যায়নি",locWait:"লোকেশন খোঁজা হচ্ছে...",locAskT:"লোকেশনের অনুমতি",locAskP:"আপনার এলাকা অনুযায়ী নামাজ, সাহরি, ইফতার ও সূর্যোদয়-সূর্যাস্তের সঠিক সময় দেখাতে লোকেশন প্রয়োজন।",allow:"অনুমতি দিন",later:"পরে",ramCal:"রমজান ক্যালেন্ডার",ramNote:"চাঁদ দেখার উপর নির্ভর করে তারিখ ১ দিন এদিক-ওদিক হতে পারে।",dateL:"তারিখ",sehriS:"সাহরি",iftarS:"ইফতার",inst:"অ্যাপ ইনস্টল করুন",navAlarm:"অ্যালার্ম",navTools:"টুলস",navSettings:"সেটিংস",lblG:"ইংরেজি",lblB:"বাংলা",lblH:"হিজরি (আরবি)",btnAdd:"অ্যালার্ম যোগ করুন",phLabel:"অ্যালার্মের নাম",ringing:"অ্যালার্ম বাজছে!",adhan:"আজান",stop:"বন্ধ করুন",today:"আজকের দিনে যান",del:"মুছুন",none:"কোনো অ্যালার্ম নেই",def:"অ্যালার্ম",am:"পূর্বাহ্ণ",pm:"অপরাহ্ণ",once:"একবার",daily:"প্রতিদিন",tLang:"ভাষা",tTheme:"থিম",tMode:"মোড",tHadj:"হিজরি তারিখ সমন্বয় (দিন)",tSnz:"স্নুজ (মিনিট)",tTone:"অ্যালার্ম রিংটোন",tBackup:"ব্যাকআপ (অ্যালার্ম ও নোট)",tMain:"মেইন ক্যালেন্ডার",tCity:"জেলা (সময়সূচির জন্য)",tAdhan:"আজান",adhanOn:"নামাজের ওয়াক্তে আজান",adhanFile:"নিজের আজানের অডিও",adSaved:"কাস্টম আজান সংরক্ষিত",adBig:"ফাইল বেশি বড় (৩ MB-এর মধ্যে দিন)",exp:"এক্সপোর্ট",imp:"ইমপোর্ট",noteSave:"সংরক্ষণ",noteph:"এই দিনের নোট লিখুন...",close:"বন্ধ",sw:"স্টপওয়াচ",tm:"টাইমার",conv:"তারিখ কনভার্টার",start:"শুরু",pause:"থামান",reset:"রিসেট",auto:"অটো (সিস্টেম)",light:"লাইট",dark:"ডার্ক",snz:"স্নুজ",sehri:"সাহরি শেষ",iftar:"ইফতার",srise:"সূর্যোদয়",sset:"সূর্যাস্ত",running:"চলছে",left:"শেষ হতে বাকি",next:"পরবর্তী",tostart:"শুরু হতে বাকি",evh:"এই মাসের বিশেষ দিন",ramBan:"রমজান — রোজার মাস",ramFast:"রোজা (রমজান)",
+bn:{updT:"অ্যাপ আপডেট",updAuto:"নতুন ভার্সন নিজে থেকে খুঁজুন",updNow:"এখনই চেক করুন",updCur:"বর্তমান ভার্সন",updChk:"খোঁজা হচ্ছে...",updLatest:"আপনি সর্বশেষ ভার্সন ব্যবহার করছেন",updErr:"চেক করা যায়নি। ইন্টারনেট দেখে আবার চেষ্টা করুন।",updNew:"নতুন ভার্সন এসেছে",updDl:"ডাউনলোড",updLater:"পরে",updHow:"ডাউনলোড শেষে ফাইলে চেপে Install দিন",stGen:"সাধারণ",stThm:"থিম",navHome:"হোম",navBooks:"বই",bkT:"ইসলামিক বই",bkQ:"আল-কুরআন",bkSQ:"কুরআন",bkSH:"হাদিস",bkSM:"আমার বই",bkFind:"সূরার নাম বা নম্বর লিখুন",bkNoS:"কোনো সূরা পাওয়া যায়নি",bkQs:"১১৪টি সূরা · আরবি ও বাংলা অনুবাদ",bkH:"হাদিস গ্রন্থ (বাংলা)",bkMy:"আমার বই",bkAdd:"নিজের বই যোগ করুন (.txt)",bkPrev:"আগের",bkNext:"পরের",bkSec:"অধ্যায়",bkGo:"যান",bkLoad:"লোড হচ্ছে...",bkErr:"লোড করা যায়নি। ইন্টারনেট দিয়ে আবার চেষ্টা করুন। একবার খোলা অংশ পরে অফলাইনেও পড়া যায়।",bkAr:"আরবি",bkBn:"অনুবাদ",bkBoth:"উভয়",bkDl:"পুরো কুরআন অফলাইনে সংরক্ষণ করুন",bkDlD:"সংরক্ষিত হয়েছে",bkCont:"চালিয়ে পড়ুন",bkNone:"কোনো বই নেই",bkDel:"বইটি মুছুন",bkAyah:"আয়াত",bkFull:"জায়গা শেষ, ছোট ফাইল দিন",bkSrc:"সূত্র: alquran.cloud ও Hadith API (fawazahmed0), উন্মুক্ত ডেটা।",adhanBody:"আজানের সময় হয়েছে",alarmBody:"অ্যালার্ম",lfT:"লোকেশন চালু করুন",lfP:"সঠিক নামাজের সময়ের জন্য লোকেশন প্রয়োজন। ফোনের লোকেশন (GPS) চালু করুন এবং অ্যাপ বা ব্রাউজারে লোকেশনের অনুমতি দিন (ঠিকানার পাশের তালা আইকন → Location → Allow)।",lfRetry:"আবার চেষ্টা করুন",notifOn:"নামাজ ও অ্যালার্মের নোটিফিকেশন",notifNote:"অ্যাপ ব্যাকগ্রাউন্ডে চালু থাকলে সময় হলে নোটিফিকেশন আসবে। ব্রাউজার বা অ্যাপ সম্পূর্ণ বন্ধ করে দিলে আসবে না।",sCh:"চেহারা",sLoc:"সময় ও এলাকা",sAd:"আজান ও অ্যালার্ম",sBk:"ব্যাকআপ",tUp:"উপজেলা খুঁজুন (আরও নিখুঁত সময়ের জন্য)",upPh:"উপজেলার নাম, যেমন: সাভার",upNone:"কিছু পাওয়া যায়নি",upErr:"খুঁজতে ইন্টারনেট লাগবে",locUp:"উপজেলা",locFail:"লোকেশন পাওয়া যায়নি, আবার চেষ্টা করুন",locDenHelp:"লোকেশনের অনুমতি বন্ধ আছে। ব্রাউজারের ঠিকানার পাশের তালা/সেটিংস আইকনে চেপে Location চালু (Allow) করুন। এখানে ফিরে এলে নিজে থেকেই চালু হবে।",dleft:"দিন বাকি",todayW:"আজ",tLoc:"লোকেশন",locBtn:"বর্তমান লোকেশন ব্যবহার করুন",locUse:"জিপিএস লোকেশন ব্যবহার হচ্ছে",locMan:"শহর হাতে বাছাই করা আছে",locDen:"লোকেশনের অনুমতি পাওয়া যায়নি",locWait:"লোকেশন খোঁজা হচ্ছে...",locAskT:"লোকেশনের অনুমতি",locAskP:"আপনার এলাকা অনুযায়ী নামাজ, সাহরি, ইফতার ও সূর্যোদয়-সূর্যাস্তের সঠিক সময় দেখাতে লোকেশন প্রয়োজন।",allow:"অনুমতি দিন",later:"পরে",ramCal:"রমজান ক্যালেন্ডার",ramNote:"চাঁদ দেখার উপর নির্ভর করে তারিখ ১ দিন এদিক-ওদিক হতে পারে।",dateL:"তারিখ",sehriS:"সাহরি",iftarS:"ইফতার",inst:"অ্যাপ ইনস্টল করুন",navAlarm:"নোটিফিকেশন",navTools:"টুলস",navSettings:"সেটিংস",lblG:"ইংরেজি",lblB:"বাংলা",lblH:"হিজরি (আরবি)",btnAdd:"অ্যালার্ম যোগ করুন",phLabel:"অ্যালার্মের নাম",ringing:"অ্যালার্ম বাজছে!",adhan:"আজান",stop:"বন্ধ করুন",today:"আজকের দিনে যান",del:"মুছুন",none:"কোনো অ্যালার্ম নেই",def:"অ্যালার্ম",am:"পূর্বাহ্ণ",pm:"অপরাহ্ণ",once:"একবার",daily:"প্রতিদিন",tLang:"ভাষা",tTheme:"থিম",tMode:"মোড",tHadj:"হিজরি তারিখ সমন্বয় (দিন)",tSnz:"স্নুজ (মিনিট)",tTone:"অ্যালার্ম রিংটোন",tBackup:"ব্যাকআপ (অ্যালার্ম ও নোট)",tMain:"মেইন ক্যালেন্ডার",tCity:"জেলা (সময়সূচির জন্য)",tAdhan:"আজান",adhanOn:"নামাজের ওয়াক্তে আজান",adhanFile:"নিজের আজানের অডিও",adSaved:"কাস্টম আজান সংরক্ষিত",adBig:"ফাইল বেশি বড় (৩ MB-এর মধ্যে দিন)",exp:"এক্সপোর্ট",imp:"ইমপোর্ট",noteSave:"সংরক্ষণ",noteph:"এই দিনের নোট লিখুন...",close:"বন্ধ",sw:"স্টপওয়াচ",tm:"টাইমার",conv:"তারিখ কনভার্টার",start:"শুরু",pause:"থামান",reset:"রিসেট",auto:"অটো (সিস্টেম)",light:"লাইট",dark:"ডার্ক",snz:"স্নুজ",sehri:"সাহরি শেষ",iftar:"ইফতার",srise:"সূর্যোদয়",sset:"সূর্যাস্ত",running:"চলছে",left:"শেষ হতে বাকি",next:"পরবর্তী",tostart:"শুরু হতে বাকি",evh:"এই মাসের বিশেষ দিন",ramBan:"রমজান — রোজার মাস",ramFast:"রোজা (রমজান)",
 pn:{fajr:"ফজর",dhuhr:"যোহর",asr:"আসর",maghrib:"মাগরিব",isha:"এশা"},
 city:{dhaka:"ঢাকা",ctg:"চট্টগ্রাম",rajshahi:"রাজশাহী",khulna:"খুলনা",barishal:"বরিশাল",sylhet:"সিলেট",rangpur:"রংপুর",mymensingh:"ময়মনসিংহ"},
 days:["রবি","সোম","মঙ্গল","বুধ","বৃহঃ","শুক্র","শনি"],
 months:["জানুয়ারি","ফেব্রুয়ারি","মার্চ","এপ্রিল","মে","জুন","জুলাই","আগস্ট","সেপ্টেম্বর","অক্টোবর","নভেম্বর","ডিসেম্বর"],
 bm:["বৈশাখ","জ্যৈষ্ঠ","আষাঢ়","শ্রাবণ","ভাদ্র","আশ্বিন","কার্তিক","অগ্রহায়ণ","পৌষ","মাঘ","ফাল্গুন","চৈত্র"],
 hm:["মুহাররম","সফর","রবিউল আউয়াল","রবিউস সানি","জুমাদাল উলা","জুমাদাস সানি","রজব","শাবান","রমজান","শাওয়াল","জিলকদ","জিলহজ"]},
-en:{navHome:"Home",navBooks:"Books",bkT:"Islamic books",bkQ:"Al-Quran",bkQs:"114 surahs · Arabic & Bengali translation",bkH:"Hadith books (Bengali)",bkMy:"My books",bkAdd:"Add your own book (.txt)",bkPrev:"Previous",bkNext:"Next",bkSec:"Section",bkGo:"Go",bkLoad:"Loading...",bkErr:"Could not load. Retry online. Parts you opened once can be read offline.",bkAr:"Arabic",bkBn:"Translation",bkBoth:"Both",bkDl:"Save the whole Quran offline",bkDlD:"Saved",bkCont:"Continue reading",bkNone:"No books",bkDel:"Delete this book",bkAyah:"ayahs",bkFull:"Storage full, use a smaller file",bkSrc:"Sources: alquran.cloud and Hadith API (fawazahmed0), open data.",adhanBody:"It is time for prayer",alarmBody:"Alarm",lfT:"Turn on location",lfP:"Location is needed for accurate prayer times. Turn on your phone location (GPS) and allow location permission in the app or browser (lock icon next to the address → Location → Allow).",lfRetry:"Try again",notifOn:"Prayer & alarm notifications",notifNote:"Notifications arrive while the app is alive in the background. They will not arrive if the browser or app is fully closed.",sCh:"Appearance",sLoc:"Time & area",sAd:"Adhan & alarm",sBk:"Backup",tUp:"Find upazila (for more precise times)",upPh:"Upazila name, e.g. Savar",upNone:"Nothing found",upErr:"Internet is needed to search",locUp:"Upazila",locFail:"Could not get location, try again",locDenHelp:"Location permission is blocked. Tap the lock/settings icon next to the address bar and allow Location. It turns on automatically when you return here.",dleft:"days left",todayW:"Today",tLoc:"Location",locBtn:"Use my current location",locUse:"Using GPS location",locMan:"City selected manually",locDen:"Location permission not granted",locWait:"Finding location...",locAskT:"Location permission",locAskP:"Your location is needed to show accurate prayer, Sehri and Iftar times for your area.",allow:"Allow",later:"Later",ramCal:"Ramadan calendar",ramNote:"Dates may shift by a day depending on moon sighting.",dateL:"Date",sehriS:"Sehri",iftarS:"Iftar",inst:"Install app",navAlarm:"Alarm",navTools:"Tools",navSettings:"Settings",lblG:"Gregorian",lblB:"Bengali",lblH:"Hijri (Arabic)",btnAdd:"Add Alarm",phLabel:"Alarm label",ringing:"Alarm Ringing!",adhan:"Adhan",stop:"Dismiss",today:"Go to today",del:"Delete",none:"No alarms yet",def:"Alarm",am:"AM",pm:"PM",once:"Once",daily:"Every day",tLang:"Language",tTheme:"Theme",tMode:"Mode",tHadj:"Hijri date adjustment (days)",tSnz:"Snooze (minutes)",tTone:"Alarm ringtone",tBackup:"Backup (alarms & notes)",tMain:"Main calendar",tCity:"District (for timings)",tAdhan:"Adhan",adhanOn:"Adhan at prayer time",adhanFile:"Your own adhan audio",adSaved:"Custom adhan saved",adBig:"File too large (max 3 MB)",exp:"Export",imp:"Import",noteSave:"Save",noteph:"Write a note for this day...",close:"Close",sw:"Stopwatch",tm:"Timer",conv:"Date converter",start:"Start",pause:"Pause",reset:"Reset",auto:"Auto (system)",light:"Light",dark:"Dark",snz:"Snooze",sehri:"Sehri ends",iftar:"Iftar",srise:"Sunrise",sset:"Sunset",running:"in progress",left:"ends in",next:"Next",tostart:"starts in",evh:"Special days this month",ramBan:"Ramadan — month of fasting",ramFast:"Fasting (Ramadan)",
+en:{updT:"App update",updAuto:"Check for new versions automatically",updNow:"Check now",updCur:"Current version",updChk:"Checking...",updLatest:"You are on the latest version",updErr:"Could not check. Check your internet and retry.",updNew:"New version available",updDl:"Download",updLater:"Later",updHow:"After download, open the file and tap Install",stGen:"General",stThm:"Theme",navHome:"Home",navBooks:"Books",bkT:"Islamic books",bkQ:"Al-Quran",bkSQ:"Quran",bkSH:"Hadith",bkSM:"My books",bkFind:"Type surah name or number",bkNoS:"No surah found",bkQs:"114 surahs · Arabic & Bengali translation",bkH:"Hadith books (Bengali)",bkMy:"My books",bkAdd:"Add your own book (.txt)",bkPrev:"Previous",bkNext:"Next",bkSec:"Section",bkGo:"Go",bkLoad:"Loading...",bkErr:"Could not load. Retry online. Parts you opened once can be read offline.",bkAr:"Arabic",bkBn:"Translation",bkBoth:"Both",bkDl:"Save the whole Quran offline",bkDlD:"Saved",bkCont:"Continue reading",bkNone:"No books",bkDel:"Delete this book",bkAyah:"ayahs",bkFull:"Storage full, use a smaller file",bkSrc:"Sources: alquran.cloud and Hadith API (fawazahmed0), open data.",adhanBody:"It is time for prayer",alarmBody:"Alarm",lfT:"Turn on location",lfP:"Location is needed for accurate prayer times. Turn on your phone location (GPS) and allow location permission in the app or browser (lock icon next to the address → Location → Allow).",lfRetry:"Try again",notifOn:"Prayer & alarm notifications",notifNote:"Notifications arrive while the app is alive in the background. They will not arrive if the browser or app is fully closed.",sCh:"Appearance",sLoc:"Time & area",sAd:"Adhan & alarm",sBk:"Backup",tUp:"Find upazila (for more precise times)",upPh:"Upazila name, e.g. Savar",upNone:"Nothing found",upErr:"Internet is needed to search",locUp:"Upazila",locFail:"Could not get location, try again",locDenHelp:"Location permission is blocked. Tap the lock/settings icon next to the address bar and allow Location. It turns on automatically when you return here.",dleft:"days left",todayW:"Today",tLoc:"Location",locBtn:"Use my current location",locUse:"Using GPS location",locMan:"City selected manually",locDen:"Location permission not granted",locWait:"Finding location...",locAskT:"Location permission",locAskP:"Your location is needed to show accurate prayer, Sehri and Iftar times for your area.",allow:"Allow",later:"Later",ramCal:"Ramadan calendar",ramNote:"Dates may shift by a day depending on moon sighting.",dateL:"Date",sehriS:"Sehri",iftarS:"Iftar",inst:"Install app",navAlarm:"Notification",navTools:"Tools",navSettings:"Settings",lblG:"Gregorian",lblB:"Bengali",lblH:"Hijri (Arabic)",btnAdd:"Add Alarm",phLabel:"Alarm label",ringing:"Alarm Ringing!",adhan:"Adhan",stop:"Dismiss",today:"Go to today",del:"Delete",none:"No alarms yet",def:"Alarm",am:"AM",pm:"PM",once:"Once",daily:"Every day",tLang:"Language",tTheme:"Theme",tMode:"Mode",tHadj:"Hijri date adjustment (days)",tSnz:"Snooze (minutes)",tTone:"Alarm ringtone",tBackup:"Backup (alarms & notes)",tMain:"Main calendar",tCity:"District (for timings)",tAdhan:"Adhan",adhanOn:"Adhan at prayer time",adhanFile:"Your own adhan audio",adSaved:"Custom adhan saved",adBig:"File too large (max 3 MB)",exp:"Export",imp:"Import",noteSave:"Save",noteph:"Write a note for this day...",close:"Close",sw:"Stopwatch",tm:"Timer",conv:"Date converter",start:"Start",pause:"Pause",reset:"Reset",auto:"Auto (system)",light:"Light",dark:"Dark",snz:"Snooze",sehri:"Sehri ends",iftar:"Iftar",srise:"Sunrise",sset:"Sunset",running:"in progress",left:"ends in",next:"Next",tostart:"starts in",evh:"Special days this month",ramBan:"Ramadan — month of fasting",ramFast:"Fasting (Ramadan)",
 pn:{fajr:"Fajr",dhuhr:"Dhuhr",asr:"Asr",maghrib:"Maghrib",isha:"Isha"},
 city:{dhaka:"Dhaka",ctg:"Chattogram",rajshahi:"Rajshahi",khulna:"Khulna",barishal:"Barishal",sylhet:"Sylhet",rangpur:"Rangpur",mymensingh:"Mymensingh"},
 days:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],
 months:["January","February","March","April","May","June","July","August","September","October","November","December"],
 bm:["Boishakh","Joishtho","Asharh","Shrabon","Bhadro","Ashwin","Kartik","Agrahayan","Poush","Magh","Falgun","Choitro"],
 hm:["Muharram","Safar","Rabi I","Rabi II","Jumada I","Jumada II","Rajab","Sha'ban","Ramadan","Shawwal","Dhul Qadah","Dhul Hijjah"]}};
+Object.assign(T.bn,{tUI:"অ্যাপের ইন্টারফেস (UI)",uiClear:"পুরো ট্রান্সপারেন্ট",uiNormal:"সাধারণ",tLocMode:"লোকেশন পদ্ধতি",lmAuto:"অটোমেটিক (GPS)",lmMan:"ম্যানুয়াল",tToneC:"নিজের অ্যালার্ম টোন (ফাইল)",toneCn:"নিজের টোন",toneDef:"ডিফল্ট (সেটিংস অনুযায়ী)",alSaved:"কাস্টম টোন সংরক্ষিত",rahmat:"রহমত",magfirat:"মাগফিরাত",najat:"নাজাত",rahmatS:"প্রথম ১০ দিন",magfiratS:"দ্বিতীয় ১০ দিন",najatS:"শেষ ১০ দিন",rojaL:"রোজা",tnames:["ক্লাসিক বিপ","মৃদু ঘণ্টা","ডিজিটাল","ঘণ্টাধ্বনি","সকালের সুর","বীণা","মারিম্বা","সূর্যোদয়","অ্যালার্ট পালস","পাখির ডাক","শান্ত পিয়ানো","ক্লাসিক রিং","জেন বোল","বিজয়ধ্বনি"]});
+Object.assign(T.en,{tUI:"App interface (UI)",uiClear:"Fully transparent",uiNormal:"Normal",tLocMode:"Location mode",lmAuto:"Automatic (GPS)",lmMan:"Manual",tToneC:"Your own alarm tone (file)",toneCn:"My tone",toneDef:"Default (as in settings)",alSaved:"Custom tone saved",rahmat:"Rahmat",magfirat:"Maghfirah",najat:"Najat",rahmatS:"First 10 days",magfiratS:"Second 10 days",najatS:"Last 10 days",rojaL:"Roza",tnames:["Classic Beep","Soft Chime","Digital","Bell","Morning Melody","Harp","Marimba","Sunrise","Alert Pulse","Bird Song","Calm Piano","Classic Ring","Zen Bowl","Fanfare"]});
+Object.assign(T.bn,{tUp:"উপজেলা খুঁজুন",upPh:"উপজেলার নাম, যেমন: সাভার",tVil:"গ্রাম / এলাকা খুঁজুন",vlPh:"গ্রাম বা এলাকার নাম",locAutoTag:"অটোমেটিক",locManTag:"ম্যানুয়াল",locMan:"লোকেশন হাতে বাছাই করা আছে",
+crT:"কপিরাইট ও আইনি তথ্য",crRights:"সর্বস্বত্ব সংরক্ষিত",crLaw:"এই অ্যাপের ডিজাইন, সোর্স কোড, লেখা, গ্রাফিক্স ও অন্যান্য মৌলিক উপাদান কপিরাইট আইন, ২০২৩ (গণপ্রজাতন্ত্রী বাংলাদেশ) এবং প্রযোজ্য আন্তর্জাতিক কপিরাইট চুক্তির অধীনে সুরক্ষিত।",crProhib:"স্বত্বাধিকারীর লিখিত অনুমতি ছাড়া এর কোনো অংশ কপি, পরিবর্তন, পুনর্বিতরণ, বিক্রয় বা বাণিজ্যিক কাজে ব্যবহার করা নিষিদ্ধ। এই শর্ত লঙ্ঘন করলে আইনি ব্যবস্থা নেওয়া হতে পারে।",crThird:"তৃতীয় পক্ষের ডেটা ও সেবা (যেমন Open-Meteo, BigDataCloud) এবং ধর্মীয় গ্রন্থের টেক্সট তাদের নিজ নিজ মালিক ও লাইসেন্সের অধীন।",crContact:"অনুমতি বা যোগাযোগের জন্য",crCopied:"কপি হয়েছে"});
+Object.assign(T.en,{tUp:"Find upazila",upPh:"Upazila name, e.g. Savar",tVil:"Find village / area",vlPh:"Village or area name",locAutoTag:"Auto",locManTag:"Manual",locMan:"Location set manually",
+crT:"Copyright & legal",crRights:"All rights reserved",crLaw:"The design, source code, text, graphics and other original elements of this app are protected under the Copyright Act, 2023 of the People's Republic of Bangladesh and applicable international copyright treaties.",crProhib:"No part of this app may be copied, modified, redistributed, sold or used commercially without the written permission of the copyright owner. Violations may result in legal action.",crThird:"Third-party data and services (such as Open-Meteo and BigDataCloud) and religious texts remain the property of their respective owners and licensors.",crContact:"For permission or contact",crCopied:"Copied"});
+Object.assign(T.bn,{duaG1:"প্রতিদিনের",duaG2:"আযকার",navDua:"দোয়া",duaT:"দোয়া ও যিকির",duaSearch:"দোয়া খুঁজুন",duaAll:"সব",duaD:"দৈনন্দিন",duaQ:"কুরআনের",duaH:"বিপদ-ক্ষমা",duaR:"নামাজ-রমজান",adz:"আযান",qAud:"তিলাওয়াত: মিশারী রাশিদ আল-আফাসি",ob1T:"লোকেশনের অনুমতি",ob1P:"আপনার এলাকা অনুযায়ী নামাজ, সাহরি ও ইফতারের সঠিক সময় দেখাতে লোকেশন প্রয়োজন। পরে সেটিংস থেকেও দেওয়া যাবে।",ob2T:"নোটিফিকেশন ও অ্যালার্ম",ob2P:"ওয়াক্ত হলে আযানের অ্যালার্ম বাজাতে অনুমতি দিন। কোন ওয়াক্তে আযান বাজবে তা নিচে ঠিক করুন।",obA:"অ্যালার্ম ও সাউন্ডের অনুমতি দিন",obAok:"✓ অনুমতি দেওয়া হয়েছে",obFin:"শুরু করুন"});
+Object.assign(T.en,{duaG1:"Daily",duaG2:"Azkar",navDua:"Duas",duaT:"Duas & Dhikr",duaSearch:"Search duas",duaAll:"All",duaD:"Daily",duaQ:"Quranic",duaH:"Hardship",duaR:"Prayer/Ramadan",adz:"Adhan",qAud:"Recitation: Mishary Rashid Alafasy",ob1T:"Location permission",ob1P:"Location is needed to show accurate prayer, sehri and iftar times for your area. You can also set it later in Settings.",ob2T:"Notifications & alarms",ob2P:"Allow permission so the adhan alarm can ring at prayer time. Choose which prayers ring below.",obA:"Allow alarm & sound",obAok:"✓ Allowed",obFin:"Get started"});
+Object.assign(T.bn,{acT:"অ্যাকাউন্ট ও ডাটা সেভ",acP:"লগইন করলে অ্যালার্ম, নোট, বুকমার্ক ও সেটিংস নিরাপদে জমা থাকবে এবং অন্য ফোনে লগইন করলেও ফিরে পাবেন।",acG:"Google (Gmail) দিয়ে লগইন",acE:"ইমেইল",acPw:"পাসওয়ার্ড (কমপক্ষে ৬ অক্ষর)",acIn:"ইমেইলে লগইন",acUp:"নতুন অ্যাকাউন্ট",acRs:"পাসওয়ার্ড ভুলে গেছেন?",acOut:"লগআউট",acSync:"এখনই সিঙ্ক",acOff:"লগইন সেবা এখনো চালু করা হয়নি।",acNet:"ইন্টারনেট সংযোগ প্রয়োজন।",acOk:"সংযুক্ত। ডাটা সিঙ্ক হচ্ছে।",acErr:"ইমেইল বা পাসওয়ার্ড সঠিক নয়।",acSent:"পাসওয়ার্ড রিসেটের লিংক ইমেইলে পাঠানো হয়েছে।",acLast:"শেষ সিঙ্ক",acFill:"ইমেইল ও পাসওয়ার্ড দিন।",acExist:"এই ইমেইলে আগেই অ্যাকাউন্ট আছে।",acWeak:"পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে।",acBusy:"অপেক্ষা করুন...",ob3T:"ডাটা সুরক্ষিত রাখুন",ob3P:"চাইলে এখনই লগইন করুন, অথবা এড়িয়ে যান। পরে সেটিংস থেকেও করা যাবে।"});
+Object.assign(T.en,{acT:"Account & data saving",acP:"Sign in to keep your alarms, notes, bookmarks and settings safe and get them back on another phone.",acG:"Sign in with Google (Gmail)",acE:"Email",acPw:"Password (min 6 characters)",acIn:"Sign in with email",acUp:"Create account",acRs:"Forgot password?",acOut:"Sign out",acSync:"Sync now",acOff:"Sign-in service is not enabled yet.",acNet:"Internet connection required.",acOk:"Connected. Your data is syncing.",acErr:"Email or password is incorrect.",acSent:"Password reset link sent to your email.",acLast:"Last sync",acFill:"Enter email and password.",acExist:"An account already exists for this email.",acWeak:"Password must be at least 6 characters.",acBusy:"Please wait...",ob3T:"Keep your data safe",ob3P:"Sign in now, or skip it. You can also do it later from Settings."});
 const AR=["محرم","صفر","ربيع الأول","ربيع الآخر","جمادى الأولى","جمادى الآخرة","رجب","شعبان","رمضان","شوال","ذو القعدة","ذو الحجة"];
 const NAT={"g":{"2-21":["শহীদ দিবস","Language Martyrs' Day"],"3-26":["স্বাধীনতা দিবস","Independence Day"],"5-1":["মে দিবস","May Day"],"8-5":["গণঅভ্যুত্থান দিবস","Mass Uprising Day"],"12-16":["বিজয় দিবস","Victory Day"]},"b":{"0-1":["পহেলা বৈশাখ","Pohela Boishakh"]}};
 const HE={"1-1":["ইসলামী নববর্ষ","Islamic New Year","e"],"1-10":["আশুরা","Ashura","n"],"3-12":["ঈদে মিলাদুন্নবী","Eid-e-Miladunnabi","e"],"7-27":["শবে মিরাজ","Shab-e-Meraj","n"],"8-15":["শবে বরাত","Shab-e-Barat","n"],"9-1":["রমজান শুরু","Ramadan begins","n"],"9-27":["শবে কদর (প্রচলিত)","Shab-e-Qadr (commonly observed)","n"],"10-1":["ঈদুল ফিতর","Eid al-Fitr","e"],"10-2":["ঈদের ছুটি","Eid holiday","n"],"10-3":["ঈদের ছুটি","Eid holiday","n"],"12-9":["আরাফার দিন","Day of Arafah","n"],"12-10":["ঈদুল আযহা","Eid al-Adha","e"],"12-11":["আইয়ামে তাশরিক","Days of Tashreeq","n"],"12-12":["আইয়ামে তাশরিক","Days of Tashreeq","n"],"12-13":["আইয়ামে তাশরিক","Days of Tashreeq","n"]};
@@ -286,21 +387,22 @@ DIV.forEach(g=>g[2].split(';').forEach(x=>{const a=x.split('|');CITIES[a[0]]=[+a
 const $=id=>document.getElementById(id);
 function ld(k,d){try{const v=localStorage.getItem(k);return v===null?d:JSON.parse(v)}catch(e){return d}}
 function sv(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){return false}}
-let S=Object.assign({lang:'bn',theme:'islamic',mode:'auto',main:'h',city:'dhaka',adhan:true,hadj:0,snz:5,tone:0,alarms:ld('cal_alarms',[]),notes:{}},ld('cal_v4',{}));
-if(S.theme==='default')S.theme='islamic';
-const save=()=>{sv('cal_v4',S);qPush()};
+let S=Object.assign({autoUpd:true,stTab:'gen',lang:'bn',theme:'islamic',mode:'auto',main:'h',city:'dhaka',adhan:true,hadj:0,snz:5,tone:0,ui:'normal',locMode:'auto',alarms:ld('cal_alarms',[]),notes:{}},ld('cal_v4',{}));if(S.up&&!S.upz&&!S.vil)S.upz=S.up;
+if(!['islamic','indigo','sunset','midnight','makkah','ramadan','cream','beige','sand'].includes(S.theme))S.theme='islamic';if(S.ui!=='clear')S.ui='normal';
+
+const save=()=>{sv('cal_v4',S);qPush();if(typeof cloudQ==='function')cloudQ()};
 const NATIVE=typeof AndroidApp!=='undefined';
 let SUN=ld('sun_api',{}),mqKey='';
 const coords=()=>S.gps&&S.loc?S.loc:S.up?[S.up.la,S.up.lo]:CITIES[S.city],locKey=()=>S.gps&&S.loc?'g'+S.loc[0].toFixed(1)+','+S.loc[1].toFixed(1):S.up?'u'+S.up.la.toFixed(2)+','+S.up.lo.toFixed(2):S.city;
 const t=k=>T[S.lang][k],L=S.lang==='bn'?0:1;
-const APP_VER='1.1.0';
+const APP_VER='1.5.0',UPD_REPO='hadidsarker03-lab/Islamic-Calender-books';
 const pad=n=>String(n).padStart(2,'0');
 const tod=h=>S.lang==='en'?(h>=12?'PM':'AM'):(h<4?'রাত':h<6?'ভোর':h<12?'সকাল':h<16?'দুপুর':h<18?'বিকেল':h<20?'সন্ধ্যা':'রাত');
 const wrapT=(h,b)=>S.lang==='en'?b+' '+tod(h):tod(h)+' '+b;
 const dg=n=>S.lang==='en'?String(n):String(n).replace(/\d/g,d=>'০১২৩৪৫৬৭৮৯'[d]);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const K={g:1,b:2,h:3},TY=['g','b','h'],LB={g:'lblG',b:'lblB',h:'lblH'};
-let sel=new Set(),ringing=null,ringTimer=null,snoozeAt=0,snoozeLabel='',audio=null,adA=null,vol=.05,dayKey='',lastSec=-1,lastR='',MV,FV,SC={key:''},fired={},tabs=['home','alarm','books','tools','settings'],curTab='home';
+let ringTone,snoozeTone,wm=-1,sel=new Set(),ringing=null,ringTimer=null,snoozeAt=0,snoozeLabel='',audio=null,adA=null,vol=.05,dayKey='',lastSec=-1,lastR='',MV,FV,SC={key:''},fired={},tabs=['home','alarm','books','dua','tools','settings'],curTab='home';
 const today0=()=>{const n=new Date();return new Date(n.getFullYear(),n.getMonth(),n.getDate(),12)};
 const addD=(d,i)=>new Date(d.getFullYear(),d.getMonth(),d.getDate()+i,12);
 
@@ -421,7 +523,7 @@ function prayUpdate(n){
   if(rk!==lastR){lastR=rk;
     const Z=sc.Z;
     $('info').innerHTML=[['moon','sehri',Z.sehri],['bowl','iftar',Z.iftar],['sunrise','srise',Z.sunrise],['sunset','sset',Z.sunset]].map(([i,k,d],j)=>`<div class="mi" style="--i:${j}">${ic(i,22)}${t(k)}<b>${fmtT(d)}</b></div>`).join('');
-    $('pr').innerHTML=sc.list.slice(1).map((x,j)=>`<div class="pr${x[0]===ck?' now':''}" style="--i:${j+4}"><span>${t('pn')[x[0]]}</span><small>${fmtT(x[1])} – ${fmtT(x[2])}</small></div>`).join('');
+    $('pr').innerHTML=sc.list.slice(1).map((x,j)=>`<div class="pr${x[0]===ck?' now':n>=x[2]?' past':''}" style="--i:${j+4}"><span>${t('pn')[x[0]]}</span><small>${fmtT(x[1])} – ${fmtT(x[2])}</small></div>`).join('');
   }
   const lv=$('live');
   if(cur){lv.className='live on';lv.textContent=`${t('pn')[ck]} ${t('running')} · ${t('left')} ${hms(cur[2]-n)}`}
@@ -438,7 +540,7 @@ async function fetchSun(){
 }
 
 /* ব্যাকগ্রাউন্ড ও নোটিফিকেশন */
-function adhanCheck(n){if(NATIVE)return;const sc=getSched(n);sc.list.slice(1).forEach(x=>{const k=sc.key+x[0];if(S.adhan&&!fired[k]&&ringing===null&&n>=x[1]&&n-x[1]<12e4){fired[k]=1;ring(t('pn')[x[0]],true)}})}
+function adhanCheck(n){if(NATIVE)return;const sc=getSched(n);sc.list.slice(1).forEach(x=>{const k=sc.key+x[0];if(S.adhan&&adOn(x[0])&&!fired[k]&&ringing===null&&n>=x[1]&&n-x[1]<12e4){fired[k]=1;ring(t('pn')[x[0]],true)}})}
 function setNotif(el){
   if(!el.checked){S.notif=false;save();return}
   if(!('Notification' in window)){el.checked=false;return}
@@ -461,51 +563,85 @@ function drawMq(){
 /* লোকেশন */
 let locDenied=false,UPR=[];
 function getLoc(quiet){
-  if(!navigator.geolocation){$('locS').textContent=t('locFail');return}
+  if(!navigator.geolocation){if(!quiet)$('locS').textContent=t('locFail');return}
   if(!quiet)$('locS').textContent=t('locWait');
-  navigator.geolocation.getCurrentPosition(p=>{locDenied=false;S.loc=[p.coords.latitude,p.coords.longitude];S.gps=true;S.up=null;save();SC={key:''};lastR='';locName();fetchSun();locStat();tick(true)},
-    e=>{if(e.code===1||e.code===2){if(e.code===1)locDenied=true;locStat();if(!quiet||(!S.gps&&!S.up&&!lfShown)){lfShown=true;showLocFix()}}else if(!quiet)$('locS').textContent=t('locFail')},{enableHighAccuracy:false,timeout:20000,maximumAge:3e5});
+  navigator.geolocation.getCurrentPosition(p=>{locDenied=false;S.loc=[p.coords.latitude,p.coords.longitude];S.gps=true;S.locMode='auto';S.up=S.upz=S.vil=null;save();SC={key:''};lastR='';locName();fetchSun();locStat();segs();tick(true)},
+    e=>{if(e.code===1||e.code===2){if(e.code===1)locDenied=true;locStat();if(!quiet)showLocFix()}else if(!quiet)$('locS').textContent=t('locFail')},{enableHighAccuracy:false,timeout:20000,maximumAge:3e5});
 }
-async function locName(){try{const[la,lo]=S.loc,r=await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${la}&longitude=${lo}&localityLanguage=${S.lang}`),j=await r.json();S.locName=[j.locality,j.city||j.principalSubdivision].filter(Boolean).join(', ');save();locStat()}catch(e){}}
+async function locName(){try{const[la,lo]=S.loc,r=await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${la}&longitude=${lo}&localityLanguage=${S.lang}`),j=await r.json();S.locName=[...new Set([j.locality,j.city,j.principalSubdivision].filter(Boolean))].join(', ');save();locStat()}catch(e){}}
+function locParts(){
+  const d=CN[S.city]?CN[S.city][L]:'';
+  if(S.gps&&S.loc)return{p:(S.locName||'').split(', ').filter(Boolean),m:'gps'};
+  const p=[];if(S.vil)p.push(S.vil.n);if(S.upz)p.push(S.upz.n);p.push(d);
+  return{p:[...new Set(p)],m:'man'};
+}
 function locStat(){
+  const{p,m}=locParts(),nm=p.join(', ');
+  const lb=$('locBar');if(lb)lb.innerHTML=`${ic('pin',16)}<span>${esc(nm||t('locUse'))}</span><small>${t(m==='gps'?'locAutoTag':'locManTag')}</small>`;
   const e=$('locS');if(!e)return;
-  e.textContent=S.gps&&S.loc?t('locUse')+(S.locName?' · '+S.locName:''):S.up?t('locUp')+': '+S.up.n:t('locMan')+' · '+CN[S.city][L];
-  if(locDenied&&!S.gps)e.textContent+=' — '+t('locDenHelp');
+  e.textContent=m==='gps'?t('locUse')+(nm?' · '+nm:''):t('locMan')+' · '+nm;
+  if(locDenied&&m!=='gps')e.textContent+=' — '+t('locDenHelp');
+  const mb=$('manBox');if(mb)mb.style.display=m==='gps'?'none':'';
+  const sl=$('selLoc');if(sl)sl.innerHTML=[['u',S.upz],['v',S.vil]].filter(x=>x[1]).map(([k,x])=>`<span class="lchip">${esc(x.n)}<button onclick="locClr('${k}')">${ic('x',12)}</button></span>`).join('');
 }
+function locClr(k){if(k==='v'){S.vil=null;S.up=S.upz||null}else{S.upz=S.vil=null;S.up=null}save();SC={key:''};lastR='';fetchSun();locStat();tick(true)}
 function closeLocM(go){$('locM').classList.remove('on');if(go)getLoc()}
 async function locInit(){
   let st='unknown';
-  try{const ps=await navigator.permissions.query({name:'geolocation'});st=ps.state;ps.onchange=()=>{if(ps.state==='granted'){locDenied=false;getLoc()}else if(ps.state==='denied'){locDenied=true;locStat()}}}catch(e){}
-  if(st==='denied'){locDenied=true;locStat();if(!S.gps&&!S.up){lfShown=true;setTimeout(showLocFix,1200)}}
-  else if(st==='granted'||S.gps)getLoc(true);
-  else if(!S.up)setTimeout(()=>$('locM').classList.add('on'),1200);
-  document.addEventListener('visibilitychange',async()=>{if(document.hidden||S.gps)return;try{const q=await navigator.permissions.query({name:'geolocation'});if(q.state==='granted'){locDenied=false;getLoc()}}catch(e){}});
+  try{const ps=await navigator.permissions.query({name:'geolocation'});st=ps.state}catch(e){}
+  if(st==='denied'){locDenied=true;locStat();return}
+  if(S.locMode==='manual')return;
+  if(st==='granted'||S.gps){getLoc(true);return}
+  if(!S.locAsked){S.locAsked=true;save();setTimeout(()=>$('locM').classList.add('on'),1200)}
 }
-async function upSearch(){
-  const q=$('upQ').value.trim();if(q.length<2)return;$('upR').innerHTML=`<div class="note">${t('locWait')}</div>`;
-  try{const r=await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(q)}&count=10&language=${S.lang}&countryCode=BD&format=json`),j=await r.json();UPR=(j.results||[]).filter(x=>x.country_code==='BD');
-    $('upR').innerHTML=UPR.length?UPR.map((x,i)=>`<button class="up" onclick="upPick(${i})"><b>${esc(x.name)}</b><small>${esc([x.admin3,x.admin2,x.admin1].filter(Boolean).join(', '))}</small></button>`).join(''):`<div class="note">${t('upNone')}</div>`}
-  catch(e){$('upR').innerHTML=`<div class="note">${t('upErr')}</div>`}
+let VLR=[];
+const nrm=x=>String(x||'').toLowerCase();
+async function placeSearch(kind){
+  const v=kind==='v',inp=$(v?'vlQ':'upQ'),box=$(v?'vlR':'upR'),q=inp.value.trim();if(q.length<2)return;
+  box.innerHTML=`<div class="note">${t('locWait')}</div>`;
+  try{const r=await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(q)}&count=20&language=${S.lang}&countryCode=BD&format=json`),j=await r.json();
+    let a=(j.results||[]).filter(x=>x.country_code==='BD');
+    const dn=CN[S.city].map(nrm),un=S.upz&&v?nrm(S.upz.n):'';
+    const sc=x=>{const h=nrm([x.admin1,x.admin2,x.admin3,x.admin4].filter(Boolean).join(' '));return(un&&h.includes(un)?2:0)+(dn.some(d=>h.includes(d))?1:0)};
+    a=a.map((x,i)=>[x,i]).sort((p,q2)=>sc(q2[0])-sc(p[0])||p[1]-q2[1]).map(p=>p[0]);
+    if(v)VLR=a;else UPR=a;
+    box.innerHTML=a.length?a.map((x,i)=>`<button class="up" onclick="upPick('${kind}',${i})"><b>${esc(x.name)}</b><small>${esc([x.admin4,x.admin3,x.admin2,x.admin1].filter(Boolean).join(', '))}</small></button>`).join(''):`<div class="note">${t('upNone')}</div>`}
+  catch(e){box.innerHTML=`<div class="note">${t('upErr')}</div>`}
 }
-function upPick(i){const x=UPR[i];S.up={n:x.name,la:x.latitude,lo:x.longitude};S.gps=false;save();SC={key:''};lastR='';$('upR').innerHTML='';fetchSun();locStat();tick(true)}
+function upSearch(){placeSearch('u')}
+function upPick(kind,i){
+  const v=kind==='v',x=(v?VLR:UPR)[i];if(!x)return;const p={n:x.name,la:x.latitude,lo:x.longitude};
+  if(v)S.vil=p;else{S.upz=p;S.vil=null}
+  S.up=p;S.gps=false;S.locMode='manual';save();SC={key:''};lastR='';
+  $('upR').innerHTML='';$('vlR').innerHTML='';$(v?'vlQ':'upQ').value='';if(!v)$('vlQ').value='';
+  fetchSun();locStat();segs();tick(true);
+}
+function copyText(v){try{if(navigator.clipboard&&navigator.clipboard.writeText)return navigator.clipboard.writeText(v)}catch(e){}
+  return new Promise((ok,no)=>{const a=document.createElement('textarea');a.value=v;a.style.cssText='position:fixed;opacity:0';document.body.appendChild(a);a.select();try{document.execCommand('copy')?ok():no()}catch(e){no()}a.remove()})}
+function copyWa(){const b=$('waB'),o='WhatsApp: @hadidsarker';copyText('@hadidsarker').then(()=>{b.textContent=t('crCopied');setTimeout(()=>b.textContent=o,1500)},()=>{})}
 
 /* রমজান ক্যালেন্ডার */
 let RY=0;
-function openRam(){const p=hjParts(today0());RY=p.m>9?p.y+1:p.y;$('ramM').classList.add('on');drawRam()}
+const ramLen=s=>hjParts(addD(s,29)).d===1?29:30;
+function ramHY(G){const b=Math.floor((G-622)*33/32);for(const y of[b,b+1,b-1]){const s=hjStart(y,8);if(s.getFullYear()===G)return[y,s]}return[b,hjStart(b,8)]}
+function openRam(){const n=today0();RY=n.getFullYear();const[y,s]=ramHY(RY);if(addD(s,ramLen(s))<n)RY++;$('ramM').classList.add('on');drawRam()}
 function closeRam(){$('ramM').classList.remove('on')}
 function rNav(d){RY+=d;drawRam()}
 function drawRam(){
-  const s=hjStart(RY,8),len=hjParts(addD(s,29)).d===1?29:30,td=new Date().toDateString();
-  $('rT').textContent=t('ramCal');$('rY').innerHTML=`${t('hm')[8]} ${dg(RY)}<small style="display:block;font-family:serif;color:var(--gold)">${AR[8]}</small>`;
-  let h=`<div class="rr h"><span>#</span><span>${t('dateL')}</span><span>${t('sehriS')}</span><span>${t('iftarS')}</span></div>`;
-  for(let i=0;i<len;i++){const c=addD(s,i),z=sunTimes(c);
-    h+=`<div class="rr${c.toDateString()===td?' td':''}"><b>${dg(i+1)}</b><span>${t('days')[c.getDay()]}, ${dg(c.getDate())} ${t('months')[c.getMonth()]}</span><span>${fmtT(z.sehri)}</span><span>${fmtT(z.iftar)}</span></div>`}
-  $('rList').innerHTML=h+`<p class="note">${t('ramNote')}</p>`;
+  const[hy,s]=ramHY(RY),len=ramLen(s),td=new Date().toDateString();
+  $('rT').textContent=t('ramCal');$('rY').innerHTML=`${dg(RY)}<small>${t('hm')[8]} ${dg(hy)} · ${AR[8]}</small>`;
+  const SE=[['rahmat','rahmatS',0,10,'#10b981'],['magfirat','magfiratS',10,20,'#f59e0b'],['najat','najatS',20,len,'#8b5cf6']];
+  $('rList').innerHTML=SE.map(([k,ks,a,b,col],j)=>{
+    let h=`<div class="rs" style="--rc:${col};animation-delay:${j*90}ms"><div class="rsh"><b>${t(k)}</b><small>${t(ks)}<br>${dg(a+1)}–${dg(b)} ${t('rojaL')}</small></div><div class="rd h"><span>#</span><span>${t('dateL')}</span><span>${t('sehriS')}</span><span>${t('iftarS')}</span></div>`;
+    for(let i=a;i<b;i++){const c=addD(s,i),z=sunTimes(c);
+      h+=`<div class="rd${c.toDateString()===td?' td':''}"><span class="no">${dg(i+1)}</span><span>${t('days')[c.getDay()]}, ${dg(c.getDate())} ${t('months')[c.getMonth()]}${i===26?' <span class="qd">★</span>':''}</span><span>${fmtT(z.sehri)}</span><span>${fmtT(z.iftar)}</span></div>`}
+    return h+'</div>'}).join('')+`<p class="note">${t('ramNote')}</p>`;
 }
 
 /* ইসলামিক বই */
 const ED='https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1/';
 const QN=["ফাতিহা","বাকারা","আলে ইমরান","নিসা","মায়িদা","আনআম","আ'রাফ","আনফাল","তাওবা","ইউনুস","হূদ","ইউসুফ","রা'দ","ইবরাহীম","হিজর","নাহল","বনী ইসরাঈল","কাহফ","মারইয়াম","ত্ব-হা","আম্বিয়া","হজ্জ","মু'মিনূন","নূর","ফুরকান","শুআরা","নামল","কাসাস","আনকাবূত","রূম","লুকমান","সাজদাহ","আহযাব","সাবা","ফাতির","ইয়াসীন","সাফফাত","সোয়াদ","যুমার","গাফির","ফুসসিলাত","শূরা","যুখরুফ","দুখান","জাসিয়া","আহকাফ","মুহাম্মাদ","ফাতহ","হুজুরাত","ক্বাফ","যারিয়াত","তূর","নাজম","ক্বামার","রহমান","ওয়াকিয়া","হাদীদ","মুজাদালা","হাশর","মুমতাহিনা","সাফ","জুমুআ","মুনাফিকূন","তাগাবুন","তালাক","তাহরীম","মুলক","ক্বালাম","হাক্কাহ","মাআরিজ","নূহ","জিন","মুয্যাম্মিল","মুদ্দাসসির","ক্বিয়ামাহ","ইনসান","মুরসালাত","নাবা","নাযিআত","আবাসা","তাকবীর","ইনফিতার","মুতাফফিফীন","ইনশিকাক","বুরূজ","তারিক","আ'লা","গাশিয়া","ফাজর","বালাদ","শামস","লাইল","দুহা","ইনশিরাহ","তীন","আলাক","ক্বদর","বাইয়্যিনাহ","যিলযাল","আদিয়াত","ক্বারিআ","তাকাসুর","আসর","হুমাযাহ","ফীল","কুরাইশ","মাঊন","কাওসার","কাফিরূন","নাসর","লাহাব","ইখলাস","ফালাক","নাস"];
+const QE=["Al-Fatihah", "Al-Baqarah", "Aal-E-Imran", "An-Nisa", "Al-Ma'idah", "Al-An'am", "Al-A'raf", "Al-Anfal", "At-Tawbah", "Yunus", "Hud", "Yusuf", "Ar-Ra'd", "Ibrahim", "Al-Hijr", "An-Nahl", "Al-Isra", "Al-Kahf", "Maryam", "Ta-Ha", "Al-Anbiya", "Al-Hajj", "Al-Mu'minun", "An-Nur", "Al-Furqan", "Ash-Shu'ara", "An-Naml", "Al-Qasas", "Al-Ankabut", "Ar-Rum", "Luqman", "As-Sajdah", "Al-Ahzab", "Saba", "Fatir", "Ya-Sin", "As-Saffat", "Sad", "Az-Zumar", "Ghafir", "Fussilat", "Ash-Shura", "Az-Zukhruf", "Ad-Dukhan", "Al-Jathiyah", "Al-Ahqaf", "Muhammad", "Al-Fath", "Al-Hujurat", "Qaf", "Adh-Dhariyat", "At-Tur", "An-Najm", "Al-Qamar", "Ar-Rahman", "Al-Waqi'ah", "Al-Hadid", "Al-Mujadila", "Al-Hashr", "Al-Mumtahanah", "As-Saff", "Al-Jumu'ah", "Al-Munafiqun", "At-Taghabun", "At-Talaq", "At-Tahrim", "Al-Mulk", "Al-Qalam", "Al-Haqqah", "Al-Ma'arij", "Nuh", "Al-Jinn", "Al-Muzzammil", "Al-Muddaththir", "Al-Qiyamah", "Al-Insan", "Al-Mursalat", "An-Naba", "An-Nazi'at", "Abasa", "At-Takwir", "Al-Infitar", "Al-Mutaffifin", "Al-Inshiqaq", "Al-Buruj", "At-Tariq", "Al-A'la", "Al-Ghashiyah", "Al-Fajr", "Al-Balad", "Ash-Shams", "Al-Layl", "Ad-Duha", "Ash-Sharh", "At-Tin", "Al-Alaq", "Al-Qadr", "Al-Bayyinah", "Az-Zalzalah", "Al-Adiyat", "Al-Qari'ah", "At-Takathur", "Al-Asr", "Al-Humazah", "Al-Fil", "Quraysh", "Al-Ma'un", "Al-Kawthar", "Al-Kafirun", "An-Nasr", "Al-Masad", "Al-Ikhlas", "Al-Falaq", "An-Nas"],QA=["الفاتحة", "البقرة", "آل عمران", "النساء", "المائدة", "الأنعام", "الأعراف", "الأنفال", "التوبة", "يونس", "هود", "يوسف", "الرعد", "إبراهيم", "الحجر", "النحل", "الإسراء", "الكهف", "مريم", "طه", "الأنبياء", "الحج", "المؤمنون", "النور", "الفرقان", "الشعراء", "النمل", "القصص", "العنكبوت", "الروم", "لقمان", "السجدة", "الأحزاب", "سبأ", "فاطر", "يس", "الصافات", "ص", "الزمر", "غافر", "فصلت", "الشورى", "الزخرف", "الدخان", "الجاثية", "الأحقاف", "محمد", "الفتح", "الحجرات", "ق", "الذاريات", "الطور", "النجم", "القمر", "الرحمن", "الواقعة", "الحديد", "المجادلة", "الحشر", "الممتحنة", "الصف", "الجمعة", "المنافقون", "التغابن", "الطلاق", "التحريم", "الملك", "القلم", "الحاقة", "المعارج", "نوح", "الجن", "المزمل", "المدثر", "القيامة", "الإنسان", "المرسلات", "النبأ", "النازعات", "عبس", "التكوير", "الانفطار", "المطففين", "الانشقاق", "البروج", "الطارق", "الأعلى", "الغاشية", "الفجر", "البلد", "الشمس", "الليل", "الضحى", "الشرح", "التين", "العلق", "القدر", "البينة", "الزلزلة", "العاديات", "القارعة", "التكاثر", "العصر", "الهمزة", "الفيل", "قريش", "الماعون", "الكوثر", "الكافرون", "النصر", "المسد", "الإخلاص", "الفلق", "الناس"],qn=i=>S.lang==='bn'?QN[i]:QE[i];
 const QC=[7,286,200,176,120,165,206,75,129,109,123,111,43,52,99,128,111,110,98,135,112,78,118,64,77,227,93,88,69,60,34,30,73,54,45,83,182,88,75,85,54,53,89,59,37,35,38,29,18,45,60,49,62,55,78,96,29,22,24,13,14,11,11,18,12,12,30,52,52,44,28,28,20,56,40,31,50,40,46,42,29,19,36,25,22,17,19,26,30,20,15,21,11,8,8,19,5,8,8,11,11,8,3,9,5,4,7,3,6,3,5,4,5,6];
 let BK={v:'home'},HED=null;
 const qUrl=n=>`https://api.alquran.cloud/v1/surah/${n}/editions/quran-uthmani,bn.bengali`;
@@ -526,15 +662,33 @@ const bxModeBar=()=>`<div class="seg">${[['both',t('bkBoth')],['ar',t('bkAr')],[
 function bxMode(v){S.qm=v;save();BK.v==='q'?bxQ(BK.n):bxHad(BK.ed,BK.sec)}
 function bxBack(){BK.v==='q'?bxQList():bxHome()}
 function bxHome(){
-  BK={v:'home'};const r=S.rd,ub=ld('ub',[]);
+  BK={v:'home'};const r=S.rd,sg=S.bseg||'q',ub=ld('ub',[]);
   let h=`<div class="sec"><span class="sic">${ic('book')}</span><h4>${t('bkT')}</h4></div>`;
   if(r)h+=`<button class="bxc" onclick="bxResume()"><b>${t('bkCont')}</b><small>${esc(r.title)}</small></button>`;
-  h+=`<button class="bxc" onclick="bxQList()"><b>${t('bkQ')}</b><small>${t('bkQs')}</small></button>`;
-  h+=`<div class="lbl">${t('bkH')}</div><div id="bxHL"><div class="note">${t('bkLoad')}</div></div>`;
-  h+=`<div class="lbl">${t('bkMy')}</div>`+(ub.length?ub.map(b=>`<button class="bxc" onclick="bxUb(${b.id},0)"><b>${esc(b.title)}</b></button>`).join(''):`<div class="note" style="text-align:left">${t('bkNone')}</div>`);
-  h+=`<label class="btn alt w ic" style="margin-top:10px">${ic('plus',18)}<span>${t('bkAdd')}</span><input type="file" accept=".txt,text/plain" hidden onchange="bxImport(this)"></label><div class="note">${t('bkSrc')}</div>`;
-  bxSet(h);bxLoadEd();
+  h+=`<div class="seg" style="margin-top:10px">${[['q',t('bkSQ')],['h',t('bkSH')],['m',t('bkSM')]].map(([v,l])=>`<button class="${sg===v?'on':''}" onclick="bxSeg('${v}')">${l}</button>`).join('')}</div>`;
+  if(sg==='q'){
+    h+=`<input id="bxSrch" class="in" style="margin-top:10px" placeholder="${t('bkFind')}" oninput="bxFilter(this.value)"><button class="btn alt w" id="bxDl" style="margin-top:8px" onclick="bxDlAll()">${t('bkDl')}</button><div id="bxDlS" class="note"></div><div id="bxSL">${bxSurahRows('')}</div>`;
+  }else if(sg==='h'){
+    h+=`<div id="bxHL"><div class="note">${t('bkLoad')}</div></div>`;
+  }else{
+    h+=ub.map(b=>`<button class="bxc" onclick="bxUb(${b.id},0)"><b>${esc(b.title)}</b></button>`).join('')||`<div class="note" style="text-align:left">${t('bkNone')}</div>`;
+    h+=`<label class="btn alt w ic" style="margin-top:10px">${ic('plus',18)}<span>${t('bkAdd')}</span><input type="file" accept=".txt,text/plain" hidden onchange="bxImport(this)"></label>`;
+  }
+  h+=`<div class="note">${t('bkSrc')}</div>`;
+  bxSet(h);if(sg==='h')bxLoadEd();
 }
+function bxSeg(v){S.bseg=v;save();bxHome()}
+const bxNorm=x=>String(x).toLowerCase().replace(/[^a-z0-9\u0980-\u09ff\u0600-\u06ff]/g,'');
+function bxSurahRows(q){
+  q=bxNorm(q);let out='';
+  for(let i=0;i<114;i++){
+    const hay=bxNorm(QN[i]+QE[i]+QA[i]+(i+1)+dg(i+1));
+    if(q&&!hay.includes(q))continue;
+    out+=`<button class="bxs" onclick="bxQ(${i+1})"><span class="no">${dg(i+1)}</span><b>${qn(i)}</b><span class="ar" style="font-size:1.1rem;line-height:1;margin:0;direction:rtl">${QA[i]}</span><small>${dg(QC[i])} ${t('bkAyah')}</small></button>`;
+  }
+  return out||`<div class="note">${t('bkNoS')}</div>`;
+}
+function bxFilter(v){const e=$('bxSL');if(e)e.innerHTML=bxSurahRows(v)}
 async function bxLoadEd(){
   const put=h=>{const e=$('bxHL');if(e)e.innerHTML=h};
   try{const bn=(await loadHED()).filter(x=>/^ben-/.test(x.name));
@@ -542,10 +696,7 @@ async function bxLoadEd(){
   catch(e){put(`<div class="note" style="text-align:left">${t('bkErr')}</div>`)}
 }
 function bxResume(){const r=S.rd;if(!r)return;r.t==='q'?bxQ(r.n):bxHad(r.ed,r.sec)}
-function bxQList(){
-  BK={v:'ql'};
-  bxSet(bxBar(t('bkQ'),'bxHome()')+`<button class="btn alt w" id="bxDl" style="margin-top:0" onclick="bxDlAll()">${t('bkDl')}</button><div id="bxDlS" class="note"></div>`+QN.map((n,i)=>`<button class="bxs" onclick="bxQ(${i+1})"><span class="no">${dg(i+1)}</span><b>${S.lang==='bn'?n:'Surah '+(i+1)}</b><small>${dg(QC[i])} ${t('bkAyah')}</small></button>`).join(''));
-}
+function bxQList(){S.bseg='q';bxHome()}
 async function bxDlAll(){
   const b=$('bxDl'),st=$('bxDlS');b.disabled=true;let ok=0;
   for(let n=1;n<=114;n++){try{await bget([qUrl(n)]);ok++}catch(e){}st.textContent=`${dg(n)} / ${dg(114)}`}
@@ -553,15 +704,15 @@ async function bxDlAll(){
 }
 const bxPager=(prev,next,mid)=>`<div class="bxpg">${prev?`<button class="btn alt" onclick="${prev}">${t('bkPrev')}</button>`:'<span></span>'}${mid||''}${next?`<button class="btn alt" onclick="${next}">${t('bkNext')}</button>`:'<span></span>'}</div>`;
 async function bxQ(n){
-  const nm=S.lang==='bn'?QN[n-1]:'Surah '+n;BK={v:'q',n};S.rd={t:'q',n,title:nm};save();
+  const nm=qn(n-1);BK={v:'q',n};S.bseg='q';S.rd={t:'q',n,title:nm};save();
   bxSet(bxBar(nm,'bxQList()')+`<div class="note">${t('bkLoad')}</div>`);
   try{const j=await bget([qUrl(n)]),ar=j.data[0].ayahs,bn=j.data[1].ayahs;if(BK.v!=='q'||BK.n!==n)return;const m=S.qm||'both';
-    bxSet(bxBar(nm+' · '+dg(QC[n-1])+' '+t('bkAyah'),'bxQList()')+bxModeBar()+ar.map((a,i)=>`<div class="ay"><span class="an">${dg(a.numberInSurah)}</span>${m!=='bn'?`<div class="ar">${esc(a.text)}</div>`:''}${m!=='ar'?`<div class="tr">${esc(bn[i]?bn[i].text:'')}</div>`:''}</div>`).join('')+bxPager(n>1?`bxQ(${n-1})`:'',n<114?`bxQ(${n+1})`:''));}
+    bxSet(bxBar(nm+' · '+QA[n-1]+' · '+dg(QC[n-1])+' '+t('bkAyah'),'bxQList()')+bxModeBar()+qAudio(n)+ar.map((a,i)=>`<div class="ay"><span class="an">${dg(a.numberInSurah)}</span>${m!=='bn'?`<div class="ar">${esc(a.text)}</div>`:''}${m!=='ar'?`<div class="tr">${esc(bn[i]?bn[i].text:'')}</div>`:''}</div>`).join('')+bxPager(n>1?`bxQ(${n-1})`:'',n<114?`bxQ(${n+1})`:''));}
   catch(e){if(BK.v==='q'&&BK.n===n)bxSet(bxBar(nm,'bxQList()')+`<div class="note">${t('bkErr')}</div>`)}
 }
 async function bxHad(ed,sec){
   BK={v:'h',ed,sec};if(!HED)try{await loadHED()}catch(e){}
-  const nm=(HED&&HED.find(x=>x.name===ed)||{}).book||ed,ttl=nm+' · '+t('bkSec')+' '+dg(sec);S.hs=S.hs||{};S.hs[ed]=sec;S.rd={t:'h',ed,sec,title:ttl};save();
+  const nm=(HED&&HED.find(x=>x.name===ed)||{}).book||ed,ttl=nm+' · '+t('bkSec')+' '+dg(sec);S.bseg='h';S.hs=S.hs||{};S.hs[ed]=sec;S.rd={t:'h',ed,sec,title:ttl};save();
   bxSet(bxBar(ttl,'bxHome()')+`<div class="note">${t('bkLoad')}</div>`);
   const u=e=>[`${ED}editions/${e}/sections/${sec}.min.json`,`${ED}editions/${e}/sections/${sec}.json`],arE='ara-'+ed.slice(4),hasAr=HED&&HED.some(x=>x.name===arE);
   try{const[b,a]=await Promise.all([bget(u(ed)),hasAr?bget(u(arE)).catch(()=>null):null]);if(BK.v!=='h'||BK.ed!==ed||BK.sec!==sec)return;
@@ -575,7 +726,7 @@ function bxImport(i){
   r.onload=()=>{const a=ld('ub',[]);a.push({id:Date.now(),title:f.name.replace(/\.[^.]+$/,''),text:String(r.result)});if(!sv('ub',a))alert(t('bkFull'));bxHome()};r.readAsText(f,'utf-8');
 }
 function bxUb(id,p){
-  const b=ld('ub',[]).find(x=>x.id===id);if(!b)return bxHome();BK={v:'u',id,p};
+  const b=ld('ub',[]).find(x=>x.id===id);if(!b)return bxHome();BK={v:'u',id,p};S.bseg='m';
   const pg=[];let r=b.text;while(r.length){let k=Math.min(6000,r.length);if(r.length>6000){const q=r.lastIndexOf('\n',6000);if(q>2000)k=q}pg.push(r.slice(0,k));r=r.slice(k)}
   p=Math.max(0,Math.min(pg.length-1,p));
   bxSet(bxBar(b.title,'bxHome()')+`<div class="ay"><div class="tr">${esc(pg[p]||'')}</div></div>`+bxPager(p>0?`bxUb(${id},${p-1})`:'',p<pg.length-1?`bxUb(${id},${p+1})`:'',`<span class="note">${dg(p+1)} / ${dg(pg.length||1)}</span>`)+`<button class="del" style="margin-top:12px;width:100%" onclick="bxUbDel(${id})">${t('bkDel')}</button>`);
@@ -588,14 +739,14 @@ function qPush(){if(!NATIVE)return;clearTimeout(qT2);qT2=setTimeout(pushNative,8
 function pushNative(){
   const n=today0(),out=[],now=Date.now(),seen=new Set();
   for(let d=0;d<14;d++){const c=addD(n,d),z=sunTimes(c),ds=c.getFullYear()+pad(c.getMonth()+1)+pad(c.getDate());
-    if(S.adhan)[['fajr',z.fajr],['dhuhr',z.dhuhr],['asr',z.asr],['maghrib',z.maghrib],['isha',z.isha]].forEach(([k,x])=>{if(+x>now)out.push({t:+x,id:'p'+ds+k,n:t('pn')[k],b:t('adhanBody'),k:'adhan'})});
+    if(S.adhan)[['fajr',z.fajr],['dhuhr',z.dhuhr],['asr',z.asr],['maghrib',z.maghrib],['isha',z.isha]].forEach(([k,x])=>{if(+x>now&&adOn(k))out.push({t:+x,id:'p'+ds+k,n:t('pn')[k],b:t('adhanBody'),k:'adhan'})});
     S.alarms.forEach(a=>{if(!a.active)return;const dd=a.days||[];if(dd.length&&!dd.includes(c.getDay()))return;const[h,m]=a.time.split(':').map(Number),x=new Date(c.getFullYear(),c.getMonth(),c.getDate(),h,m).getTime();if(x<=now)return;if(!dd.length){if(seen.has(a.id))return;seen.add(a.id)}out.push({t:x,id:'a'+a.id+'_'+ds,n:a.label,b:t('alarmBody'),k:'alarm',aid:dd.length?0:a.id})});
   }
   try{AndroidApp.setSchedule(JSON.stringify(out))}catch(e){}
 }
 function applyFired(){if(!NATIVE)return;try{const ids=JSON.parse(AndroidApp.consumeFired()||'[]');if(ids.length){S.alarms.forEach(a=>{if(ids.includes(a.id))a.active=false});sv('cal_v4',S);renderAlarms()}}catch(e){}}
 window.onNativeResume=()=>{applyFired();if(!S.gps&&!S.up)getLoc(true);qPush()};
-window.onNativeBack=()=>{const m=document.querySelector('.modal.on');if(m){m.classList.remove('on');return true}if(curTab==='books'&&BK.v!=='home'){bxBack();return true}if(curTab!=='home'){tab('home');return true}return false};
+window.onNativeBack=()=>{const m=document.querySelector('.modal.on');if(m){m.classList.remove('on');return true}if(curTab==='books'&&BK.v!=='home'){bxBack();return true}if(curTab==='settings'&&S.stTab==='thm'){upd('stTab','gen');return true}if(curTab!=='home'){tab('home');return true}return false};
 let lfShown=false;
 function showLocFix(){if(NATIVE){try{AndroidApp.fixLocation()}catch(e){}return}$('locFx').classList.add('on')}
 function locRetry(){$('locFx').classList.remove('on');getLoc()}
@@ -606,26 +757,122 @@ addEventListener('beforeinstallprompt',e=>{e.preventDefault();DP=e;$('instBox').
 addEventListener('appinstalled',()=>{$('instBox').style.display='none'});
 function doInstall(){if(DP){DP.prompt();DP=null;$('instBox').style.display='none'}}
 
+/* ওয়ালপেপার (অনলাইন: ইসলামিক অনুষ্ঠান) ও আকাশের আভা (অফলাইন) */
+const WP_IMG={}; /* ঐচ্ছিক: অনুষ্ঠান-কী → নিজের ছবির URL, যেমন {ram:'img/ramadan.jpg'} */
+const WK={ram:['#1b0f3a','#5b2a86','#f59e0b'],qadr:['#020617','#1e1b4b','#c7d2fe'],eid:['#0c4a6e','#0f766e','#fde047'],adha:['#431407','#9a3412','#fbbf24'],barat:['#0b1026','#312e81','#e2e8f0'],meraj:['#020617','#1e3a8a','#93c5fd'],muh:['#1c1917','#7c2d12','#fdba74'],milad:['#022c22','#047857','#fde68a'],jum:['#052e16','#065f46','#fbbf24']};
+function wallSVG(k){
+  const[a,b,c]=WK[k];let x='';
+  for(let i=0;i<45;i++)x+=`<circle cx="${(i*97%100)*4}" cy="${(i*53%55)*8}" r="${(i%3)*.5+.8}" fill="#fff" opacity="${.3+(i%5)*.12}"/>`;
+  const full=k==='barat'||k==='qadr';
+  x+=full?`<circle cx="300" cy="150" r="46" fill="${c}"/><circle cx="300" cy="150" r="70" fill="${c}" opacity=".15"/>`:`<mask id="m"><rect width="400" height="800" fill="#fff"/><circle cx="320" cy="130" r="42" fill="#000"/></mask><circle cx="300" cy="150" r="48" fill="${c}" mask="url(#m)"/>`;
+  if(k==='ram')for(let i=0;i<5;i++){const lx=40+i*80,ly=70+(i%2)*50;x+=`<line x1="${lx}" y1="0" x2="${lx}" y2="${ly}" stroke="${c}" opacity=".6"/><path d="M${lx-10} ${ly}h20l-3 26h-14z" fill="${c}" opacity=".85"/><circle cx="${lx}" cy="${ly+13}" r="4" fill="#fff"/>`}
+  if(k==='eid'||k==='adha')for(let i=0;i<3;i++){const cx=90+i*110,cy=250+(i%2)*90;for(let j=0;j<12;j++){const an=j*Math.PI/6;x+=`<line x1="${cx}" y1="${cy}" x2="${(cx+Math.cos(an)*38).toFixed(0)}" y2="${(cy+Math.sin(an)*38).toFixed(0)}" stroke="${c}" stroke-width="2" opacity=".8"/>`}}
+  x+=`<g fill="rgba(0,0,0,.6)"><rect y="720" width="400" height="80"/><path d="M110 720a90 90 0 0 1 180 0z"/><rect x="56" y="590" width="14" height="130"/><path d="M54 590l9-34 9 34z"/><rect x="330" y="590" width="14" height="130"/><path d="M328 590l9-34 9 34z"/><rect x="198" y="600" width="4" height="32"/></g>`;
+  return`<svg viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="sg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${a}"/><stop offset=".7" stop-color="${b}"/><stop offset="1" stop-color="${a}"/></linearGradient></defs><rect width="400" height="800" fill="url(#sg)"/>${x}</svg>`;
+}
+function occOf(){const d=today0(),h=hjParts(d),k=h.m+'-'+h.d;
+  if(h.m===10&&h.d<=3)return'eid';if(h.m===12&&h.d>=9&&h.d<=13)return'adha';if(k==='9-27')return'qadr';if(h.m===9)return'ram';
+  if(k==='8-15')return'barat';if(k==='7-27')return'meraj';if(k==='1-10'||k==='1-1')return'muh';if(k==='3-12')return'milad';if(d.getDay()===5)return'jum';return''}
+const sk=(x,y,d,a,b)=>`radial-gradient(circle at ${x}% ${y}px,${d} 0 7px,${a} 9px,transparent 70px),radial-gradient(ellipse 130% 100% at ${x}% -20%,${b},transparent 72%)`;
+const SKY={night:sk(78,22,'#f1f5f9','rgba(148,163,184,.55)','rgba(79,70,229,.45)'),morning:sk(22,26,'#fff7ed','rgba(253,186,116,.8)','rgba(251,191,36,.5)'),noon:sk(50,18,'#fffbeb','rgba(254,240,138,.7)','rgba(56,189,248,.55)'),afternoon:sk(76,24,'#fff7ed','rgba(251,146,60,.8)','rgba(249,115,22,.45)'),dusk:sk(84,40,'#fecaca','rgba(244,63,94,.7)','rgba(147,51,234,.5)')};
+function skyPhase(n){const Z=getSched(n).Z,x=+n;if(x<+Z.fajr)return'night';if(x<+Z.sunrise+72e5)return'morning';if(x<+Z.asr)return'noon';if(x<+Z.sunset)return'afternoon';if(x<+Z.isha)return'dusk';return'night'}
+let wallKey='';
+function applyWall(){
+  const on=navigator.onLine!==false,k=on?occOf():'',sp=on?'':skyPhase(new Date()),key=k+'|'+sp;if(key===wallKey)return;wallKey=key;
+  const el=$('wp');el.classList.toggle('on',!!k);el.innerHTML=k&&!WP_IMG[k]?wallSVG(k):'';el.style.backgroundImage=k&&WP_IMG[k]?`url(${WP_IMG[k]})`:'';
+  document.documentElement.style.setProperty('--skyg',sp?SKY[sp]:'none');
+}
+addEventListener('online',()=>{wallKey='';applyWall()});addEventListener('offline',()=>{wallKey='';applyWall()});
+
 /* UI */
+const DUA=[["sl", "ঘুমানোর আগে", "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا", "হে আল্লাহ, আপনার নামেই আমি মৃত্যুবরণ করি (ঘুমাই) ও জীবিত হই (জাগি)।"], ["sl", "ঘুম থেকে উঠে", "الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ", "সমস্ত প্রশংসা আল্লাহর, যিনি মৃত্যুর (ঘুমের) পর আমাদের জীবিত করেছেন, আর তাঁর কাছেই পুনরুত্থান।"], ["tl", "টয়লেটে প্রবেশের সময়", "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْخُبُثِ وَالْخَبَائِثِ", "হে আল্লাহ, আমি আপনার কাছে অপবিত্র নর-নারী জিন-শয়তান থেকে আশ্রয় চাই।"], ["tl", "টয়লেট থেকে বের হয়ে", "غُفْرَانَكَ", "আপনার ক্ষমা চাই।"], ["ab", "ওযুর শুরুতে", "بِسْمِ اللَّهِ", "আল্লাহর নামে (শুরু করছি)।"], ["ab", "ওযুর পরে", "أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ", "আমি সাক্ষ্য দিচ্ছি, আল্লাহ ছাড়া কোনো ইলাহ নেই, তিনি এক, তাঁর কোনো শরীক নেই; আর সাক্ষ্য দিচ্ছি, মুহাম্মদ ﷺ তাঁর বান্দা ও রাসূল।"], ["ab", "ওযুর পরে (তাওবা ও পবিত্রতা)", "اللَّهُمَّ اجْعَلْنِي مِنَ التَّوَّابِينَ وَاجْعَلْنِي مِنَ الْمُتَطَهِّرِينَ", "হে আল্লাহ, আমাকে তাওবাকারী ও পবিত্রতা অর্জনকারীদের অন্তর্ভুক্ত করুন।"], ["ms", "মসজিদে প্রবেশের সময়", "اللَّهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ", "হে আল্লাহ, আমার জন্য আপনার রহমতের দরজা খুলে দিন।"], ["ms", "মসজিদ থেকে বের হওয়ার সময়", "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَضْلِكَ", "হে আল্লাহ, আমি আপনার অনুগ্রহ প্রার্থনা করি।"], ["pr", "নামাজের সানা", "سُبْحَانَكَ اللَّهُمَّ وَبِحَمْدِكَ وَتَبَارَكَ اسْمُكَ وَتَعَالَى جَدُّكَ وَلَا إِلَهَ غَيْرُكَ", "হে আল্লাহ, আপনি পবিত্র, প্রশংসাসহ; আপনার নাম বরকতময়, আপনার মর্যাদা সমুন্নত, আপনি ছাড়া কোনো ইলাহ নেই।"], ["pr", "রুকুর তাসবীহ", "سُبْحَانَ رَبِّيَ الْعَظِيمِ", "আমার মহান রবের পবিত্রতা ঘোষণা করছি।"], ["pr", "রুকু থেকে ওঠার সময়", "سَمِعَ اللَّهُ لِمَنْ حَمِدَهُ، رَبَّنَا لَكَ الْحَمْدُ", "আল্লাহ তাঁর কথা শোনেন, যে তাঁর প্রশংসা করে; হে আমাদের রব, সমস্ত প্রশংসা আপনারই।"], ["pr", "সিজদার তাসবীহ", "سُبْحَانَ رَبِّيَ الْأَعْلَى", "আমার সর্বোচ্চ রবের পবিত্রতা ঘোষণা করছি।"], ["hm", "বাড়ি থেকে বের হওয়ার সময়", "بِسْمِ اللَّهِ تَوَكَّلْتُ عَلَى اللَّهِ وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ", "আল্লাহর নামে, আল্লাহর উপর ভরসা করলাম; আল্লাহর সাহায্য ছাড়া কোনো উপায় ও শক্তি নেই।"], ["hm", "বাড়িতে প্রবেশের সময়", "بِسْمِ اللَّهِ وَلَجْنَا وَبِسْمِ اللَّهِ خَرَجْنَا وَعَلَى رَبِّنَا تَوَكَّلْنَا", "আল্লাহর নামে প্রবেশ করলাম, আল্লাহর নামে বের হলাম এবং আমাদের রবের উপর ভরসা করলাম।"], ["gr", "নতুন পোশাক পরার দোয়া", "الْحَمْدُ لِلَّهِ الَّذِي كَسَانِي هَذَا وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ", "সমস্ত প্রশংসা আল্লাহর, যিনি আমাকে এটি পরিয়েছেন এবং আমার কোনো সামর্থ্য ও শক্তি ছাড়াই আমাকে এটি দান করেছেন।"], ["tv", "যানবাহনে ওঠার দোয়া", "سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ وَإِنَّا إِلَى رَبِّنَا لَمُنْقَلِبُونَ", "পবিত্র সেই সত্তা, যিনি এটিকে আমাদের অধীন করে দিয়েছেন, অথচ আমরা একে বশ করতে সক্ষম ছিলাম না; আর আমরা অবশ্যই আমাদের রবের কাছে ফিরে যাব।"], ["tv", "নতুন স্থানে পৌঁছে", "رَبِّ أَنْزِلْنِي مُنْزَلًا مُبَارَكًا وَأَنْتَ خَيْرُ الْمُنْزِلِينَ", "হে আমার রব, আমাকে বরকতময় স্থানে অবতরণ করান; আপনিই শ্রেষ্ঠ অবতরণকারী। (সূরা মুমিনূন ২৩:২৯)"], ["fd", "খাওয়ার আগে", "بِسْمِ اللَّهِ", "আল্লাহর নামে (শুরু করছি)। শুরুতে ভুলে গেলে বলবে: বিসমিল্লাহি আওয়ালাহু ওয়া আখিরাহু।"], ["fd", "খাওয়ার পরে", "الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنَا وَسَقَانَا وَجَعَلَنَا مُسْلِمِينَ", "সমস্ত প্রশংসা আল্লাহর, যিনি আমাদের খাইয়েছেন, পান করিয়েছেন এবং মুসলিম বানিয়েছেন।"], ["fd", "খাওয়ার শুরুতে ভুলে গেলে", "بِسْمِ اللَّهِ أَوَّلَهُ وَآخِرَهُ", "এর শুরুতে ও শেষে আল্লাহর নামে।"], ["dh", "ইস্তিগফার", "أَسْتَغْفِرُ اللَّهَ", "আমি আল্লাহর কাছে ক্ষমা চাই।"], ["dh", "সাইয়্যিদুল ইস্তিগফার", "اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ خَلَقْتَنِي وَأَنَا عَبْدُكَ وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ", "হে আল্লাহ, আপনি আমার রব, আপনি ছাড়া কোনো ইলাহ নেই। আপনি আমাকে সৃষ্টি করেছেন, আমি আপনার বান্দা, সাধ্যমতো আপনার অঙ্গীকার ও প্রতিশ্রুতির উপর আছি। আমি যা করেছি তার অনিষ্ট থেকে আপনার কাছে আশ্রয় চাই। আমার উপর আপনার নিয়ামত স্বীকার করছি এবং আমার গুনাহও স্বীকার করছি; তাই আমাকে ক্ষমা করুন, কারণ আপনি ছাড়া কেউ গুনাহ ক্ষমা করে না।"], ["dh", "দরুদ (সংক্ষিপ্ত)", "اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ", "হে আল্লাহ, মুহাম্মদ ﷺ ও তাঁর পরিবারের উপর রহমত বর্ষণ করুন।"], ["dh", "সুবহানাল্লাহি ওয়া বিহামদিহি", "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ سُبْحَانَ اللَّهِ الْعَظِيمِ", "আল্লাহ পবিত্র ও প্রশংসাময়; মহান আল্লাহ পবিত্র।"], ["dh", "লা হাওলা ওয়া লা কুওয়াতা", "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ", "আল্লাহর সাহায্য ছাড়া কোনো উপায় ও শক্তি নেই।"], ["dh", "তাওহীদের যিকির", "لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ", "আল্লাহ ছাড়া কোনো ইলাহ নেই, তিনি একক, তাঁর কোনো শরীক নেই; রাজত্ব ও প্রশংসা তাঁরই, এবং তিনি সব কিছুর উপর ক্ষমতাবান।"], ["rm", "বৃষ্টির সময়", "اللَّهُمَّ صَيِّبًا نَافِعًا", "হে আল্লাহ, উপকারী বৃষ্টি দিন।"], ["rm", "সকাল-সন্ধ্যার দোয়া", "حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ", "আল্লাহই আমার জন্য যথেষ্ট, তিনি ছাড়া কোনো ইলাহ নেই; তাঁরই উপর ভরসা করলাম, তিনি মহান আরশের রব। (সূরা তাওবা ৯:১২৯)"], ["rm", "সকালের যিকির", "اللَّهُمَّ بِكَ أَصْبَحْنَا وَبِكَ أَمْسَيْنَا وَبِكَ نَحْيَا وَبِكَ نَمُوتُ وَإِلَيْكَ النُّشُورُ", "হে আল্লাহ, আপনার দয়ায় আমরা সকাল করেছি, আপনার দয়ায় সন্ধ্যা করেছি, আপনার দ্বারাই বাঁচি ও মরি, আর আপনার দিকেই পুনরুত্থান। (সন্ধ্যায় \"আসবাহনা\"র জায়গায় \"আমসাইনা\" ও শেষে \"আল-মাসীর\")"], ["rm", "ক্ষতি থেকে রক্ষার দোয়া", "بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ", "আল্লাহর নামে, যাঁর নামের সাথে আসমান-যমীনের কোনো কিছুই ক্ষতি করতে পারে না; তিনি সর্বশ্রোতা, সর্বজ্ঞ।"], ["ap", "সালাম ফেরানোর পরে", "أَسْتَغْفِرُ اللَّهَ، اللَّهُمَّ أَنْتَ السَّلَامُ وَمِنْكَ السَّلَامُ تَبَارَكْتَ يَا ذَا الْجَلَالِ وَالْإِكْرَامِ", "আমি আল্লাহর কাছে ক্ষমা চাই (৩ বার)। হে আল্লাহ, আপনি শান্তিময়, আপনার থেকেই শান্তি; হে মহিমা ও সম্মানের অধিকারী, আপনি বরকতময়।"], ["ap", "তাসবীহ", "سُبْحَانَ اللَّهِ • الْحَمْدُ لِلَّهِ • اللَّهُ أَكْبَرُ", "সুবহানাল্লাহ ৩৩ বার, আলহামদুলিল্লাহ ৩৩ বার, আল্লাহু আকবার ৩৪ বার।"], ["ap", "ইবাদতে সাহায্য চাওয়া", "اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ", "হে আল্লাহ, আপনার স্মরণ, শুকরিয়া ও উত্তমভাবে ইবাদত করতে আমাকে সাহায্য করুন।"], ["rz", "হালাল রিযিক ও ঋণমুক্তি", "اللَّهُمَّ اكْفِنِي بِحَلَالِكَ عَنْ حَرَامِكَ وَأَغْنِنِي بِفَضْلِكَ عَمَّنْ سِوَاكَ", "হে আল্লাহ, আপনার হালাল দিয়ে আমাকে হারাম থেকে যথেষ্ট করুন এবং আপনার অনুগ্রহে আপনি ছাড়া অন্যদের থেকে অমুখাপেক্ষী করুন।"], ["rz", "হালাল রিযিক ও উপকারী ইলম", "اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا وَرِزْقًا طَيِّبًا وَعَمَلًا مُتَقَبَّلًا", "হে আল্লাহ, আমি আপনার কাছে উপকারী জ্ঞান, পবিত্র রিযিক ও কবুলযোগ্য আমল প্রার্থনা করি।"], ["rz", "কল্যাণের মুখাপেক্ষী", "رَبِّ إِنِّي لِمَا أَنْزَلْتَ إِلَيَّ مِنْ خَيْرٍ فَقِيرٌ", "হে আমার রব, আপনি আমার প্রতি যে কল্যাণ নাযিল করবেন, আমি তার মুখাপেক্ষী। (সূরা কাসাস ২৮:২৪)"], ["qr", "দুনিয়া ও আখিরাতের কল্যাণ", "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ", "হে আমাদের রব, দুনিয়াতে কল্যাণ দিন, আখিরাতে কল্যাণ দিন এবং জাহান্নামের আযাব থেকে রক্ষা করুন। (সূরা বাকারা ২:২০১)"], ["qr", "জ্ঞান বৃদ্ধির দোয়া", "رَبِّ زِدْنِي عِلْمًا", "হে আমার রব, আমার জ্ঞান বাড়িয়ে দিন। (সূরা ত্বহা ২০:১১৪)"], ["qr", "পিতামাতার জন্য দোয়া", "رَبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا", "হে আমার রব, তাঁদের উভয়ের প্রতি দয়া করুন, যেমন তাঁরা শৈশবে আমাকে লালন-পালন করেছেন। (সূরা বনী ইসরাঈল ১৭:২৪)"], ["qr", "ইউনুস (আ.)-এর দোয়া", "لَا إِلَهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ", "আপনি ছাড়া কোনো ইলাহ নেই, আপনি পবিত্র; নিশ্চয়ই আমি যালিমদের অন্তর্ভুক্ত ছিলাম। (সূরা আম্বিয়া ২১:৮৭)"], ["qr", "আদম (আ.)-এর ক্ষমা প্রার্থনা", "رَبَّنَا ظَلَمْنَا أَنْفُسَنَا وَإِنْ لَمْ تَغْفِرْ لَنَا وَتَرْحَمْنَا لَنَكُونَنَّ مِنَ الْخَاسِرِينَ", "হে আমাদের রব, আমরা নিজেদের উপর যুলুম করেছি; যদি আপনি ক্ষমা না করেন ও দয়া না করেন, তবে অবশ্যই ক্ষতিগ্রস্তদের অন্তর্ভুক্ত হব। (সূরা আরাফ ৭:২৩)"], ["qr", "পরিবার ও সন্তানের জন্য দোয়া", "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا", "হে আমাদের রব, আমাদের স্ত্রী ও সন্তানদের থেকে আমাদের চোখের শীতলতা দান করুন এবং আমাদের মুত্তাকীদের নেতা বানান। (সূরা ফুরকান ২৫:৭৪)"], ["hd", "বিপদে পড়লে", "إِنَّا لِلَّهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ", "নিশ্চয়ই আমরা আল্লাহরই এবং তাঁর কাছেই ফিরে যাব। (সূরা বাকারা ২:১৫৬)"], ["hd", "দুশ্চিন্তা ও দুঃখ থেকে মুক্তি", "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ", "হে আল্লাহ, আমি আপনার কাছে দুশ্চিন্তা ও দুঃখ থেকে আশ্রয় চাই।"], ["hd", "রোগমুক্তির দোয়া", "اللَّهُمَّ رَبَّ النَّاسِ أَذْهِبِ الْبَأْسَ اشْفِ أَنْتَ الشَّافِي لَا شِفَاءَ إِلَّا شِفَاؤُكَ شِفَاءً لَا يُغَادِرُ سَقَمًا", "হে আল্লাহ, মানুষের রব, কষ্ট দূর করুন, আরোগ্য দিন; আপনিই আরোগ্যদাতা, আপনার আরোগ্য ছাড়া কোনো আরোগ্য নেই—এমন আরোগ্য, যা কোনো রোগ রেখে যায় না।"], ["rd", "ইফতারের দোয়া", "ذَهَبَ الظَّمَأُ وَابْتَلَّتِ الْعُرُوقُ وَثَبَتَ الْأَجْرُ إِنْ شَاءَ اللَّهُ", "পিপাসা দূর হয়েছে, শিরাগুলো সিক্ত হয়েছে এবং ইনশাআল্লাহ সওয়াব নিশ্চিত হয়েছে।"], ["rd", "লাইলাতুল কদরের দোয়া", "اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي", "হে আল্লাহ, আপনি ক্ষমাশীল, ক্ষমা ভালোবাসেন; অতএব আমাকে ক্ষমা করুন।"], ["mi", "আয়নায় তাকানোর সময়", "اللَّهُمَّ أَنْتَ حَسَّنْتَ خَلْقِي فَحَسِّنْ خُلُقِي", "ইয়া আল্লাহ, আপনিই আমার দেহ সুন্দর করে গড়েছেন; আমার স্বভাব ও আচরণকেও সুন্দর করে দিন।"], ["wd", "নবদম্পতির জন্য শুভকামনা", "بَارَكَ اللَّهُ لَكَ وَبَارَكَ عَلَيْكَ وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ", "আল্লাহ আপনাকে বরকত দিন, আপনার ওপর কল্যাণ নাযিল করুন এবং আপনাদের দুজনকে মঙ্গলের পথে একসাথে রাখুন।"], ["wd", "দাম্পত্য জীবনের শুরুতে", "اللَّهُمَّ إِنِّي أَسْأَلُكَ خَيْرَهَا وَخَيْرَ مَا جَبَلْتَهَا عَلَيْهِ وَأَعُوذُ بِكَ مِنْ شَرِّهَا وَشَرِّ مَا جَبَلْتَهَا عَلَيْهِ", "হে আল্লাহ, তার মধ্যকার কল্যাণ এবং যে ভালো স্বভাব দিয়ে তাকে গড়েছেন তা আমি চাই; আর তার ক্ষতি ও মন্দ প্রবণতা থেকে আপনার আশ্রয় চাই।"], ["nm", "নতুন চাঁদ দেখে", "اللَّهُمَّ أَهِلَّهُ عَلَيْنَا بِالْأَمْنِ وَالْإِيمَانِ وَالسَّلَامَةِ وَالْإِسْلَامِ رَبِّي وَرَبُّكَ اللَّهُ", "ইয়া আল্লাহ, এই চাঁদকে আমাদের জন্য নিরাপত্তা, ঈমান, শান্তি ও ইসলামের সাথে উদিত করুন। (হে চাঁদ,) আমার ও তোমার রব আল্লাহ।"], ["wn", "ঝোড়ো বাতাস বইলে", "اللَّهُمَّ إِنِّي أَسْأَلُكَ خَيْرَهَا وَخَيْرَ مَا فِيهَا وَخَيْرَ مَا أُرْسِلَتْ بِهِ وَأَعُوذُ بِكَ مِنْ شَرِّهَا وَشَرِّ مَا فِيهَا وَشَرِّ مَا أُرْسِلَتْ بِهِ", "ইয়া আল্লাহ, এই বাতাসের কল্যাণ, এর ভেতরের কল্যাণ ও যে উদ্দেশ্যে একে পাঠানো হয়েছে তার কল্যাণ চাই; এর অনিষ্ট থেকে আপনার আশ্রয় চাই।"], ["wn", "বজ্রের শব্দ শুনলে", "سُبْحَانَ الَّذِي يُسَبِّحُ الرَّعْدُ بِحَمْدِهِ وَالْمَلَائِكَةُ مِنْ خِيفَتِهِ", "পবিত্র সেই সত্তা, যাঁর প্রশংসায় বজ্র ধ্বনি তোলে আর যাঁর ভয়ে ফেরেশতারা তাসবীহ পড়ে।"], ["sk", "অসুস্থকে দেখতে গিয়ে", "لَا بَأْسَ طَهُورٌ إِنْ شَاءَ اللَّهُ", "চিন্তা করবেন না, ইনশাআল্লাহ এই অসুস্থতা গুনাহ থেকে পবিত্র হওয়ার উপলক্ষ হবে।"], ["sk", "রোগীর শিফার দোয়া (৭ বার)", "أَسْأَلُ اللَّهَ الْعَظِيمَ رَبَّ الْعَرْشِ الْعَظِيمِ أَنْ يَشْفِيَكَ", "আমি মহান আল্লাহর কাছে চাই, যিনি মহান আরশের মালিক, তিনি যেন আপনাকে সুস্থ করে দেন।"], ["sn", "হাঁচি দিলে", "الْحَمْدُ لِلَّهِ", "সব প্রশংসা আল্লাহর।"], ["sn", "অন্যের হাঁচির জবাবে", "يَرْحَمُكَ اللَّهُ", "আল্লাহ আপনার ওপর দয়া করুন।"], ["sn", "হাঁচির জবাব শুনে", "يَهْدِيكُمُ اللَّهُ وَيُصْلِحُ بَالَكُمْ", "আল্লাহ আপনাদের সঠিক পথে রাখুন এবং আপনাদের অবস্থা সংশোধন করে দিন।"], ["ch", "সন্তানের নিরাপত্তার জন্য", "أُعِيذُكُمَا بِكَلِمَاتِ اللَّهِ التَّامَّةِ مِنْ كُلِّ شَيْطَانٍ وَهَامَّةٍ وَمِنْ كُلِّ عَيْنٍ لَامَّةٍ", "আল্লাহর পূর্ণাঙ্গ বাণীর আশ্রয়ে আপনাদের দুজনকে সোপর্দ করছি—প্রত্যেক শয়তান, ক্ষতিকর প্রাণী ও কুদৃষ্টি থেকে।"], ["ch", "নেক সন্তান চেয়ে (যাকারিয়্যা আ.)", "رَبِّ هَبْ لِي مِن لَّدُنكَ ذُرِّيَّةً طَيِّبَةً ۖ إِنَّكَ سَمِيعُ الدُّعَاءِ", "হে আমার রব, আপনার পক্ষ থেকে আমাকে পবিত্র ও নেক সন্তান দান করুন; নিশ্চয়ই আপনি দোয়া শোনেন।"], ["sr", "আয়াতুল কুরসী", "اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ", "আল্লাহ ছাড়া কোনো ইলাহ নেই; তিনি চিরঞ্জীব, সবকিছুর ধারক। তন্দ্রা বা ঘুম তাঁকে স্পর্শ করে না। আসমান-যমীনের সবকিছু তাঁরই। তাঁর অনুমতি ছাড়া কে তাঁর কাছে সুপারিশ করবে? তিনি মানুষের সামনে-পেছনের সবকিছু জানেন; তাঁর ইচ্ছা ছাড়া কেউ তাঁর জ্ঞানের কিছুই আয়ত্ত করতে পারে না। তাঁর কুরসী আসমান-যমীন জুড়ে বিস্তৃত, এ দুটির রক্ষণাবেক্ষণ তাঁকে ক্লান্ত করে না; তিনি সর্বোচ্চ, মহান। (প্রতি ফরজ নামাজের পর ও ঘুমের আগে পড়া উত্তম।)"], ["sr", "সূরা ইখলাস", "قُلْ هُوَ اللَّهُ أَحَدٌ ۝ اللَّهُ الصَّمَدُ ۝ لَمْ يَلِدْ وَلَمْ يُولَدْ ۝ وَلَمْ يَكُنْ لَهُ كُفُوًا أَحَدٌ", "বলুন, তিনি আল্লাহ, এক। আল্লাহ অমুখাপেক্ষী। তিনি কাউকে জন্ম দেননি, কারও থেকে জন্মও নেননি। আর তাঁর সমকক্ষ কেউ নেই।"], ["sr", "সূরা ফালাক", "قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ ۝ مِنْ شَرِّ مَا خَلَقَ ۝ وَمِنْ شَرِّ غَاسِقٍ إِذَا وَقَبَ ۝ وَمِنْ شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ ۝ وَمِنْ شَرِّ حَاسِدٍ إِذَا حَسَدَ", "বলুন, আমি ভোরের রবের আশ্রয় নিচ্ছি—তাঁর সৃষ্টির অনিষ্ট থেকে, রাত নেমে এলে তার অনিষ্ট থেকে, গিঁটে ফুঁ দেওয়া অনিষ্টকারীদের থেকে এবং হিংসুক যখন হিংসা করে তার অনিষ্ট থেকে।"], ["sr", "সূরা নাস", "قُلْ أَعُوذُ بِرَبِّ النَّاسِ ۝ مَلِكِ النَّاسِ ۝ إِلَٰهِ النَّاسِ ۝ مِنْ شَرِّ الْوَسْوَاسِ الْخَنَّاسِ ۝ الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ ۝ مِنَ الْجِنَّةِ وَالنَّاسِ", "বলুন, আমি মানুষের রব, মানুষের বাদশাহ, মানুষের ইলাহের আশ্রয় নিচ্ছি—লুকিয়ে থাকা কুমন্ত্রণাদাতার অনিষ্ট থেকে, যে মানুষের অন্তরে কুমন্ত্রণা দেয়, জিন ও মানুষের মধ্য থেকে।"], ["ad", "আযানের পর", "اللَّهُمَّ رَبَّ هَذِهِ الدَّعْوَةِ التَّامَّةِ وَالصَّلَاةِ الْقَائِمَةِ آتِ مُحَمَّدًا الْوَسِيلَةَ وَالْفَضِيلَةَ وَابْعَثْهُ مَقَامًا مَحْمُودًا الَّذِي وَعَدْتَهُ", "হে আল্লাহ, এই পূর্ণাঙ্গ আহ্বান ও প্রতিষ্ঠিত নামাজের রব! মুহাম্মাদ ﷺ-কে ওসীলা ও মর্যাদা দান করুন এবং তাঁকে সেই প্রশংসিত স্থানে পৌঁছান, যার প্রতিশ্রুতি আপনি দিয়েছেন।"], ["is", "ইস্তিখারার দোয়া", "اللَّهُمَّ إِنِّي أَسْتَخِيرُكَ بِعِلْمِكَ وَأَسْتَقْدِرُكَ بِقُدْرَتِكَ وَأَسْأَلُكَ مِنْ فَضْلِكَ الْعَظِيمِ فَإِنَّكَ تَقْدِرُ وَلَا أَقْدِرُ وَتَعْلَمُ وَلَا أَعْلَمُ وَأَنْتَ عَلَّامُ الْغُيُوبِ اللَّهُمَّ إِنْ كُنْتَ تَعْلَمُ أَنَّ هَذَا الْأَمْرَ خَيْرٌ لِي فِي دِينِي وَمَعَاشِي وَعَاقِبَةِ أَمْرِي فَاقْدُرْهُ لِي وَيَسِّرْهُ لِي ثُمَّ بَارِكْ لِي فِيهِ وَإِنْ كُنْتَ تَعْلَمُ أَنَّ هَذَا الْأَمْرَ شَرٌّ لِي فِي دِينِي وَمَعَاشِي وَعَاقِبَةِ أَمْرِي فَاصْرِفْهُ عَنِّي وَاصْرِفْنِي عَنْهُ وَاقْدُرْ لِيَ الْخَيْرَ حَيْثُ كَانَ ثُمَّ أَرْضِنِي بِهِ", "কোনো সিদ্ধান্তে দ্বিধায় পড়লে দুই রাকাত নফল নামাজের পর পড়ুন। অর্থ: হে আল্লাহ, আপনার জ্ঞানের ওয়াসীলায় কল্যাণ চাই, আপনার শক্তির ওয়াসীলায় সামর্থ্য চাই এবং আপনার মহা অনুগ্রহ কামনা করি। আপনি সক্ষম, আমি অক্ষম; আপনি জানেন, আমি জানি না; আপনি অদৃশ্যের জ্ঞানী। এই কাজ যদি আমার দ্বীন, জীবিকা ও পরিণামের জন্য ভালো হয়, তবে তা আমার জন্য নির্ধারণ করুন, সহজ করুন ও তাতে বরকত দিন। আর যদি মন্দ হয়, তবে তা আমার থেকে এবং আমাকে তা থেকে সরিয়ে দিন; যেখানেই কল্যাণ থাকুক তা আমার জন্য নির্ধারণ করুন এবং তাতে আমাকে সন্তুষ্ট রাখুন।"], ["jm", "সালাম", "السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللَّهِ وَبَرَكَاتُهُ", "আপনাদের ওপর শান্তি, আল্লাহর রহমত ও বরকত বর্ষিত হোক। জবাবে বলা হয়: ওয়া আলাইকুমুস সালাম ওয়া রাহমাতুল্লাহি ওয়া বারাকাতুহ।"], ["hd", "ভয় বা চাপের মুহূর্তে", "حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ", "আল্লাহই আমাদের জন্য যথেষ্ট, আর তিনি কতই না উত্তম কর্মবিধায়ক।"], ["hd", "সাহায্যের জন্য ফরিয়াদ", "يَا حَيُّ يَا قَيُّومُ بِرَحْمَتِكَ أَسْتَغِيثُ", "হে চিরঞ্জীব, হে সবকিছুর ধারক! আপনার রহমতের ওয়াসীলায় আমি সাহায্য চাই।"], ["hd", "নিজের ওপর ছেড়ে না দেওয়ার দোয়া", "اللَّهُمَّ رَحْمَتَكَ أَرْجُو فَلَا تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ وَأَصْلِحْ لِي شَأْنِي كُلَّهُ لَا إِلَهَ إِلَّا أَنْتَ", "ইয়া আল্লাহ, আমি আপনার রহমতের আশা করি; আমাকে চোখের পলকের জন্যও আমার নিজের ওপর ছেড়ে দেবেন না। আমার সব বিষয় ঠিক করে দিন। আপনি ছাড়া কোনো ইলাহ নেই।"], ["hd", "কষ্টের সময় আইয়ূব (আ.)-এর দোয়া", "أَنِّي مَسَّنِيَ الضُّرُّ وَأَنتَ أَرْحَمُ الرَّاحِمِينَ", "আমাকে কষ্ট স্পর্শ করেছে, আর আপনি দয়ালুদের মধ্যে সর্বশ্রেষ্ঠ দয়ালু।"], ["qr", "ইবরাহীম ও ইসমাঈল (আ.)-এর দোয়া", "رَبَّنَا تَقَبَّلْ مِنَّا إِنَّكَ أَنتَ السَّمِيعُ الْعَلِيمُ", "হে আমাদের রব, আমাদের পক্ষ থেকে (এই আমল) কবুল করুন; নিশ্চয়ই আপনি সর্বশ্রোতা, সর্বজ্ঞ।"], ["qr", "ধৈর্য ও দৃঢ়তার দোয়া", "رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا وَثَبِّتْ أَقْدَامَنَا وَانصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ", "হে আমাদের রব, আমাদের ওপর ধৈর্য ঢেলে দিন, আমাদের পা অবিচল রাখুন এবং সত্য অস্বীকারকারীদের বিরুদ্ধে সাহায্য করুন।"], ["qr", "ভুলত্রুটি মাফের দোয়া", "رَبَّنَا لَا تُؤَاخِذْنَا إِنْ نَسِينَا أَوْ أَخْطَأْنَا رَبَّنَا وَلَا تَحْمِلْ عَلَيْنَا إِصْرًا كَمَا حَمَلْتَهُ عَلَى الَّذِينَ مِنْ قَبْلِنَا رَبَّنَا وَلَا تُحَمِّلْنَا مَا لَا طَاقَةَ لَنَا بِهِ وَاعْفُ عَنَّا وَاغْفِرْ لَنَا وَارْحَمْنَا أَنْتَ مَوْلَانَا فَانْصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ", "হে আমাদের রব, ভুলে গেলে বা ভুল করলে আমাদের পাকড়াও করবেন না। আমাদের আগের লোকদের মতো ভারী বোঝা চাপাবেন না; আমাদের সাধ্যের বাইরের বোঝা দেবেন না। আমাদের মার্জনা করুন, ক্ষমা করুন ও দয়া করুন; আপনিই আমাদের অভিভাবক, তাই কাফিরদের বিরুদ্ধে আমাদের সাহায্য করুন। (সূরা বাকারার শেষ আয়াত)"], ["qr", "অন্তর সত্যপথে স্থির রাখার দোয়া", "رَبَّنَا لَا تُزِغْ قُلُوبَنَا بَعْدَ إِذْ هَدَيْتَنَا وَهَبْ لَنَا مِن لَّدُنكَ رَحْمَةً إِنَّكَ أَنتَ الْوَهَّابُ", "হে আমাদের রব, হিদায়াত দেওয়ার পর আমাদের অন্তরকে বাঁকা হতে দেবেন না এবং আপনার পক্ষ থেকে আমাদের রহমত দান করুন; আপনিই মহান দাতা।"], ["qr", "নামাজে অবিচল থাকার দোয়া", "رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ وَمِن ذُرِّيَّتِي رَبَّنَا وَتَقَبَّلْ دُعَاءِ", "হে আমার রব, আমাকে নামাজ কায়েমকারী বানান এবং আমার সন্তানদেরও; হে আমাদের রব, আমার দোয়া কবুল করুন।"], ["qr", "ইবরাহীম (আ.)-এর ক্ষমা প্রার্থনা", "رَبَّنَا اغْفِرْ لِي وَلِوَالِدَيَّ وَلِلْمُؤْمِنِينَ يَوْمَ يَقُومُ الْحِسَابُ", "হে আমাদের রব, হিসাবের দিনে আমাকে, আমার পিতামাতাকে ও সব মুমিনকে ক্ষমা করুন।"], ["qr", "মূসা (আ.)-এর কাজ সহজ করার দোয়া", "رَبِّ اشْرَحْ لِي صَدْرِي ۝ وَيَسِّرْ لِي أَمْرِي ۝ وَاحْلُلْ عُقْدَةً مِّن لِّسَانِي ۝ يَفْقَهُوا قَوْلِي", "হে আমার রব, আমার বুক প্রশস্ত করে দিন, আমার কাজ সহজ করুন এবং আমার জিহ্বার জড়তা খুলে দিন, যেন তারা আমার কথা বুঝতে পারে।"], ["qr", "সুন্দর শুরু ও সমাপ্তির দোয়া", "رَبِّ أَدْخِلْنِي مُدْخَلَ صِدْقٍ وَأَخْرِجْنِي مُخْرَجَ صِدْقٍ وَاجْعَل لِّي مِن لَّدُنكَ سُلْطَانًا نَّصِيرًا", "হে আমার রব, আমাকে সত্যের সাথে প্রবেশ করান, সত্যের সাথে বের করুন এবং আপনার পক্ষ থেকে আমাকে সাহায্যকারী শক্তি দান করুন।"], ["qr", "ক্ষমা ও দয়া চেয়ে", "رَبِّ اغْفِرْ وَارْحَمْ وَأَنتَ خَيْرُ الرَّاحِمِينَ", "হে আমার রব, ক্ষমা করুন ও দয়া করুন; আপনি সর্বশ্রেষ্ঠ দয়ালু।"], ["rd", "রোজার নিয়ত", "وَبِصَوْمِ غَدٍ نَوَيْتُ مِنْ شَهْرِ رَمَضَانَ", "আমি আগামীকালের রমজানের রোজা রাখার নিয়ত করলাম। (প্রচলিত নিয়ত; অন্তরের সংকল্পই আসল, মুখে বলা জরুরি নয়।)"], ["jm", "দরুদে ইবরাহীম", "اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ كَمَا صَلَّيْتَ عَلَى إِبْرَاهِيمَ وَعَلَى آلِ إِبْرَاهِيمَ إِنَّكَ حَمِيدٌ مَجِيدٌ اللَّهُمَّ بَارِكْ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ كَمَا بَارَكْتَ عَلَى إِبْرَاهِيمَ وَعَلَى آلِ إِبْرَاهِيمَ إِنَّكَ حَمِيدٌ مَجِيدٌ", "নামাজের শেষ বৈঠকে পড়া হয়। অর্থ: হে আল্লাহ, ইবরাহীম (আ.) ও তাঁর বংশধরের ওপর যেমন রহমত বর্ষণ করেছেন, তেমন মুহাম্মাদ ﷺ ও তাঁর বংশধরের ওপরও করুন; আপনি প্রশংসিত ও মহিমান্বিত। আর যেমন ইবরাহীম (আ.) ও তাঁর বংশধরকে বরকত দিয়েছেন, তেমন মুহাম্মাদ ﷺ ও তাঁর বংশধরকে দিন।"], ["ad", "মুয়াযযিনের শাহাদাত শুনে", "أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ وَأَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ رَضِيتُ بِاللَّهِ رَبًّا وَبِمُحَمَّدٍ رَسُولًا وَبِالْإِسْلَامِ دِينًا", "আমি সাক্ষ্য দিচ্ছি আল্লাহ ছাড়া কোনো ইলাহ নেই, তিনি একক, তাঁর কোনো শরীক নেই; আর মুহাম্মাদ ﷺ তাঁর বান্দা ও রাসূল। আল্লাহকে রব, মুহাম্মাদ ﷺ-কে রাসূল ও ইসলামকে দ্বীন হিসেবে পেয়ে আমি সন্তুষ্ট।"]];
+const DCAT=[["sl", "ঘুম", "Sleeping", "sleep"], ["tl", "টয়লেট", "Toilet", "toilet"], ["ab", "ওযু", "Ablution", "drop"], ["ms", "মসজিদ", "Mosque", "mosque"], ["pr", "নামাজ", "Prayer", "hands"], ["hm", "বাড়ি", "Home", "home"], ["gr", "পোশাক", "Garment", "shirt"], ["tv", "সফর", "Travel", "plane"], ["fd", "খাবার", "Food", "fork"], ["mi", "আয়না", "Mirror", "sunrise"], ["wd", "বিয়ে", "Marriage", "heart"], ["nm", "নতুন চাঁদ", "New Moon", "moon"], ["wn", "আবহাওয়া", "Weather", "drop"], ["sk", "অসুস্থতা ও শোক", "Illness & Grief", "shield"], ["sn", "হাঁচি", "Sneezing", "hands"], ["ch", "সন্তান", "Children", "heart"], ["dh", "দৈনন্দিন যিকির", "Daily Dhikr", "beads"], ["rm", "সকাল-সন্ধ্যার যিকির", "Daily Remembrance", "moon"], ["ap", "নামাজের পরে", "After Prayers", "hands"], ["rz", "রিযিক", "Rizq (Sustenance)", "apple"], ["qr", "কুরআনের দোয়া", "Quranic Duas", "book"], ["hd", "বিপদ, রোগ ও ক্ষমা", "Hardship & Forgiveness", "shield"], ["rd", "ইফতার ও রমজান", "Ramadan", "bowl"], ["sr", "সুরক্ষার আয়াত ও সূরা", "Protection", "shield"], ["ad", "আযানের পর", "After Adhan", "mosque"], ["is", "ইস্তিখারা", "Istikhara", "hands"], ["jm", "দরুদ ও সালাম", "Salawat & Salam", "beads"]];
+let DO='',DBM=false,DSR=false;
+function dToggle(id){DO=DO===id?'':id;renderDua()}
+function dBm(i){const a=S.dbm||[],k=a.indexOf(i);k<0?a.push(i):a.splice(k,1);S.dbm=a;save();renderDua()}
+function dView(v){if(v==='bm')DBM=!DBM;else{DSR=!DSR;if(!DSR)$('duaQ').value=''}renderDua();if(DSR)$('duaQ').focus()}
+const dCard=i=>{const x=DUA[i],on=(S.dbm||[]).includes(i);return`<div class="ay"><div class="dhd"><b style="color:var(--ac)">${esc(x[1])}</b><button class="bm${on?' on':''}" onclick="dBm(${i})">${ic('bookmark',18)}</button></div><div class="ar">${esc(x[2])}</div><div class="tr">${esc(x[3])}</div></div>`};
+function renderDua(){
+  const q=($('duaQ').value||'').trim(),bm=S.dbm||[];
+  $('duaQ').style.display=DSR?'':'none';$('dBmB').classList.toggle('on',DBM);$('dSrB').classList.toggle('on',DSR);
+  const idx=DUA.map((_,i)=>i).filter(i=>(!q||(DUA[i][1]+DUA[i][2]+DUA[i][3]).includes(q))&&(!DBM||bm.includes(i)));
+  let h='';
+  [['d',0,16,'duaG1'],['a',16,DCAT.length,'duaG2']].forEach(([g,a,b,k])=>{
+    const rows=DCAT.slice(a,b).map(c=>[c,idx.filter(i=>DUA[i][0]===c[0])]).filter(r=>(q||DBM)?r[1].length:1);
+    if(!rows.length)return;h+=`<div class="dg">${t(k)}</div>`;
+    rows.forEach(([c,l])=>{const open=(q||DBM)?true:DO===c[0];h+=`<button class="dcr${open?' on':''}" onclick="dToggle('${c[0]}')">${ic(c[3],30)}<b>${c[S.lang==='bn'?1:2]}</b><span class="cv">${ic('dn',20)}</span></button>${open?`<div class="dcp">${l.map(dCard).join('')}</div>`:''}`});
+  });
+  $('duaList').innerHTML=h||`<div class="empty">${t('bkNone')}</div>`;
+}
+const adOn=k=>!(S.adh&&S.adh[k]===false);
+function adSet(k,v){S.adh=S.adh||{};S.adh[k]=v;save();qPush()}
+function adSw(id){const e=$(id);if(e)e.innerHTML=['fajr','dhuhr','asr','maghrib','isha'].map(k=>`<div class="row" style="margin-top:10px"><span style="font-weight:600;text-align:left">${t('pn')[k]} · ${t('adz')}</span><label class="sw2 fit"><input type="checkbox" ${adOn(k)?'checked':''} onchange="adSet('${k}',this.checked)"><i></i></label></div>`).join('')}
+const qAudio=n=>`<div class="note" style="margin:8px 0 2px">${t('qAud')}</div><audio controls preload="none" style="width:100%;margin-bottom:6px" src="https://cdn.islamic.network/quran/audio-surah/128/ar.alafasy/${n}.mp3"></audio>`;
+function obLoc(){S.locAsked=true;save();getLoc(true);obNext()}
+function obNext(){$('onb1').style.display='none';$('onb2').style.display='';adSw('adSwO');$('onbN').checked=!!S.notif}
+function obAl(){unlock();if('Notification' in window&&!S.notif){setNotif($('onbN'))}$('obAb').textContent=t('obAok')}
+function obNext2(){$('onb2').style.display='none';$('onb3').style.display='';accRender()}
+function obFin(){S.onb=1;save();$('onb').classList.remove('on');$('notifOn').checked=!!S.notif;adSw('adSwS')}
+
 function tab(n){
-  const d=tabs.indexOf(n)>tabs.indexOf(curTab)?1:-1;curTab=n;if(n==='books'&&!$('bxMain').innerHTML)bxHome();
+  const d=tabs.indexOf(n)>tabs.indexOf(curTab)?1:-1;curTab=n;if(n==='settings')stShow();if(n==='books'&&!$('bxMain').innerHTML)bxHome();if(n==='dua')renderDua();
   document.querySelectorAll('.tab,.nb').forEach(e=>e.classList.remove('on'));
   const e=$('tab-'+n);e.style.setProperty('--dx',d*60+'px');e.classList.add('on');e.scrollTop=0;document.querySelector(`.nb[data-t=${n}]`).classList.add('on');
 }
+const THN={islamic:['ইসলামিক সবুজ','Islamic green'],indigo:['নীলচে বেগুনি','Indigo'],sunset:['সূর্যাস্ত','Sunset'],midnight:['মধ্যরাত','Midnight'],makkah:['মক্কা','Makkah'],ramadan:['রমজান','Ramadan'],cream:['হালকা ক্রিম','Cream'],beige:['বেইজ','Beige'],sand:['বালুকা (স্যান্ড)','Sand']};
 function applyLook(){
-  const r=document.documentElement;r.dataset.theme=S.theme;
+  const r=document.documentElement;r.dataset.theme=S.theme;r.dataset.ui=S.ui||'normal';
   r.dataset.m=S.mode==='auto'?(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'):S.mode;
   document.querySelectorAll('.sw').forEach(e=>e.classList.toggle('on',e.dataset.th===S.theme));
+  {const n=THN[S.theme];if($('thN'))$('thN').textContent=n?n[S.lang==='bn'?0:1]:''}
 }
-function segs(){document.querySelectorAll('.seg').forEach(e=>{const k=e.dataset.k,o=e.dataset.o.split(','),l=e.dataset.l.split(',');e.innerHTML=o.map((v,i)=>`<button class="${String(S[k])===v?'on':''}" onclick="upd('${k}',${isNaN(v)?"'"+v+"'":v})">${l[i][0]==='~'?t(l[i].slice(1)):l[i]}</button>`).join('')})}
-function upd(k,v){S[k]=v;if(k==='lang'){save();location.reload();return}if(k==='city'){S.gps=false;S.up=null}save();if(k==='city'){SC={key:''};fetchSun()}if(k==='main')MV=newView(v);if(['lang','hadj','main','city'].includes(k)){if(k==='hadj')MV=newView(S.main);applyLang()}else applyLook();segs()}
+function segs(){document.querySelectorAll('.seg[data-k]').forEach(e=>{const k=e.dataset.k,o=e.dataset.o.split(','),l=e.dataset.l.split(',');e.innerHTML=o.map((v,i)=>`<button class="${String(S[k])===v?'on':''}" onclick="upd('${k}',${isNaN(v)?"'"+v+"'":v})">${l[i][0]==='~'?t(l[i].slice(1)):l[i]}</button>`).join('')})}
+/* অ্যাপ আপডেট চেক (GitHub রিলিজ) */
+let UPD=null;
+const vParts=v=>String(v).replace(/^[^\d]*/,'').split('.').map(x=>parseInt(x)||0);
+function vNewer(a,b){const x=vParts(a),y=vParts(b);for(let i=0;i<Math.max(x.length,y.length);i++){const d=(x[i]||0)-(y[i]||0);if(d)return d>0}return false}
+function updShow(){
+  const b=$('updBn'),st=$('updS');if(!b||!st)return;
+  if(UPD){
+    const msg=`${t('updNew')}: v${esc(UPD.v)}`;
+    if(S.updSkip!==UPD.tag){b.style.display='';b.innerHTML=`<div><b>${msg}</b><small>${t('updHow')}</small></div><a class="btn" href="${esc(UPD.url)}" target="_blank" rel="noopener noreferrer">${t('updDl')}</a><button class="btn alt" onclick="updSkip()">${t('updLater')}</button>`}
+    else b.style.display='none';
+    st.innerHTML=`${msg} · <a href="${esc(UPD.url)}" target="_blank" rel="noopener noreferrer" style="color:var(--gold);font-weight:700">${t('updDl')}</a>`;
+  }else{b.style.display='none'}
+}
+function updSkip(){if(UPD){S.updSkip=UPD.tag;save()}updShow()}
+async function updCheck(manual){
+  const st=$('updS');if(manual&&st)st.textContent=t('updChk');
+  try{
+    const r=await fetch(`https://api.github.com/repos/${UPD_REPO}/releases/latest`,{headers:{Accept:'application/vnd.github+json'}});
+    if(!r.ok)throw new Error(r.status);
+    const j=await r.json(),tag=String(j.tag_name||'');S.updAt=Date.now();
+    if(tag&&vNewer(tag,APP_VER)){
+      const apk=(j.assets||[]).find(a=>/\.apk$/i.test(a.name||'')),u=apk&&apk.browser_download_url||j.html_url||'';
+      UPD={tag,v:vParts(tag).join('.'),url:/^https:\/\/github\.com\//.test(u)?u:`https://github.com/${UPD_REPO}/releases/latest`};
+      S.updNew=UPD;save();updShow();
+    }else{
+      UPD=null;S.updNew=null;save();updShow();
+      if(manual&&st)st.textContent=`${t('updLatest')} (v${APP_VER})`;
+    }
+  }catch(e){if(manual&&st)st.textContent=t('updErr')}
+}
+function updInit(){
+  if(!NATIVE)return;
+  $('updOn').checked=S.autoUpd!==false;
+  $('updS').textContent=`${t('updCur')}: v${APP_VER}`;
+  if(S.updNew&&vNewer(S.updNew.tag,APP_VER)){UPD=S.updNew;updShow()}else S.updNew=null;
+  if(S.autoUpd!==false&&(!S.updAt||Date.now()-S.updAt>432e5))setTimeout(()=>updCheck(false),4000);
+}
+function stShow(){const th=S.stTab==='thm';$('stGen').style.display=th?'none':'';$('stThm').style.display=th?'':'none';segs()}
+function upd(k,v){S[k]=v;if(k==='stTab'){save();stShow();const e=$('tab-settings');if(e)e.scrollTop=0;return}if(k==='lang'){save();location.reload();return}if(k==='locMode'){if(v==='auto')getLoc();else{S.gps=false;SC={key:''};lastR='';fetchSun();tick(true)}save();locStat();segs();return}if(k==='city'){S.gps=false;S.up=S.upz=S.vil=null;S.locMode='manual'}save();if(k==='city'){SC={key:''};fetchSun()}if(k==='main')MV=newView(v);if(['lang','hadj','main','city'].includes(k)){if(k==='hadj')MV=newView(S.main);applyLang()}else applyLook();segs()}
 function applyLang(){
   document.documentElement.lang=S.lang;
   document.querySelectorAll('[data-i]').forEach(e=>e.textContent=t(e.dataset.i));
   document.querySelectorAll('[data-p]').forEach(e=>e.placeholder=t(e.dataset.p));
   document.querySelectorAll('[data-ic]').forEach(e=>e.innerHTML=ic(e.dataset.ic));
   $('city').innerHTML=DIV.map(g=>`<optgroup label="${L?g[0]+' Division':g[1]}">${g[2].split(';').map(x=>{const k=x.split('|')[0];return`<option value="${k}">${CN[k][L]}</option>`}).join('')}</optgroup>`).join('');
-  ['tone','city'].forEach(k=>$(k).value=S[k]);segs();mqKey='';$('adhanOn').checked=S.adhan;$('notifOn').checked=!!S.notif;
+  fillTones();$('city').value=S.city;wallKey='';segs();mqKey='';$('adhanOn').checked=S.adhan;adSw('adSwS');$('notifOn').checked=!!S.notif;
   $('snzB').textContent=`${t('snz')} ${dg(S.snz)}`;$('swB').textContent=t(swRun?'pause':'start');$('tmB').textContent=t(tmEnd?'pause':'start');
   $('adS').textContent=ld('adhan_a','')?t('adSaved'):t('adhanFile');
   $('chips').innerHTML=t('days').map((d,i)=>`<button class="chip${sel.has(i)?' on':''}" onclick="chip(${i})">${d}</button>`).join('');
@@ -639,6 +886,7 @@ function tick(force){
   TY.forEach(ty=>{const e=$('c_'+ty);if(e)e.textContent=strOf(ty,d)});
   const ds=d.toDateString()+S.lang+S.hadj;if(ds!==mqKey){mqKey=ds;drawMq()}
   prayUpdate(n);checkAlarms(n);
+  if(force||n.getMinutes()!==wm){wm=n.getMinutes();applyWall()}
 }
 
 /* অ্যালার্ম */
@@ -647,7 +895,7 @@ function chip(i){sel.has(i)?sel.delete(i):sel.add(i);document.querySelectorAll('
 function fmt12(tm){const[h,m]=tm.split(':').map(Number);return wrapT(h,`${dg(pad(h%12||12))}:${dg(pad(m))}`)}
 function addAlarm(){
   unlock();const tm=$('aT').value;if(!tm)return;
-  S.alarms.push({id:Date.now(),time:tm,label:$('aL').value.trim()||t('def'),active:true,days:[...sel],last:''});
+  S.alarms.push({id:Date.now(),time:tm,label:$('aL').value.trim()||t('def'),active:true,days:[...sel],last:'',tone:$('aTone').value});
   $('aT').value='';$('aL').value='';sel.clear();document.querySelectorAll('.chip').forEach(e=>e.classList.remove('on'));save();renderAlarms();
 }
 const repTxt=a=>{const d=a.days||[];return!d.length?t('once'):d.length===7?t('daily'):d.map(i=>t('days')[i]).join(', ')};
@@ -661,24 +909,42 @@ function checkAlarms(n){if(NATIVE)return;
   if(ringing!==null)return;
   const hm=pad(n.getHours())+':'+pad(n.getMinutes()),st=n.toDateString()+hm;
   for(const a of S.alarms){const d=a.days||[];
-    if(a.active&&a.time===hm&&a.last!==st&&(!d.length||d.includes(n.getDay()))){a.last=st;if(!d.length)a.active=false;save();renderAlarms();ring(a.label);return}}
-  if(snoozeAt&&Date.now()>=snoozeAt){snoozeAt=0;ring(snoozeLabel)}
+    if(a.active&&a.time===hm&&a.last!==st&&(!d.length||d.includes(n.getDay()))){a.last=st;if(!d.length)a.active=false;save();renderAlarms();ring(a.label,false,a.tone);return}}
+  if(snoozeAt&&Date.now()>=snoozeAt){snoozeAt=0;ring(snoozeLabel,false,snoozeTone)}
 }
+const TN=[['triangle',[880,0,880,0],.15,1],['sine',[784,988,1175,1568],.22,1],['square',[520,0,520,0,780],.12,.35],['sine',[1047,0,1047,784],.3,1.8],['sine',[523,587,659,784,659,587],.2,1],['triangle',[262,330,392,523,659,784,1047],.13,1.4],['sine',[659,0,784,659,0,523],.18,.6],['sine',[392,494,587,784],.35,1.3],['sawtooth',[660,880,660,880],.15,.3],['sine',[2093,2349,2093,0,2637,2349],.08,.7],['triangle',[523,659,784,659,523,0,392],.25,1.2],['square',[988,784,988,784,0,0],.1,.3],['sine',[220,330],.9,2.2],['triangle',[523,523,523,659,784],.2,1]];
 function beep(v,f,dur){
-  if(!audio)return;const o=audio.createOscillator(),g=audio.createGain(),c=[['triangle',880],['sine',660],['square',520]][S.tone];
+  if(!audio)return;const o=audio.createOscillator(),g=audio.createGain(),c=[['triangle',880],['sine',660],['square',520]][S.tone]||['triangle',880];
   o.type=f?'sine':c[0];o.frequency.value=f||c[1];g.gain.value=v;o.connect(g);g.connect(audio.destination);o.start();o.stop(audio.currentTime+(dur||.3));
 }
-function ring(label,ad){
+function playTone(i,v){
+  const T0=TN[i]||TN[0];if(!audio)return .6;const[w,ns,st,dc]=T0,t0=audio.currentTime+.02;
+  ns.forEach((f,k)=>{if(!f)return;const o=audio.createOscillator(),g=audio.createGain(),a=t0+k*st,e=a+Math.max(.12,st*dc);o.type=w;o.frequency.value=f;
+    g.gain.setValueAtTime(0,a);g.gain.linearRampToValueAtTime(v*(w==='sine'||w==='triangle'?1:.4),a+.02);g.gain.exponentialRampToValueAtTime(.0001,e);
+    o.connect(g);g.connect(audio.destination);o.start(a);o.stop(e+.05)});
+  return ns.length*st+.5;
+}
+const tv=x=>x===undefined||x==='d'?S.tone:(x==='c'?'c':+x);
+function previewTone(x){x=tv(x);if(x==='c'){const src=ld('alarm_a','');if(src){const a=new Audio(src);a.play().catch(()=>{});setTimeout(()=>a.pause(),5000)}return}unlock();playTone(x,.4)}
+function loadAlTone(i){const f=i.files[0];if(!f)return;if(f.size>3e6){$('alS').textContent=t('adBig');return}
+  const r=new FileReader();r.onload=()=>{sv('alarm_a',r.result);$('alS').textContent=t('alSaved');fillTones()};r.readAsDataURL(f)}
+function fillTones(){
+  const nm=t('tnames'),has=!!ld('alarm_a',''),o=nm.map((n,i)=>`<option value="${i}">${n}</option>`).join('')+(has?`<option value="c">${t('toneCn')}</option>`:'');
+  $('tone').innerHTML=o;$('tone').value=S.tone;$('aTone').innerHTML=`<option value="d">${t('toneDef')}</option>`+o;$('alS').textContent=has?t('alSaved'):'';
+}
+function ring(label,ad,tone){
   notify(label,t(ad?'adhan':'ringing'));
-  ringing=label;$('mLabel').textContent=label;$('ringT').textContent=t(ad?'adhan':'ringing');$('snzB').style.display=ad?'none':'';$('ringM').classList.add('on');
+  ringing=label;ringTone=tone;$('mLabel').textContent=label;$('ringT').textContent=t(ad?'adhan':'ringing');$('snzB').style.display=ad?'none':'';$('ringM').classList.add('on');
   unlock();clearInterval(ringTimer);vol=.05;
   if(ad){const src=ld('adhan_a','');if(src){adA=new Audio(src);adA.play().catch(()=>{});return}
     const N=[392,440,494,523,494,440];let i=0;const go=()=>beep(.35,N[i++%6],.55);go();ringTimer=setInterval(go,700);return}
-  const go=()=>{vol=Math.min(.7,vol+.04);beep(vol)};go();ringTimer=setInterval(go,600);
+  const x=tv(tone);
+  if(x==='c'&&ld('alarm_a','')){adA=new Audio(ld('alarm_a',''));adA.loop=true;adA.play().catch(()=>{})}
+  else{const i=x==='c'?0:x,go=()=>{vol=Math.min(.7,vol+.05);playTone(i,vol)};go();ringTimer=setInterval(go,Math.round(((TN[i]||TN[0])[1].length*(TN[i]||TN[0])[2]+.6)*1000))}
   if(navigator.vibrate)navigator.vibrate([300,150,300]);
 }
 function stopAlarm(){clearInterval(ringTimer);if(adA){adA.pause();adA=null}ringing=null;$('ringM').classList.remove('on')}
-function snooze(){snoozeLabel=ringing;stopAlarm();snoozeAt=Date.now()+S.snz*60000}
+function snooze(){snoozeLabel=ringing;snoozeTone=ringTone;stopAlarm();snoozeAt=Date.now()+S.snz*60000}
 function loadAdhan(i){
   const f=i.files[0];if(!f)return;if(f.size>3e6){$('adS').textContent=t('adBig');return}
   const r=new FileReader();r.onload=()=>{sv('adhan_a',r.result);$('adS').textContent=t('adSaved')};r.readAsDataURL(f);
@@ -695,17 +961,80 @@ function tmDraw(){
   const s=Math.ceil((tmEnd?Math.max(0,tmEnd-Date.now()):tmLeft)/1000);$('tmD').textContent=`${dg(pad(Math.floor(s/60)))}:${dg(pad(s%60))}`;
 }
 
-/* ব্যাকআপ */
-function exportD(){const j=JSON.stringify({alarms:S.alarms,notes:S.notes});$('bk').value=j;try{navigator.clipboard.writeText(j)}catch(e){}}
-function importD(){try{const o=JSON.parse($('bk').value);if(Array.isArray(o.alarms))S.alarms=o.alarms;if(o.notes&&typeof o.notes==='object')S.notes=o.notes;save();renderAlarms();drawMain(0);$('bk').value=''}catch(e){$('bk').value='JSON error'}}
 
 /* শুরু */
-$('sws').innerHTML=[['islamic','#10b981'],['indigo','#818cf8'],['cyberpunk','#2dd4bf'],['royal-neon','#f43f5e'],['sunset','#f97316']].map(([n,c])=>`<button class="sw" data-th="${n}" style="background:${c}" aria-label="${n}" onclick="upd('theme','${n}')"></button>`).join('');
+$('sws').innerHTML=[['islamic','#10b981'],['indigo','#818cf8'],['sunset','#f97316'],['midnight','#60a5fa'],['makkah','#e0b84d'],['ramadan','#f59e0b'],['cream','#f3e2bd'],['beige','#d9ccb4'],['sand','#c9d3a8']].map(([n,c])=>`<button class="sw" data-th="${n}" style="background:${c}" aria-label="${n}" onclick="upd('theme','${n}')"></button>`).join('');
 try{matchMedia('(prefers-color-scheme: light)').addEventListener('change',applyLook)}catch(e){}
 document.addEventListener('pointerdown',unlock,{once:true});
 MV=newView(S.main);applyLook();applyLang();
 fetchSun();setInterval(fetchSun,6*36e5);
-locInit();$('ver').textContent=APP_VER;
+/* অ্যাকাউন্ট ও ক্লাউড সিঙ্ক (Firebase) */
+const FB_CFG={apiKey:"",authDomain:"",projectId:"",appId:""}; /* ← Firebase প্রজেক্টের কনফিগ এখানে বসান */
+const FBV='10.12.2';var fbP=null,FBU=null,fbT=0,accMsg='';
+const fbOn=()=>!!(FB_CFG.apiKey&&FB_CFG.projectId);
+function fbLoad(){
+  if(fbP)return fbP;
+  const ld1=u=>new Promise((ok,no)=>{const e=document.createElement('script');e.src=u;e.onload=ok;e.onerror=no;document.head.appendChild(e)});
+  const b='https://www.gstatic.com/firebasejs/'+FBV+'/firebase-';
+  fbP=ld1(b+'app-compat.js').then(()=>Promise.all([ld1(b+'auth-compat.js'),ld1(b+'firestore-compat.js')])).then(()=>{
+    firebase.initializeApp(FB_CFG);firebase.auth().useDeviceLanguage();
+    firebase.auth().onAuthStateChanged(u=>{FBU=u;if(u){S.acct=u.email||'1';sv('cal_v4',S);cloudSync()}accRender()});
+  }).catch(e=>{fbP=null;throw e});
+  return fbP;
+}
+const fbDoc=()=>firebase.firestore().collection('users').doc(FBU.uid);
+function mergeU(a,b){const m=new Map();(a||[]).concat(b||[]).forEach(x=>{if(x&&x.id!==undefined&&!m.has(x.id))m.set(x.id,x)});return[...m.values()]}
+async function cloudSync(){
+  if(!FBU)return;
+  try{
+    const d=await fbDoc().get();
+    if(d.exists){
+      const c=JSON.parse(d.data().data||'{}');let ch=false;
+      const keep={onb:S.onb,acct:S.acct,locAsked:S.locAsked};
+      const al=mergeU(c.alarms,S.alarms),nt=Object.assign({},S.notes,c.notes||{}),bm=[...new Set([...(c.dbm||[]),...(S.dbm||[])])];
+      if(JSON.stringify(c)!==JSON.stringify(S)){Object.assign(S,c,keep,{alarms:al,notes:nt,dbm:bm});if(c.onb)S.onb=1;ch=true}
+      S.syncT=Date.now();sv('cal_v4',S);await cloudPush(true);
+      if(ch){location.reload();return}
+    }else await cloudPush(true);
+    accRender();
+  }catch(e){accMsg='Sync error';accRender()}
+}
+async function cloudPush(now){
+  if(!FBU||navigator.onLine===false)return;
+  const j=JSON.stringify(S);if(j.length>9e5)return;
+  S.syncT=Date.now();sv('cal_v4',S);
+  try{await fbDoc().set({data:JSON.stringify(S),t:Date.now()})}catch(e){}
+}
+function cloudQ(){if(!FBU)return;clearTimeout(fbT);fbT=setTimeout(()=>cloudPush(),2500)}
+function accInit(){if(fbOn()&&S.acct&&navigator.onLine!==false)fbLoad().catch(()=>{});accRender()}
+function accBox(k){
+  if(!fbOn())return`<div class="note" style="text-align:left">${t('acOff')}</div>`;
+  const m=accMsg?`<div class="note" style="text-align:left;margin-top:8px">${esc(accMsg)}</div>`:'';
+  if(FBU)return`<div class="row" style="margin-top:6px"><b style="text-align:left;word-break:break-all">${esc(FBU.email||FBU.displayName||'')}</b></div><div class="note" style="text-align:left">${t('acOk')}${S.syncT?' · '+t('acLast')+': '+new Date(S.syncT).toLocaleTimeString(S.lang==='bn'?'bn-BD':'en-US',{hour:'2-digit',minute:'2-digit'}):''}</div><div class="row" style="margin-top:8px"><button class="btn alt" onclick="cloudPush(true).then(accRender)">${t('acSync')}</button><button class="btn alt" onclick="accOut()">${t('acOut')}</button></div>${m}`;
+  return`<p data-x style="opacity:.85;font-size:.85rem;margin:8px 0;text-align:left">${t('acP')}</p>${NATIVE?'':`<button class="btn w" style="margin-top:0" onclick="accG()">${t('acG')}</button>`}<input id="${k}E" type="email" autocomplete="email" class="in" style="margin-top:10px" placeholder="${t('acE')}"><input id="${k}P" type="password" autocomplete="current-password" class="in" style="margin-top:8px" placeholder="${t('acPw')}"><div class="row" style="margin-top:8px"><button class="btn alt" onclick="accEm('${k}',0)">${t('acIn')}</button><button class="btn alt" onclick="accEm('${k}',1)">${t('acUp')}</button></div><button class="btn alt w" style="margin-top:8px" onclick="accRs('${k}')">${t('acRs')}</button>${m}`;
+}
+function accRender(){const a=$('accBox'),b=$('accOb');if(a)a.innerHTML=accBox('s');if(b)b.innerHTML=accBox('o')}
+function accSay(m){accMsg=m;accRender()}
+async function accReady(){if(navigator.onLine===false){accSay(t('acNet'));return false}accSay(t('acBusy'));try{await fbLoad();accSay('');return true}catch(e){accSay(t('acNet'));return false}}
+const accER=e=>({'auth/email-already-in-use':t('acExist'),'auth/weak-password':t('acWeak'),'auth/network-request-failed':t('acNet'),'auth/popup-closed-by-user':''}[e.code]??t('acErr'));
+async function accG(){
+  if(!await accReady())return;
+  try{await firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider())}
+  catch(e){if(e.code==='auth/popup-blocked'||e.code==='auth/operation-not-supported-in-this-environment'){try{await firebase.auth().signInWithRedirect(new firebase.auth.GoogleAuthProvider())}catch(x){accSay(accER(x))}}else accSay(accER(e))}
+}
+async function accEm(k,up){
+  const e=($(k+'E').value||'').trim(),p=$(k+'P').value||'';
+  if(!e||!p){accSay(t('acFill'));return}
+  if(!await accReady())return;
+  try{const a=firebase.auth();up?await a.createUserWithEmailAndPassword(e,p):await a.signInWithEmailAndPassword(e,p)}catch(x){accSay(accER(x))}
+}
+async function accRs(k){
+  const e=($(k+'E').value||'').trim();if(!e){accSay(t('acFill'));return}
+  if(!await accReady())return;
+  try{await firebase.auth().sendPasswordResetEmail(e);accSay(t('acSent'))}catch(x){accSay(accER(x))}
+}
+async function accOut(){try{await firebase.auth().signOut()}catch(e){}FBU=null;delete S.acct;sv('cal_v4',S);accRender()}
+if(!S.onb){S.locAsked=true;$('onb').classList.add('on')}accInit();adSw('adSwS');locInit();updInit();$('ver').textContent=APP_VER;$('crY').textContent=dg(new Date().getFullYear());
 if(NATIVE){document.documentElement.classList.add('nat');applyFired();qPush()}
 {const q=new URLSearchParams(location.search);if(q.get('view')==='widget')document.documentElement.classList.add('wg');if(q.get('tab'))tab(q.get('tab'));if(q.get('ram'))openRam()}
 if(!NATIVE&&'serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
