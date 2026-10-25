@@ -323,9 +323,12 @@ html:not([data-nn]) .nan{box-shadow:none;border-radius:0}
     <div class="mq" onclick="mqOpen()" style="cursor:pointer"><div class="mqt" id="mqt"></div></div>
     <div class="updbn nat-only" id="updBn" style="display:none"></div>
     <div class="in4" id="info"></div>
+    <div id="rmz" class="glass rmz" style="display:none"></div>
     <div class="live" id="live"></div>
     <div id="pr"></div>
-    <button class="btn alt ic" style="margin:2px 14px 6px;width:calc(100% - 28px)" onclick="pdOpen()"><i data-ic="book"></i><span data-i="pdBtn"></span></button>
+    <div id="ptr" class="glass ptr"></div>
+    <button class="btn alt ic" style="margin:2px 14px 6px;width:calc(100% - 28px)" onclick="tsbOpen()"><span>📿 তাসবিহ কাউন্টার</span></button>
+    <div class="modal" id="tsbM"><div class="mc" style="max-width:380px;text-align:center"><h3>তাসবিহ কাউন্টার</h3><div id="amW" style="text-align:left"></div><div id="tsbL"></div><div class="tsbRing" id="tsbR"><button class="tsbBtn" onclick="tsbTap()"><b id="tsbC">০</b></button></div><div class="note" id="tsbT"></div><div class="row" style="margin:12px 0;gap:8px"><button class="btn alt" style="flex:1;padding-left:6px;padding-right:6px" onclick="tsbReset()">রিসেট</button><button class="btn alt tsbUb" id="tsbU" style="flex:1.3;padding-left:6px;padding-right:6px" onclick="tsbUnl()">∞ আনলিমিটেড</button><button class="btn" style="flex:1;padding-left:6px;padding-right:6px" onclick="tsbClose()">বন্ধ</button></div><div class="note" id="amF" style="text-align:left"></div></div></div>
     <div id="nfl"></div>
   </section>
   <section id="tab-cal" class="tab pad">
@@ -344,6 +347,7 @@ html:not([data-nn]) .nan{box-shadow:none;border-radius:0}
     </div>
     <div class="alb">
     <div id="aList"></div>
+    <div class="glass" id="preCard"></div>
     <div class="glass"><div class="sec"><span class="sic"><i data-ic="spk"></i></span><h4 data-i="sAd"></h4></div>
       <div class="row" style="margin-top:12px"><span data-i="adhanOn" style="font-weight:600"></span><label class="sw2 fit"><input type="checkbox" id="adhanOn" onchange="upd('adhan',this.checked)"><i></i></label></div>
       <div id="adSwS"></div>
@@ -365,37 +369,59 @@ html:not([data-nn]) .nan{box-shadow:none;border-radius:0}
     <div class="box"><h4 data-i="tm"></h4><div class="big" id="tmD">00:00</div>
       <div class="row"><input type="number" id="tmIn" class="in" min="1" max="999" value="5"><button class="btn" id="tmB" onclick="tmToggle()"></button></div></div>
     <div class="box"><h4 data-i="conv"></h4><input type="date" id="cv" class="in" onchange="convert()"><div id="cvO" style="margin-top:8px;display:grid;gap:5px;font-weight:600"></div></div>
+      <div class="box" id="zkBox"></div>
+      <div class="box" id="ftBox"></div>
       </div>
     <div id="stThm" style="display:none"><div class="glass"><div class="sec"><span class="sic"><i data-ic="palette"></i></span><h4 data-i="tTheme"></h4></div>
       <div class="sws" id="sws"></div><div class="note" id="thN"></div></div></div>
+    <!-- General -->
     <div id="stGen">
-    <div class="glass"><div class="sec"><span class="sic"><i data-ic="palette"></i></span><h4 data-i="sCh"></h4></div>
-      <div class="lbl" data-i="tMode"></div><div class="seg" data-k="mode" data-o="auto,light,dark" data-l="~auto,~light,~dark"></div>
-      <div class="lbl" data-i="tUI"></div><div class="seg" data-k="ui" data-o="normal,clear" data-l="~uiNormal,~uiClear"></div>
-      <div class="lbl" data-i="tLang"></div><div class="seg" data-k="lang" data-o="bn,en" data-l="বাংলা,English"></div></div>
-    <div class="glass"><div class="sec"><span class="sic"><i data-ic="pin"></i></span><h4 data-i="sLoc"></h4></div>
-      <div class="lbl" data-i="tLocMode"></div><div class="seg" data-k="locMode" data-o="auto,manual" data-l="~lmAuto,~lmMan"></div>
-      <button class="btn alt w ic" style="margin-top:10px" onclick="getLoc()"><i data-ic="pin"></i><span data-i="locBtn"></span></button><div id="locS" class="note" style="text-align:left;margin-top:8px"></div>
-      <div id="manBox"><div class="lbl" data-i="tCity"></div><select id="city" class="in" onchange="upd('city',this.value)"></select>
-      <div class="lbl" data-i="tUp"></div><div class="row"><input id="upQ" class="in" data-p="upPh" onkeydown="if(event.key==='Enter')placeSearch('u')"><button class="btn fit" style="width:48px" onclick="placeSearch('u')"><i data-ic="search"></i></button></div><div id="upR"></div>
-      <div class="lbl" data-i="tVil"></div><div class="row"><input id="vlQ" class="in" data-p="vlPh" onkeydown="if(event.key==='Enter')placeSearch('v')"><button class="btn fit" style="width:48px" onclick="placeSearch('v')"><i data-ic="search"></i></button></div><div id="vlR"></div>
-      <div class="lchips" id="selLoc"></div></div>
-      <div class="lbl" data-i="tMain"></div><div class="seg" data-k="main" data-o="h,b,g" data-l="~lblH,~lblB,~lblG"></div>
-      <div class="lbl" data-i="tHadj"></div><div class="seg" data-k="hadj" data-o="-1,0,1" data-l="-1,0,+1"></div></div>
-    <div class="glass nat-only" id="updSec"><div class="sec"><span class="sic"><i data-ic="down"></i></span><h4 data-i="updT"></h4></div>
+
+      <!-- Appearance -->
+      <div class="glass">
+        <div class="sec"><span class="sic"><i data-ic="palette"></i></span><h4 data-i="sCh"></h4></div>
+        <div class="lbl" data-i="tLang"></div><div class="seg" data-k="lang" data-o="bn,en" data-l="বাংলা,English"></div>
+        <div class="lbl" data-i="tMode"></div><div class="seg" data-k="mode" data-o="auto,light,dark" data-l="~auto,~light,~dark"></div>
+        <div class="lbl" data-i="tUI"></div><div class="seg" data-k="ui" data-o="normal,clear" data-l="~uiNormal,~uiClear"></div>
+      </div>
+
+      <!-- Location -->
+      <div class="glass">
+        <div class="sec"><span class="sic"><i data-ic="pin"></i></span><h4 data-i="sLoc"></h4></div>
+        <div class="lbl" data-i="tLocMode"></div><div class="seg" data-k="locMode" data-o="auto,manual" data-l="~lmAuto,~lmMan"></div>
+        <button class="btn alt w ic" style="margin-top:10px" onclick="getLoc()"><i data-ic="pin"></i><span data-i="locBtn"></span></button><div id="locS" class="note" style="text-align:left;margin-top:8px"></div>
+        <div id="manBox"><div class="lbl" data-i="tCity"></div><select id="city" class="in" onchange="upd('city',this.value)"></select>
+        <div class="lbl" data-i="tUp"></div><div class="row"><input id="upQ" class="in" data-p="upPh" onkeydown="if(event.key==='Enter')placeSearch('u')"><button class="btn fit" style="width:48px" onclick="placeSearch('u')"><i data-ic="search"></i></button></div><div id="upR"></div>
+        <div class="lbl" data-i="tVil"></div><div class="row"><input id="vlQ" class="in" data-p="vlPh" onkeydown="if(event.key==='Enter')placeSearch('v')"><button class="btn fit" style="width:48px" onclick="placeSearch('v')"><i data-ic="search"></i></button></div><div id="vlR"></div>
+        <div class="lchips" id="selLoc"></div></div>
+      </div>
+
+      <!-- Calendar -->
+      <div class="glass">
+        <div class="sec"><span class="sic"><i data-ic="cal"></i></span><h4 data-i="sCal"></h4></div>
+        <div class="lbl" data-i="tMain"></div><div class="seg" data-k="main" data-o="h,b,g" data-l="~lblH,~lblB,~lblG"></div>
+        <div class="lbl" data-i="tHadj"></div><div class="seg" data-k="hadj" data-o="-1,0,1" data-l="-1,0,+1"></div>
+      </div>
+
+      <!-- Data -->
+      <div class="glass" id="bkCard"></div>
+      <div class="glass" id="accSec"><div class="sec"><span class="sic"><i data-ic="heart"></i></span><h4 data-i="acT"></h4></div><div id="accBox"></div></div>
+
+      <!-- Updates -->
+      <div class="glass nat-only" id="updSec"><div class="sec"><span class="sic"><i data-ic="down"></i></span><h4 data-i="updT"></h4></div>
       <div class="row" style="margin-top:12px"><span data-i="updAuto" style="font-weight:600"></span><label class="sw2 fit"><input type="checkbox" id="updOn" onchange="upd('autoUpd',this.checked)"><i></i></label></div>
       <button class="btn alt w" style="margin-top:10px" onclick="updCheck(true)" data-i="updNow"></button>
       <div id="updS" class="note" style="text-align:left;margin-top:8px"></div></div>
-    <div class="glass" id="accSec"><div class="sec"><span class="sic"><i data-ic="heart"></i></span><h4 data-i="acT"></h4></div><div id="accBox"></div></div>
-    <div class="glass web-only" id="instBox" style="display:none"><button class="btn w ic" style="margin-top:0" onclick="doInstall()"><i data-ic="down"></i><span data-i="inst"></span></button></div>
-    <div class="glass cpr"><div class="sec"><span class="sic"><i data-ic="shield"></i></span><h4 data-i="crT"></h4></div>
+      <div class="glass web-only" id="instBox" style="display:none"><button class="btn w ic" style="margin-top:0" onclick="doInstall()"><i data-ic="down"></i><span data-i="inst"></span></button></div>
+
+      <!-- About -->
+      <div class="glass cpr"><div class="sec"><span class="sic"><i data-ic="shield"></i></span><h4 data-i="crT"></h4></div>
       <div class="cph"><div class="crl" style="margin-top:12px">Design &amp; Developed By</div><div class="crn">Hadid Sarker</div></div>
       <div class="cpl">&copy; <span id="crY"></span> Hadid Sarker<small data-i="crRights"></small></div>
       <p class="cpt" data-i="crLaw"></p><p class="cpt" data-i="crProhib"></p><p class="cpt" data-i="crThird"></p>
       <hr><div class="lbl cph" data-i="crContact"></div>
       <div class="row"><a class="btn alt" href="https://github.com/hadidsarker03-lab" target="_blank" rel="noopener noreferrer">GitHub</a><button class="btn alt" id="waB" onclick="copyWa()">WhatsApp: @hadidsarker</button></div>
       <div class="crv">App Version <b id="ver"></b></div></div>
-  
     </div>
   </section>
   <nav>
@@ -491,6 +517,7 @@ Object.assign(T.bn,{duaG1:"প্রতিদিনের",duaG2:"আযকা�
 Object.assign(T.en,{duaG1:"Daily",duaG2:"Azkar",navDua:"Duas",duaT:"Duas & Dhikr",duaSearch:"Search duas",duaAll:"All",duaD:"Daily",duaQ:"Quranic",duaH:"Hardship",duaR:"Prayer/Ramadan",adz:"Adhan",qAud:"Recitation: Mishary Rashid Alafasy",ob1T:"Location permission",ob1P:"Location is needed to show accurate prayer, sehri and iftar times for your area. You can also set it later in Settings.",ob2T:"Notifications & alarms",ob2P:"Allow permission so the adhan alarm can ring at prayer time. Choose which prayers ring below.",obA:"Allow alarm & sound",obAok:"✓ Allowed",obFin:"Get started"});
 Object.assign(T.bn,{acT:"অ্যাকাউন্ট ও ডাটা সেভ",acP:"লগইন করলে অ্যালার্ম, নোট, বুকমার্ক ও সেটিংস নিরাপদে জমা থাকবে এবং অন্য ফোনে লগইন করলেও ফিরে পাবেন।",acG:"Google (Gmail) দিয়ে লগইন",acE:"ইমেইল",acPw:"পাসওয়ার্ড (কমপক্ষে ৬ অক্ষর)",acIn:"ইমেইলে লগইন",acUp:"নতুন অ্যাকাউন্ট",acRs:"পাসওয়ার্ড ভুলে গেছেন?",acOut:"লগআউট",acSync:"এখনই সিঙ্ক",acOff:"লগইন সেবা এখনো চালু করা হয়নি।",acNet:"ইন্টারনেট সংযোগ প্রয়োজন।",acOk:"সংযুক্ত। ডাটা সিঙ্ক হচ্ছে।",acErr:"ইমেইল বা পাসওয়ার্ড সঠিক নয়।",acSent:"পাসওয়ার্ড রিসেটের লিংক ইমেইলে পাঠানো হয়েছে।",acLast:"শেষ সিঙ্ক",acFill:"ইমেইল ও পাসওয়ার্ড দিন।",acExist:"এই ইমেইলে আগেই অ্যাকাউন্ট আছে।",acWeak:"পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে।",acBusy:"অপেক্ষা করুন...",ob3T:"ডাটা সুরক্ষিত রাখুন",ob3P:"চাইলে এখনই লগইন করুন, অথবা এড়িয়ে যান। পরে সেটিংস থেকেও করা যাবে।"});
 Object.assign(T.en,{acT:"Account & data saving",acP:"Sign in to keep your alarms, notes, bookmarks and settings safe and get them back on another phone.",acG:"Sign in with Google (Gmail)",acE:"Email",acPw:"Password (min 6 characters)",acIn:"Sign in with email",acUp:"Create account",acRs:"Forgot password?",acOut:"Sign out",acSync:"Sync now",acOff:"Sign-in service is not enabled yet.",acNet:"Internet connection required.",acOk:"Connected. Your data is syncing.",acErr:"Email or password is incorrect.",acSent:"Password reset link sent to your email.",acLast:"Last sync",acFill:"Enter email and password.",acExist:"An account already exists for this email.",acWeak:"Password must be at least 6 characters.",acBusy:"Please wait...",ob3T:"Keep your data safe",ob3P:"Sign in now, or skip it. You can also do it later from Settings."});
+Object.assign(T.bn,{sCal:"ক্যালেন্ডার"});Object.assign(T.en,{sCal:"Calendar"});
 Object.assign(T.bn,{pdBtn:"নিয়ত, তাসবীহ, দোয়া ও মোনাজাত",pdTm:"আজকের সময়",pdW:"ওয়াক্ত",pdR:"রাকাত",pdTs:"তাসবীহ",pdSl:"সালাম ও মোনাজাত",pdQb:"কেবলা ঠিক করতে না পারলে নিজের বিবেক যেদিকে সাক্ষ্য দেয়, সেদিকে মুখ করে নামাজ পড়বেন।",nflT:"নফল নামাজের সময় (আনুমানিক)",nfIsh:"ইশরাক",nfCh:"চাশত",nfTh:"তাহাজ্জুদ (রাতের শেষ ভাগ)",nfForb:"নিষিদ্ধ সময় (নামাজ পড়া যাবে না)",nfSr:"সূর্যোদয়",nfZw:"দ্বিপ্রহর",nfSs:"সূর্যাস্ত",nfNote:"সময়গুলো আনুমানিক; স্থানীয় আলেমের সঙ্গে মিলিয়ে নিন।"});
 Object.assign(T.en,{pdBtn:"Niyyah, Tasbih, Dua & Munajat",pdTm:"Today's time",pdW:"Waqt",pdR:"Rakats",pdTs:"Tasbih",pdSl:"Salam & Munajat",pdQb:"If you cannot determine the Qibla, pray facing the direction your judgement favours.",nflT:"Nafl prayer times (approx.)",nfIsh:"Ishraq",nfCh:"Chasht (Duha)",nfTh:"Tahajjud (last third of night)",nfForb:"Forbidden times (no prayer)",nfSr:"Sunrise",nfZw:"Zenith",nfSs:"Sunset",nfNote:"Times are approximate; confirm with a local scholar. Niyyah text is in Bengali."});
 Object.assign(T.bn,{navCal:"ক্যালেন্ডার"});Object.assign(T.en,{navCal:"Calendar"});
@@ -808,7 +835,7 @@ function bxMode(v){S.qm=v;save();BK.v==='q'?bxQ(BK.n):bxHad(BK.ed,BK.sec)}
 function bxBack(){BK.v==='q'?bxQList():bxHome()}
 function bxHome(){
   qpStop();BK={v:'home'};const r=S.rd,sg=S.bseg||'q',ub=ld('ub',[]);
-  let h=`<div class="sec"><span class="sic">${ic('book')}</span><h4>${t('bkT')}</h4></div><button class="bxc" onclick="tab('dua')"><b>${t('duaT')}</b><small>${t('duaG1')} ${t('duaG2')}</small></button>`;
+  let h=`<div class="sec"><span class="sic">${ic('book')}</span><h4>${t('bkT')}</h4></div><button class="bxc" onclick="tab('dua')"><b>${t('duaT')}</b><small>${t('duaG1')} ${t('duaG2')}</small></button><button class="bxc" onclick="pdOpen(null,true)"><b>${t('pdBtn')}</b><small>${t('pn').fajr} · ${t('pn').dhuhr} · ${t('pn').asr} · ${t('pn').maghrib} · ${t('pn').isha}</small></button>`;
   if(r)h+=`<button class="bxc" onclick="bxResume()"><b>${t('bkCont')}</b><small>${esc(r.title)}</small></button>`;
   h+=`<div class="seg" style="margin-top:10px">${[['q',t('bkSQ')],['h',t('bkSH')],['m',t('bkSM')]].map(([v,l])=>`<button class="${sg===v?'on':''}" onclick="bxSeg('${v}')">${l}</button>`).join('')}</div>`;
   if(sg==='q'){
@@ -885,6 +912,8 @@ function pushNative(){
   const n=today0(),out=[],now=Date.now(),seen=new Set();
   for(let d=0;d<14;d++){const c=addD(n,d),z=sunTimes(c),ds=c.getFullYear()+pad(c.getMonth()+1)+pad(c.getDate());
     if(S.adhan)[['fajr',z.fajr],['dhuhr',z.dhuhr],['asr',z.asr],['maghrib',z.maghrib],['isha',z.isha]].forEach(([k,x])=>{if(+x>now&&adOn(k))out.push({t:+x,id:'p'+ds+k,n:t('pn')[k],b:t('adhanBody'),k:'adhan'})});
+    if(S.pre>0&&d<5)[['fajr',z.fajr],['dhuhr',z.dhuhr],['asr',z.asr],['maghrib',z.maghrib],['isha',z.isha]].forEach(([k,x])=>{const y=+x-S.pre*6e4;if(y>now&&adOn(k))out.push({t:y,id:'q'+ds+k,n:S.lang==='en'?`${t('pn')[k]} in ${S.pre} min`:`${t('pn')[k]}-এর ${dg(S.pre)} মিনিট বাকি`,b:S.lang==='en'?'Time to prepare for prayer':'নামাজের প্রস্তুতি নিন',k:'alarm',aid:0})});
+    if(S.rmzRem!==false&&hjParts(c).m===9)[15,5].forEach(m=>{const x=+z.sehri-m*6e4;if(x>now)out.push({t:x,id:'r'+ds+'s'+m,n:S.lang==='en'?`Sehri ends in ${m} min`:`সাহরি শেষ হতে ${dg(m)} মিনিট বাকি`,b:S.lang==='en'?'Ramadan Mubarak':'রমজান মোবারক — এখনই সাহরি শেষ করুন',k:'alarm',aid:0})});
     S.alarms.forEach(a=>{if(!a.active)return;const dd=a.days||[];if(dd.length&&!dd.includes(c.getDay()))return;const[h,m]=a.time.split(':').map(Number),x=new Date(c.getFullYear(),c.getMonth(),c.getDate(),h,m).getTime();if(x<=now)return;if(!dd.length){if(seen.has(a.id))return;seen.add(a.id)}out.push({t:x,id:'a'+a.id+'_'+ds,n:a.label,b:t('alarmBody'),k:'alarm',aid:dd.length?0:a.id})});
   }
   try{AndroidApp.setSchedule(JSON.stringify(out))}catch(e){}
@@ -1075,13 +1104,13 @@ isha:{w:'সূর্যাস্তের লালিমা মিলিয়
  n:[['৪ রাকাত সুন্নত নামাজের নিয়ত','নাওয়াইতু আন্ উসাল্লিয়া লিল্লা-হি তাআলা আরবাআ রাকয়াতি সালাতিল এশায়ি সুন্নাতু রাসুলিল্লা-হি তাআলা মুতাওয়াজজিহান ইলা জিহাতিল কা’বাতিশ শারীফাতি আল্লাহু আকবার।'],['৪ রাকাত ফরজ নামাজের নিয়ত','নাওয়াইতু আন্ উসাল্লিয়া লিল্লা-হি তাআলা আরবাআ রাকয়াতি সালাতিল এশায়ি ফারজুল্লা-হি তাআলা মুতাওয়াজজিহান ইলা জিহাতিল কা’বাতিশ শারীফাতি আল্লাহু আকবার।'],['২ রাকাত সুন্নত নামাজের নিয়ত','নাওয়াইতু আন্ উসাল্লিয়া লিল্লা-হি তাআলা রাকয়াতাই সালাতিল এশায়ি সুন্নাতু রাসুলিল্লা-হি তাআলা মুতাওয়াজজিহান ইলা জিহাতিল কা’বাতিশ শারীফাতি আল্লাহু আকবার।'],['৩ রাকাত বেতের নামাজের নিয়ত','নাওয়াইতু আন্ উসাল্লিয়া লিল্লা-হি তাআলা ছালাছা রাকয়াতি সালাতিল বিতরি ওয়াজিবুল্লা-হি তাআলা মুতাওয়াজজিহান ইলা জিহাতিল কা’বাতিশ শারীফাতি আল্লাহু আকবার।']],
  ts:['হুয়াল লাতিফুল খাবীর।','তিনি পাক ও অতিশয় সতর্ক।']}};
 const PDS={sl:'আসসালামু আলাইকুম ওয়া রাহমাতুল্লাহ।',mn:'রাব্বানা আতিনা ফিদ্দুনইয়া হাসানাতাওঁ ওয়াফিল আখিরাতি হাসানাতাওঁ ওয়াকিনা আজাবান্নার। ওয়া সাল্লাল্লাহু তাআলা আলা খাইরি খালক্বিহী মুহাম্মাদিওঁ ওয়া আলিহী ওয়া আসহাবিহী আজমাইন। বিরাহমাতিকা ইয়া আরহামার রাহিমীন।'};
-let pdK='fajr';
+let pdK='fajr',pdAll=false;
 const pdCur=()=>{const n=new Date(),sc=getSched(n),c=sc.list.find(x=>n>=x[1]&&n<x[2])||sc.list.find(x=>x[1]>n)||sc.list[1];return c[0]==='isha0'?'isha':c[0]};
-function pdOpen(k){pdShow(k||pdCur());$('pdM').classList.add('on')}
+function pdOpen(k,all){pdAll=!!all;pdShow(k||pdCur());$('pdM').classList.add('on')}
 function pdClose(){$('pdM').classList.remove('on')}
 function pdShow(k){pdK=k;const d=PD[k],e=esc,x=getSched(new Date()).list.find(y=>y[0]===k),box=(h,b,m)=>`<div class="pdc"><h5>${h}</h5><p>${b}</p>${m?`<div class="m">${m}</div>`:''}</div>`;
   $('pdT').textContent=t('pn')[k]+' · '+t('pdBtn');
-  $('pdTabs').innerHTML=Object.keys(PD).map(q=>`<button class="${q===k?'on':''}" onclick="pdShow('${q}')">${t('pn')[q]}</button>`).join('');
+  $('pdTabs').style.display=pdAll?'':'none';$('pdTabs').innerHTML=!pdAll?'':Object.keys(PD).map(q=>`<button class="${q===k?'on':''}" onclick="pdShow('${q}')">${t('pn')[q]}</button>`).join('');
   $('pdBody').innerHTML=(x?box(t('pdTm'),`${fmtT(x[1])} – ${fmtT(x[2])}`):'')+box(t('pdW'),e(d.w)+(d.jm?'\n'+e(d.jm):''))+box(t('pdR'),d.r.map(e).join(' · '))
    +d.n.map(a=>box(a[0],e(a[1]))).join('')+(d.nt?box('',e(d.nt)):'')+box(t('pdTs'),e(d.ts[0]),e(d.ts[1]))+box(t('pdSl'),e(PDS.sl)+'\n\n'+e(PDS.mn))
    +`<div class="pdn">${t('pdQb')}</div>`;
@@ -1102,12 +1131,22 @@ function updShow(){
   const b=$('updBn'),st=$('updS');if(!b||!st)return;
   if(UPD){
     const msg=`${t('updNew')}: v${esc(UPD.v)}`;
-    if(S.updSkip!==UPD.tag){b.style.display='';b.innerHTML=`<div><b>${msg}</b><small>${t('updHow')}</small></div><a class="btn" href="${esc(UPD.url)}" target="_blank" rel="noopener noreferrer">${t('updDl')}</a><button class="btn alt" onclick="updSkip()">${t('updLater')}</button>`}
+    if(S.updSkip!==UPD.tag){b.style.display='';b.innerHTML=`<div><b>${msg}</b><small>${t('updHow')}</small></div><button class="btn" onclick="updInstall()">${t('updDl')}</button><button class="btn alt" onclick="updSkip()">${t('updLater')}</button>`}
     else b.style.display='none';
-    st.innerHTML=`${msg} · <a href="${esc(UPD.url)}" target="_blank" rel="noopener noreferrer" style="color:var(--gold);font-weight:700">${t('updDl')}</a>`;
+    st.innerHTML=`${msg} · <a href="#" onclick="updInstall();return false" style="color:var(--gold);font-weight:700">${t('updDl')}</a>`;
   }else{b.style.display='none'}
 }
 function updSkip(){if(UPD){S.updSkip=UPD.tag;save()}updShow()}
+function updInstall(){
+  if(!UPD)return;
+  if(NATIVE&&/\.apk$/i.test(UPD.url)){try{AndroidApp.installApk(UPD.url);window.onApkStatus('dl',0);return}catch(e){}}
+  window.open(UPD.url,'_blank');
+}
+window.onApkStatus=(k,p)=>{
+  const en=S.lang==='en',st=$('updS'),b=$('updBn');
+  const m=k==='dl'?(en?`Downloading… ${p}%`:`ডাউনলোড হচ্ছে… ${p}%`):k==='ok'?(en?'Downloaded, opening installer…':'ডাউনলোড শেষ, ইনস্টল শুরু হচ্ছে…'):k==='perm'?(en?'Allow “install unknown apps” for this app, then tap again':'ফোনের সেটিংসে এই অ্যাপের “অজানা অ্যাপ ইনস্টল” অনুমতি চালু করে আবার চাপুন'):(en?'Download failed, try again':'ডাউনলোড ব্যর্থ হয়েছে, আবার চেষ্টা করুন');
+  if(st)st.textContent=m;const sm=b&&b.querySelector('small');if(sm)sm.textContent=m;
+};
 async function updCheck(manual){
   const st=$('updS');if(manual&&st)st.textContent=t('updChk');
   try{
@@ -1463,11 +1502,298 @@ requestAnimationFrame(()=>requestAnimationFrame(()=>{place(false);nav.classList.
 })();
 </script>
 
+<style id="rmzCss">
+.rmz{margin:12px 0}
+.rmzCd{text-align:center;margin:8px 0 12px}.rmzCd small{opacity:.85}
+.rmzCd b{display:block;font-size:2rem;font-variant-numeric:tabular-nums;letter-spacing:1px;margin:2px 0 8px;color:var(--ac)}
+.rmzBar{height:6px;border-radius:99px;background:rgba(127,127,127,.22);overflow:hidden}
+.rmzBar i{display:block;height:100%;background:var(--ac);width:0;transition:width 1s linear}
+.rmzH{font-weight:700;margin:14px 0 4px}
+.rzg{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:8px 0}
+.rzd{aspect-ratio:1;border-radius:50%;border:1.5px solid rgba(127,127,127,.4);background:transparent;color:var(--tx);font-size:.82rem;font-weight:700;cursor:pointer;font-family:inherit;padding:0}
+.rzd.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.rzd.td{outline:2px solid var(--ac);outline-offset:2px}
+.rzd.fu{opacity:.35}
+.rmzSel{background:transparent;color:var(--tx);border:1px solid rgba(127,127,127,.4);border-radius:10px;padding:6px 8px;font-family:inherit}
+.rmz .row{display:flex;align-items:center;justify-content:space-between}
+</style>
+<script id="rmzJs">
+(function(){
+'use strict';
+const el=$('rmz');if(!el)return;
+const X=(b,e)=>S.lang==='en'?e:b;
+const on=()=>{try{return !!window.RMZF||hjParts(today0()).m===9}catch(e){return false}};
+const yr=()=>String(hjParts(today0()).y),rd=()=>Math.min(30,Math.max(1,hjParts(today0()).d));
+function st(){S.rz=S.rz||{};S.kh=S.kh||{};const y=yr();S.rz[y]=S.rz[y]||[];S.kh[y]=S.kh[y]||{days:30,done:[]};return[S.rz[y],S.kh[y]]}
+function render(){
+  if(!on()){el.style.display='none';return}
+  el.style.display='';
+  const[rz,kh]=st(),d=rd();
+  let g='';for(let i=1;i<=30;i++)g+=`<button class="rzd${rz.includes(i)?' on':''}${i===d?' td':''}${i>d?' fu':''}" onclick="rzTog(${i})">${dg(i)}</button>`;
+  const kept=rz.length,missed=Math.max(0,(d-1)-rz.filter(x=>x<d).length);
+  const D=kh.days,per=30/D,pd=Math.min(D,d),a=Math.floor((pd-1)*per)+1,b=Math.floor(pd*per);
+  const juz=kh.done.reduce((s,i)=>s+Math.floor(i*per)-Math.floor((i-1)*per),0),dn=kh.done.includes(pd);
+  const rng=a===b?dg(a):dg(a)+'–'+dg(b);
+  S.tw=S.tw||{};const tw=S.tw[yr()]=S.tw[yr()]||{},twN=Object.keys(tw).length;
+  el.innerHTML=`<div class="sec"><span class="sic">${ic('moon',20)}</span><h4>${X('রমজান','Ramadan')} · ${X('রোজা','Day')} ${dg(d)}/${dg(30)}</h4></div>
+<div class="rmzCd"><small id="rmzLb"></small><b id="rmzT">--:--:--</b><div class="rmzBar"><i id="rmzP"></i></div></div>
+<div class="rmzH">${X('রোজার ট্র্যাকার','Fasting tracker')}</div>
+<div class="rzg">${g}</div>
+<div class="note" style="text-align:left">${X('রেখেছেন','Kept')}: ${dg(kept)} · ${X('বাদ পড়েছে (কাজা)','Missed (qada)')}: ${dg(missed)}</div>
+<div class="rmzH">${X('তারাবি','Taraweeh')}</div>
+<div class="ptRow" style="grid-template-columns:repeat(2,1fr)">${[8,20].map(n=>`<button class="ptx${tw[d]===n?' on':''}" onclick="twSet(${n})">${dg(n)} ${X('রাকাত','rakat')}</button>`).join('')}</div>
+<div class="note" style="text-align:left">${X('তারাবি পড়া হয়েছে','Nights prayed')}: ${dg(twN)}/${dg(30)}</div>
+<div class="rmzH">${X('কুরআন খতম পরিকল্পনা','Quran khatam plan')}</div>
+<div class="row" style="gap:8px"><span>${X('কত দিনে খতম','Finish in')}</span><select class="rmzSel" onchange="khDays(this.value)">${[10,15,20,30].map(n=>`<option value="${n}"${n===D?' selected':''}>${dg(n)} ${X('দিন','days')}</option>`).join('')}</select></div>
+<div class="row" style="margin-top:8px;gap:8px"><span>${X('আজকের পড়া','Today')}: <b>${X('পারা','Juz')} ${rng}</b></span><button class="btn" style="padding:8px 14px;font-size:.85rem${dn?';opacity:.65':''}" onclick="khTog()">${dn?X('✓ পড়া হয়েছে','✓ Done'):X('পড়া হয়েছে','Mark done')}</button></div>
+<div class="rmzBar" style="margin-top:8px"><i style="width:${Math.min(100,juz/30*100)}%"></i></div>
+<div class="note" style="text-align:left">${X('খতম','Progress')}: ${dg(juz)}/${dg(30)} ${X('পারা','juz')}</div>
+<div class="row" style="margin-top:12px"><span style="font-weight:600">${X('সাহরির রিমাইন্ডার (১৫ ও ৫ মিনিট আগে)','Sehri reminder (15 & 5 min before)')}</span><label class="sw2 fit"><input type="checkbox" ${S.rmzRem!==false?'checked':''} onchange="rmRem(this)"><i></i></label></div>`;
+  tickCd();
+}
+function tickCd(){
+  const lb=$('rmzLb'),tt=$('rmzT'),pp=$('rmzP');if(!tt||!on())return;
+  const n=Date.now(),Z=sunTimes(today0()),se=+Z.sehri,ift=+Z.iftar,nx=+sunTimes(addD(today0(),1)).sehri;let tg,lab,p;
+  if(n<se){tg=se;lab=X('সাহরি শেষ হতে বাকি','Sehri ends in');p=0}
+  else if(n<ift){tg=ift;lab=X('ইফতারে বাকি','Iftar in');p=(n-se)/(ift-se)}
+  else{tg=nx;lab=X('পরের সাহরি শেষ হতে বাকি','Next sehri ends in');p=(n-ift)/(nx-ift)}
+  const s=Math.max(0,Math.floor((tg-n)/1000));
+  tt.textContent=dg(pad(Math.floor(s/3600)))+':'+dg(pad(Math.floor(s/60)%60))+':'+dg(pad(s%60));lb.textContent=lab;pp.style.width=(clamp01(p)*100)+'%';
+}
+const clamp01=v=>v<0?0:v>1?1:v;
+window.rzTog=i=>{if(i>rd()&&!window.RMZF)return;const[rz]=st(),k=rz.indexOf(i);k>=0?rz.splice(k,1):rz.push(i);save();render()};
+window.khTog=()=>{const[,kh]=st(),pd=Math.min(kh.days,rd()),k=kh.done.indexOf(pd);k>=0?kh.done.splice(k,1):kh.done.push(pd);save();render()};
+window.twSet=n=>{S.tw=S.tw||{};const t0=S.tw[yr()]=S.tw[yr()]||{},d=rd();t0[d]===n?delete t0[d]:t0[d]=n;save();render()};
+window.khDays=v=>{const[,kh]=st();kh.days=+v||30;kh.done=[];save();render()};
+window.rmRem=c=>{S.rmzRem=c.checked;save();try{qPush()}catch(e){}};
+window.rmzRender=render;
+render();setInterval(tickCd,1000);setInterval(render,6e4);
+})();
+</script>
+<style id="extraCss">
+.ptr{margin:10px 0}
+.ptRow{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:10px 0}
+.ptx{border:1.5px solid rgba(127,127,127,.4);background:transparent;color:var(--tx);border-radius:14px;padding:10px 2px;font-weight:700;font-size:.82rem;font-family:inherit;cursor:pointer}
+.ptx.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.ptW{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin:6px 0 4px}
+.ptc{text-align:center}.ptc small{font-size:.7rem;opacity:.8}
+.ptb{height:44px;border-radius:8px;background:rgba(127,127,127,.2);display:flex;align-items:flex-end;overflow:hidden;margin-bottom:2px}
+.ptb i{display:block;width:100%;background:var(--ac)}
+.tsbG{display:flex;gap:8px;justify-content:center;margin:12px 0 4px}
+.tsbT{min-width:48px;padding:6px 10px;border-radius:99px;border:1.5px solid rgba(127,127,127,.4);background:transparent;color:var(--tx);font-weight:700;font-family:inherit;cursor:pointer}
+.tsbT.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.tsbRing{--p:0%;flex:none;aspect-ratio:1/1;width:230px;height:230px;min-width:230px;min-height:230px;border-radius:50%;margin:14px auto;display:grid;place-items:center;background:conic-gradient(var(--ac) var(--p),rgba(127,127,127,.25) 0)}
+.tsbBtn{flex:none;width:204px;height:204px;border-radius:50%;border:none;background:rgba(14,22,48,.96);color:#fff;font-family:inherit;cursor:pointer;display:grid;place-items:center;-webkit-user-select:none;user-select:none;touch-action:manipulation}
+.tsbBtn b{font-size:3.6rem;font-variant-numeric:tabular-nums}
+.tsbBtn:active{transform:scale(.97)}
+.tsbUb.on{background:var(--ac)!important;color:#fff!important}
+.tsbLab select{flex:1;min-width:0;background:transparent;color:var(--tx);border:none;font-family:inherit;font-weight:700;font-size:.9rem}
+#tsbM .mc{max-height:92vh;overflow:auto}
+.amH{font-weight:800;margin:14px 0 4px}
+.amI{display:flex;align-items:center;gap:10px;justify-content:space-between;padding:10px 0;border-top:1px solid rgba(127,127,127,.22)}
+.amN{flex:1;line-height:1.45}.amN b{font-weight:700}.amN small{display:block;opacity:.75;font-size:.76rem}
+.amB{flex:none;border:1.5px solid var(--ac);background:transparent;color:var(--ac);border-radius:99px;padding:6px 14px;font-weight:700;font-family:inherit;cursor:pointer}
+.amB.on,.amI.ok .amB{background:var(--ac);color:#fff}
+.amRow{display:flex;gap:8px;overflow-x:auto;padding:10px 2px 6px;margin:0 -2px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.amRow::-webkit-scrollbar{display:none}
+.amC{flex:none;min-width:112px;max-width:150px;border:1.5px solid rgba(127,127,127,.4);background:transparent;color:var(--tx);border-radius:16px;padding:9px 10px;text-align:left;font-family:inherit;cursor:pointer}
+.amC b{display:block;font-size:.84rem;line-height:1.3}
+.amC small{display:block;opacity:.75;font-size:.7rem;margin-top:2px}
+.amC.ok{opacity:.65}
+.amC.act{background:var(--ac);color:#fff;border-color:var(--ac);opacity:1}
+.amI.ok .amN{opacity:.6}
+.tsbLab{display:flex;align-items:center;gap:8px;justify-content:space-between;margin:12px 0 0;padding:8px 10px;border-radius:14px;background:rgba(127,127,127,.15);text-align:left}
+.tsbLab b{flex:1;font-size:.85rem}
+</style>
+<script id="extraJs">
+(function(){
+'use strict';
+const X=(b,e)=>S.lang==='en'?e:b;
+const KEYS=['fajr','dhuhr','asr','maghrib','isha'];
+const dk=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const wk=()=>{try{return S.lang==='en'?'SMTWTFS':'রসোমবুবৃশশ'}catch(e){return'SMTWTFS'}};
+
+/* ---------- 1. prayer tracker ---------- */
+function ptRender(){
+  const el=$('ptr');if(!el)return;S.pt=S.pt||{};
+  const today=today0(),tk=dk(today),done=S.pt[tk]||[],nm=t('pn');
+  let streak=0;for(let i=0;i<400;i++){const k=dk(addD(today,-i)),n=(S.pt[k]||[]).length;if(n===5)streak++;else if(i===0)continue;else break}
+  let week=0,cols='';
+  for(let i=6;i>=0;i--){const d=addD(today,-i),n=(S.pt[dk(d)]||[]).length;week+=n;
+    cols+=`<div class="ptc"><div class="ptb"><i style="height:${n*20}%"></i></div><small>${dg(d.getDate())}</small></div>`}
+  el.innerHTML=`<div class="sec"><span class="sic">✓</span><h4>${X('আজকের নামাজ',"Today's prayers")} · ${dg(done.length)}/${dg(5)}</h4></div>
+<div class="ptRow">${KEYS.map(k=>`<button class="ptx${done.includes(k)?' on':''}" onclick="ptTog('${k}')">${nm[k]}</button>`).join('')}</div>
+<div class="ptW">${cols}</div>
+<div class="note" style="text-align:left">${X('এই সপ্তাহ','Last 7 days')}: ${dg(week)}/${dg(35)} · ${X('টানা পূর্ণ দিন','Full-day streak')}: ${dg(streak)}</div>`;
+}
+window.ptTog=k=>{S.pt=S.pt||{};const tk=dk(today0()),a=S.pt[tk]=S.pt[tk]||[],i=a.indexOf(k);i>=0?a.splice(i,1):a.push(k);
+  Object.keys(S.pt).sort().slice(0,-120).forEach(x=>delete S.pt[x]);sv('cal_v4',S);ptRender()};
+
+/* ---------- 2. reminder before prayer ---------- */
+function preRender(){
+  const el=$('preCard');if(!el)return;
+  el.innerHTML=`<div class="sec"><span class="sic">${ic('bell')}</span><h4>${X('ওয়াক্তের আগে রিমাইন্ডার','Reminder before prayer')}</h4></div>
+<div class="row" style="margin-top:10px"><select class="in" onchange="preSet(this.value)">${[0,10,15,20,30].map(n=>`<option value="${n}"${(S.pre||0)===n?' selected':''}>${n?dg(n)+X(' মিনিট আগে',' min before'):X('বন্ধ','Off')}</option>`).join('')}</select></div>
+<div class="note" style="text-align:left">${X('যে ওয়াক্তের আজান চালু আছে শুধু সেগুলোর আগে নোটিফিকেশন আসবে।','Only for prayers that have adhan turned on.')}</div>`;
+}
+window.preSet=v=>{S.pre=+v||0;save()};
+
+/* ---------- 3. tasbih + amal by prayer time ---------- */
+const DH=[['সুবহানাল্লাহ','Subhanallah'],['আলহামদুলিল্লাহ','Alhamdulillah'],['আল্লাহু আকবার','Allahu Akbar'],['লা ইলাহা ইল্লাল্লাহ','La ilaha illallah'],['আস্তাগফিরুল্লাহ','Astaghfirullah'],['আল্লাহুম্মা সাল্লি আলা মুহাম্মাদ','Durood']];
+const TG=[33,99,100,0];
+let tsbP='fajr';
+function tsbInit(){S.tsb=S.tsb||{c:0,i:0,tg:33,r:0};S.ts=S.ts||{};S.am=S.am||{};return S.tsb}
+function curPrayer(){const n=Date.now(),z=sunTimes(today0());let c='isha';KEYS.forEach(k=>{if(+z[k]<=n)c=k});return c}
+function amList(p){
+  if(p==='daily'){const a=[{id:'ist',n:'আস্তাগফিরুল্লাহি ওয়া আতূবু ইলাইহি',c:100,note:'দিনে একশো বার'}];
+    if(today0().getDay()===5)a.push({id:'kah',n:'সূরা কাহফ',c:1,note:'জুমার দিনে'},{id:'dur',n:'দরুদ শরীফ',c:1,note:'জুমার দিনে বেশি করে পড়ুন'});return a}
+  const fm=p==='fajr'||p==='maghrib';
+  const a=[
+    {id:'ast',n:'আস্তাগফিরুল্লাহ',c:3,note:'সালাম ফিরিয়ে'},
+    {id:'sal',n:'আল্লাহুম্মা আনতাস সালাম ওয়া মিনকাস সালাম, তাবারাকতা ইয়া যাল জালালি ওয়াল ইকরাম',c:1},
+    {id:'sub',n:'সুবহানাল্লাহ',c:33},{id:'ham',n:'আলহামদুলিল্লাহ',c:33},{id:'akb',n:'আল্লাহু আকবার',c:33},
+    {id:'tah',n:'লা ইলাহা ইল্লাল্লাহু ওয়াহদাহু লা শারীকা লাহু, লাহুল মুলকু ওয়া লাহুল হামদু ওয়া হুওয়া আলা কুল্লি শাইয়িন কাদীর',c:1,note:'একশো পূর্ণ করতে'},
+    {id:'kur',n:'আয়াতুল কুরসি',c:1},
+    {id:'muw',n:'সূরা ইখলাস, ফালাক ও নাস',c:fm?3:1,note:fm?'তিনবার করে':'একবার করে'}];
+  if(fm)a.push({id:'ten',n:'লা ইলাহা ইল্লাল্লাহু ওয়াহদাহু লা শারীকা লাহু, লাহুল মুলকু ওয়া লাহুল হামদু, ইউহয়ী ওয়া ইউমীতু ওয়া হুওয়া আলা কুল্লি শাইয়িন কাদীর',c:10,note:'সালামের পর কথা বলা বা জায়গা ছাড়ার আগে'},
+    {id:'tas',n:'সুবহানাল্লাহি ওয়া বিহামদিহি',c:100,note:p==='fajr'?'সকালের আমল':'সন্ধ্যার আমল'});
+  if(p==='isha')a.push({id:'mulk',n:'সূরা সাজদাহ ও সূরা মুলক',c:1,note:'ঘুমের আগে'});
+  return a;
+}
+const amDone=()=>{const tk=dk(today0());tsbInit();return S.am[tk]=S.am[tk]||[]};
+function amMark(key){const d=amDone();if(!d.includes(key))d.push(key);Object.keys(S.am).sort().slice(0,-14).forEach(x=>delete S.am[x])}
+const SHORT={ast:'আস্তাগফিরুল্লাহ',sal:'আনতাস সালাম',sub:'সুবহানাল্লাহ',ham:'আলহামদুলিল্লাহ',akb:'আল্লাহু আকবার',tah:'লা ইলাহা ইল্লাল্লাহ',kur:'আয়াতুল কুরসি',muw:'ইখলাস-ফালাক-নাস',ten:'তাহলীল',tas:'সুবহানাল্লাহি ওয়া বিহামদিহি',mulk:'সাজদাহ ও মুলক',ist:'ইস্তিগফার',kah:'সূরা কাহফ',dur:'দরুদ শরীফ'};
+let amSig='';
+function amDraw(){
+  const dn=amDone(),nm=t('pn'),p=tsbP,bb=tsbInit();const oldRow=document.querySelector('#amW .amRow'),keep=oldRow?oldRow.scrollLeft:0;
+  $('amW').innerHTML=`<div class="amH">${X('এই ওয়াক্তের আমল','Amal for this prayer')}</div>
+<div class="tsbG" style="flex-wrap:wrap;margin-top:6px">${[...KEYS,'daily'].map(k=>`<button class="tsbT${k===p?' on':''}" onclick="amSel('${k}')">${k==='daily'?X('দৈনিক','Daily'):nm[k]}</button>`).join('')}</div>
+<div class="amRow">`+
+  amList(p).map(it=>{const ok=dn.includes(p+':'+it.id),act=bb.pk===p+':'+it.id;
+    return `<button class="amC${ok?' ok':''}${act?' act':''}" onclick="amStart('${it.id}')"><b>${ok?'✓ ':''}${SHORT[it.id]||it.n}</b><small>${dg(it.c)} ${X('বার','x')}${it.note?' · '+it.note:''}</small></button>`}).join('')+
+  `</div>`;
+  try{const ac=document.querySelector('#amW .amC.act'),row=document.querySelector('#amW .amRow');if(row){row.scrollLeft=keep;if(ac)row.scrollTo({left:Math.max(0,ac.offsetLeft-row.offsetLeft-12),behavior:'smooth'})}}catch(e){}
+  $('amF').textContent=X('ফরজ নামাজের পরের এই আমলগুলো সহিহ হাদিসে এসেছে। এটি সারসংক্ষেপ, বিস্তারিত জানতে আলেমের পরামর্শ নিন।','These are summarised from authentic hadith. Consult a scholar for details.');
+}
+function amBegin(pr,it){const b=tsbInit();b.unl=false;tsbP=pr;b.lab=it.n;b.tg=it.c;b.c=0;b.pk=pr+':'+it.id}
+function amStop(){const b=tsbInit();b.unl=false;b.lab='';b.pk='';b.tg=0;b.c=0}
+function amFirst(pr){tsbP=pr;const L=amList(pr),dn=amDone(),it=L.find(x=>!dn.includes(pr+':'+x.id));it?amBegin(pr,it):amStop()}
+function amNext(pr,id){
+  const L=amList(pr),dn=amDone(),i=L.findIndex(x=>x.id===id);
+  for(let k=1;k<=L.length;k++){const it=L[(i+k)%L.length];if(it.id!==id&&!dn.includes(pr+':'+it.id)){amBegin(pr,it);return true}}
+  return false;
+}
+function tsbDraw(){
+  const b=tsbInit(),tk=dk(today0());
+  const lb=$('tsbL'),sel0=lb.querySelector('select');
+  if(b.unl&&sel0)lb.querySelector('span').textContent='∞ · '+dg(b.c);else $('tsbL').innerHTML=b.unl?`<div class="tsbLab"><select onchange="tsbPick(this.value)">${DH.map((d,i)=>`<option value="${i}"${i===(b.i||0)?' selected':''}>${d[S.lang==='en'?1:0]}</option>`).join('')}</select><span>∞ · ${dg(b.c)}</span></div>`:b.lab?`<div class="tsbLab"><b>${b.lab}</b><span>${dg(b.c)}/${dg(b.tg)}</span></div>`:`<div class="tsbLab"><b>✓ ${X('এই ওয়াক্তের সব আমল শেষ, আলহামদুলিল্লাহ','All amal done for this prayer')}</b></div>`;
+  $('tsbC').textContent=dg(b.c);
+  $('tsbR').style.setProperty('--p',(b.unl?(b.c%33)/33*100:b.tg?Math.min(100,b.c/b.tg*100):b.lab?0:100)+'%');
+  $('tsbT').textContent=X('আজ মোট','Today')+': '+dg(S.ts[tk]||0);
+  $('tsbU').classList.toggle('on',!!b.unl);
+  const sg=tsbP+'|'+(b.pk||'')+'|'+(b.unl?1:0)+'|'+amDone().join(',');if(sg!==amSig){amSig=sg;amDraw()}
+}
+window.tsbOpen=()=>{amSig='';tsbInit();amFirst(curPrayer());$('tsbM').classList.add('on');tsbDraw()};
+window.tsbClose=()=>{$('tsbM').classList.remove('on');sv('cal_v4',S)};
+window.amSel=k=>{amFirst(k);sv('cal_v4',S);tsbDraw()};
+window.amStart=id=>{const it=amList(tsbP).find(x=>x.id===id);if(!it)return;amBegin(tsbP,it);sv('cal_v4',S);tsbDraw()};
+window.tsbTap=()=>{const b=tsbInit();if(!b.unl&&(!b.lab||!b.pk))return;const tk=dk(today0());b.c++;S.ts[tk]=(S.ts[tk]||0)+1;
+  Object.keys(S.ts).sort().slice(0,-60).forEach(x=>delete S.ts[x]);
+  try{navigator.vibrate&&navigator.vibrate(b.unl&&b.c%100===0?[90,60,180]:12)}catch(e){}
+  if(b.unl){tsbDraw();sv('cal_v4',S);return}
+  if(b.tg&&b.c>=b.tg){try{navigator.vibrate&&navigator.vibrate([90,60,180])}catch(e){}
+    const pk=b.pk,pr=pk.split(':')[0],id=pk.split(':')[1];amMark(pk);tsbDraw();
+    setTimeout(()=>{if(!amNext(pr,id))amStop();sv('cal_v4',S);tsbDraw()},450);return}
+  tsbDraw();sv('cal_v4',S)};
+window.tsbUnl=()=>{const b=tsbInit();if(b.unl){b.unl=false;b.c=0;amFirst(tsbP)}else{b.unl=true;b.lab='';b.pk='';b.tg=0;b.c=0}sv('cal_v4',S);tsbDraw()};
+window.tsbPick=v=>{const b=tsbInit();b.i=+v||0;sv('cal_v4',S)};
+window.tsbReset=()=>{const b=tsbInit();b.c=0;sv('cal_v4',S);tsbDraw()};
+const ob=window.onNativeBack;window.onNativeBack=()=>{const m=$('tsbM');if(m&&m.classList.contains('on')){tsbClose();return true}return ob?ob():false};
+
+/* ---------- 4. backup & restore ---------- */
+function bkData(){const o={};for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k!=='skyWx')o[k]=localStorage.getItem(k)}return JSON.stringify({app:'islamic-cal',v:1,at:Date.now(),k:o})}
+window.bkMake=async()=>{
+  const tx=bkData(),ta=$('bkTx'),nt=$('bkN');ta.value=tx;
+  try{await navigator.clipboard.writeText(tx);nt.textContent=X('ব্যাকআপ কোড কপি হয়েছে। এটা নোটস, হোয়াটসঅ্যাপ বা ইমেইলে সেভ করে রাখুন।','Backup code copied. Save it in notes, WhatsApp or email.')}
+  catch(e){ta.select();nt.textContent=X('কোড নিচে আছে। সব সিলেক্ট করে কপি করে সেভ করে রাখুন।','Code is below. Select all, copy and save it somewhere.')}
+};
+window.bkFile=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([bkData()],{type:'application/json'}));a.download='islamic-calendar-backup.json';document.body.appendChild(a);a.click();a.remove()};
+window.bkRestore=()=>{
+  const nt=$('bkN');let o;
+  try{o=JSON.parse($('bkTx').value.trim());if(o.app!=='islamic-cal'||!o.k)throw 0}catch(e){nt.textContent=X('কোডটি সঠিক নয়। ব্যাকআপ কোড পুরোটা পেস্ট করুন।','Invalid code. Paste the full backup code.');return}
+  if(!confirm(X('এখনকার সব ডেটা বদলে ব্যাকআপের ডেটা বসবে। চালিয়ে যাবেন?','This replaces current data with the backup. Continue?')))return;
+  try{Object.keys(o.k).forEach(k=>localStorage.setItem(k,o.k[k]));location.reload()}catch(e){nt.textContent=X('রিস্টোর করা যায়নি।','Restore failed.')}
+};
+function bkRender(){
+  const el=$('bkCard');if(!el)return;
+  el.innerHTML=`<div class="sec"><span class="sic">${ic('down')}</span><h4>${X('ব্যাকআপ ও রিস্টোর','Backup & restore')}</h4></div>
+<div class="row" style="margin-top:10px;gap:8px"><button class="btn" style="flex:1" onclick="bkMake()">${X('ব্যাকআপ কোড বানান','Create backup')}</button><button class="btn alt web-only" style="flex:1" onclick="bkFile()">${X('ফাইল নামান','Download')}</button></div>
+<textarea id="bkTx" class="in" rows="4" style="width:100%;margin-top:10px;font-size:.75rem" placeholder="${X('ব্যাকআপ কোড এখানে আসবে। রিস্টোর করতে পুরোনো কোড এখানে পেস্ট করুন।','Backup code appears here. To restore, paste a code here.')}"></textarea>
+<button class="btn alt w" style="margin-top:8px" onclick="bkRestore()">${X('এই কোড থেকে রিস্টোর করুন','Restore from this code')}</button>
+<div id="bkN" class="note" style="text-align:left"></div>`;
+}
+
+function all(){ptRender();preRender();bkRender()}
+all();setInterval(ptRender,6e4);
+document.querySelectorAll('[data-k="lang"]').forEach(e=>e.addEventListener('click',()=>setTimeout(all,50)));
+})();
+</script>
+<script id="toolsJs">
+(function(){
+'use strict';
+const X=(b,e)=>S.lang==='en'?e:b;
+const num=id=>{const v=parseFloat(($(id)||{}).value);return isFinite(v)&&v>0?v:0};
+const money=n=>dg(Math.round(n).toLocaleString('en-US'));
+const fld=(id,l,u)=>`<div class="lbl">${l}</div><input id="${id}" class="in" type="number" inputmode="decimal" min="0" placeholder="${u||'0'}" oninput="zkCalc()">`;
+function draw(){
+  const z=$('zkBox'),f=$('ftBox');if(!z||!f)return;
+  z.innerHTML=`<h4>${X('যাকাত ক্যালকুলেটর','Zakat calculator')}</h4>
+<div class="lbl">${X('নিসাবের মান','Nisab standard')}</div>
+<select id="zkStd" class="in" onchange="zkCalc()"><option value="s">${X('রূপা (৫২.৫ ভরি)','Silver (52.5 vori)')}</option><option value="g">${X('সোনা (৭.৫ ভরি)','Gold (7.5 vori)')}</option></select>
+${fld('zkSP',X('রূপার দাম (প্রতি ভরি, টাকা)','Silver price per vori (BDT)'))}
+${fld('zkGP',X('সোনার দাম (প্রতি ভরি, টাকা)','Gold price per vori (BDT)'))}
+${fld('zkG',X('আপনার সোনা (ভরি)','Your gold (vori)'))}
+${fld('zkS',X('আপনার রূপা (ভরি)','Your silver (vori)'))}
+${fld('zkC',X('নগদ ও ব্যাংকে জমা (টাকা)','Cash and bank (BDT)'))}
+${fld('zkB',X('ব্যবসার পণ্য (টাকা)','Business stock (BDT)'))}
+${fld('zkR',X('আদায়যোগ্য পাওনা (টাকা)','Receivables (BDT)'))}
+${fld('zkD',X('দেনা (টাকা)','Debts (BDT)'))}
+<div id="zkOut" class="note" style="text-align:left;margin-top:10px;font-weight:600"></div>
+<div class="note" style="text-align:left">${X('সম্পদ এক চান্দ্র বছর (প্রায় ৩৫৪ দিন) হাতে থাকলে যাকাত দিতে হয়। সোনা-রূপার দাম আজকের বাজার থেকে নিজে বসান। মাসআলার বিস্তারিত জানতে আলেমের পরামর্শ নিন।','Zakat is due when the wealth is held for one lunar year. Enter current market prices yourself. Consult a scholar for details.')}</div>`;
+  f.innerHTML=`<h4>${X('ফিতরা ক্যালকুলেটর','Fitra calculator')}</h4>
+<div class="lbl">${X('মোট সদস্য (যাদের পক্ষ থেকে দেবেন)','People to pay for')}</div><input id="ftN" class="in" type="number" inputmode="numeric" min="1" value="1" oninput="ftCalc()">
+<div class="lbl">${X('কিসের হিসাবে','Based on')}</div>
+<select id="ftT" class="in" onchange="ftCalc()"><option value="1.633">${X('গম / আটা (১.৬৩৩ কেজি জনপ্রতি)','Wheat / flour (1.633 kg each)')}</option><option value="3.266">${X('যব / খেজুর / কিশমিশ (৩.২৬৬ কেজি জনপ্রতি)','Barley / dates / raisins (3.266 kg each)')}</option></select>
+<div class="lbl">${X('এলাকায় প্রতি কেজির দাম (টাকা)','Local price per kg (BDT)')}</div><input id="ftP" class="in" type="number" inputmode="decimal" min="0" placeholder="0" oninput="ftCalc()">
+<div id="ftOut" class="note" style="text-align:left;margin-top:10px;font-weight:600"></div>
+<div class="note" style="text-align:left">${X('এটি হানাফি মাযহাবের সাধারণ হিসাব। প্রতি বছর ইসলামিক ফাউন্ডেশন বা স্থানীয় আলেমদের ঘোষিত পরিমাণ দেখে নিন।','This is the common Hanafi calculation. Check the amount announced locally each year.')}</div>`;
+  zkCalc();ftCalc();
+}
+window.zkCalc=()=>{
+  const o=$('zkOut');if(!o)return;
+  const sp=num('zkSP'),gp=num('zkGP'),std=$('zkStd').value;
+  const total=num('zkG')*gp+num('zkS')*sp+num('zkC')+num('zkB')+num('zkR'),net=total-num('zkD');
+  const price=std==='s'?sp:gp;
+  if(!price){o.textContent=X('নিসাব বের করতে '+(std==='s'?'রূপা':'সোনা')+'র দাম লিখুন।','Enter the '+(std==='s'?'silver':'gold')+' price to get the nisab.');return}
+  const nisab=(std==='s'?52.5:7.5)*price;
+  o.textContent=X('মোট নিট সম্পদ','Net wealth')+': ৳'+money(Math.max(0,net))+'\n'+X('নিসাব','Nisab')+': ৳'+money(nisab)+'\n'+(net>=nisab?X('যাকাত (২.৫%)','Zakat due (2.5%)')+': ৳'+money(net*0.025):X('নিসাবের কম, তাই যাকাত ফরজ নয়।','Below nisab, zakat is not due.'));
+  o.style.whiteSpace='pre-line';
+};
+window.ftCalc=()=>{
+  const o=$('ftOut');if(!o)return;
+  const n=Math.max(1,Math.floor(num('ftN'))),k=parseFloat($('ftT').value),p=num('ftP');
+  o.textContent=p?X('জনপ্রতি','Per person')+': ৳'+money(k*p)+'\n'+X('মোট','Total')+': ৳'+money(k*p*n):X('এলাকার দাম লিখুন।','Enter the local price.');
+  o.style.whiteSpace='pre-line';
+};
+draw();
+})();
+</script>
 <style id="liveSkyCss">
 .hc{background:#0b1333}
 .hc .lsky{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;border-radius:inherit}
 .hc .hcp{display:none}.hc .hcm2{margin-top:-4px}
 .hc .hct,.hc .hcm,.hc .clock,.hc .hcb{text-shadow:0 1px 10px rgba(0,0,0,.32)}
+.hc .lsk-wx{position:absolute;left:50%;top:58px;transform:translateX(-50%);z-index:3;padding:3px 12px;border-radius:99px;background:rgba(0,0,0,.28);color:#fff;font-size:.72rem;white-space:nowrap;pointer-events:none}
 .hc .lsk-chip{position:absolute;left:50%;top:62px;transform:translateX(-50%);z-index:3;padding:3px 12px;border-radius:99px;background:rgba(0,0,0,.4);color:#fff;font-size:.72rem;white-space:nowrap;pointer-events:none}
 </style>
 <script id="liveSky">
@@ -1505,9 +1831,9 @@ function keys(sr,ss){const mid=(sr+ss)/2;return[
 [ss+115*M,'#030712','#09112b','#141d44',0]
 ].map(k=>({t:k[0],c:[hex(k[1]),hex(k[2]),hex(k[3])],d:k[4]})).sort((a,b)=>a.t-b.t)}
 const NIGHT={c:[hex('#030712'),hex('#09112b'),hex('#141d44')],d:0};
-let SR=0,SS=0,KEYS=[],kStamp=0;
+let SR=0,SS=0,KEYS=[],kStamp=0,PT={};
 function sched(){
-  try{const Z=getSched(new Date()).Z;SR=+Z.sunrise;SS=+Z.sunset;if(!(SR>0&&SS>SR))throw 0}
+  try{const Z=getSched(new Date()).Z;SR=+Z.sunrise;SS=+Z.sunset;if(!(SR>0&&SS>SR))throw 0;PT={fajr:+Z.fajr,dhuhr:+Z.dhuhr,asr:+Z.asr,maghrib:+Z.maghrib,isha:+Z.isha}}
   catch(e){const d=new Date();d.setHours(6,0,0,0);SR=+d;d.setHours(18,0,0,0);SS=+d}
   KEYS=keys(SR,SS);
 }
@@ -1536,15 +1862,16 @@ function mapWx(code,cc,wind,pr){
 }
 const WXN={0:'পরিষ্কার',1:'প্রায় পরিষ্কার',2:'আংশিক মেঘলা',3:'মেঘলা',45:'কুয়াশা',48:'কুয়াশা',51:'গুঁড়ি বৃষ্টি',53:'গুঁড়ি বৃষ্টি',55:'গুঁড়ি বৃষ্টি',61:'হালকা বৃষ্টি',63:'বৃষ্টি',65:'ভারী বৃষ্টি',80:'বৃষ্টি',81:'বৃষ্টি',82:'ভারী বৃষ্টি',95:'ঝড়',96:'ঝড়',99:'ঝড়'};
 const cur={cloud:.1,rain:0,storm:0,fog:0,snow:0,wind:.1};
-let tg=Object.assign({},cur),liveTg=tg,wxCode=0;
-try{const c=JSON.parse(localStorage.getItem('skyWx')||'null');if(c&&c.t&&Date.now()-c.t<6*36e5){liveTg=c.w;tg=c.w;Object.assign(cur,c.w);wxCode=c.code||0}}catch(e){}
+let tg=Object.assign({},cur),liveTg=tg,wxCode=0,wxInfo=null;
+try{const c=JSON.parse(localStorage.getItem('skyWx')||'null');if(c&&c.t&&Date.now()-c.t<6*36e5){liveTg=c.w;tg=c.w;Object.assign(cur,c.w);wxCode=c.code||0;wxInfo=c.info||null}}catch(e){}
 async function getWx(){
   try{
-    const c=coords(),r=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${c[0]}&longitude=${c[1]}&current=weather_code,cloud_cover,wind_speed_10m,precipitation&timezone=auto`,{cache:'no-store'});
-    const q=(await r.json()).current;if(!q)return;
+    const c=coords(),r=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${c[0]}&longitude=${c[1]}&current=weather_code,cloud_cover,wind_speed_10m,precipitation,temperature_2m&hourly=precipitation_probability&forecast_hours=6&timezone=auto`,{cache:'no-store'});
+    const jj=await r.json(),q=jj.current;if(!q)return;
     liveTg=mapWx(q.weather_code,q.cloud_cover,q.wind_speed_10m,q.precipitation);wxCode=q.weather_code;
+    wxInfo={temp:q.temperature_2m,prob:Math.max(0,...(((jj.hourly||{}).precipitation_probability)||[0]).filter(x=>x!=null))};pill();
     if(!demo.on)tg=liveTg;
-    try{localStorage.setItem('skyWx',JSON.stringify({t:Date.now(),w:liveTg,code:wxCode}))}catch(e){}
+    try{localStorage.setItem('skyWx',JSON.stringify({t:Date.now(),w:liveTg,code:wxCode,info:wxInfo}))}catch(e){}
   }catch(e){}
 }
 
@@ -1552,10 +1879,26 @@ async function getWx(){
 const demo={on:false,t0:0,f0:0};
 const DW=[['পরিষ্কার',mapWx(0,0,6)],['মেঘলা',mapWx(3,90,10)],['বৃষ্টি',mapWx(65,100,18)],['ঝড়',mapWx(95,100,32)],['কুয়াশা',mapWx(45,80,2)],['পরিষ্কার',mapWx(0,5,6)]];
 const chip=document.createElement('div');chip.className='lsk-chip';chip.style.display='none';hc.appendChild(chip);
+
+const wxp=document.createElement('div');wxp.className='lsk-wx';wxp.style.display='none';hc.appendChild(wxp);
+const isEn=()=>{try{return S.lang==='en'}catch(e){return false}};
+function wxName(w){
+  const n=isEn()?['Thunderstorm','Heavy rain','Rain','Drizzle','Snow','Fog','Cloudy','Partly cloudy','Clear']:['ঝড়','ভারী বৃষ্টি','বৃষ্টি','গুঁড়ি বৃষ্টি','তুষার','কুয়াশা','মেঘলা','আংশিক মেঘলা','পরিষ্কার'];
+  return w.storm>.5?n[0]:w.rain>.85?n[1]:w.rain>.55?n[2]:w.rain>.02?n[3]:w.snow>.5?n[4]:w.fog>.5?n[5]:w.cloud>.8?n[6]:w.cloud>.4?n[7]:n[8];
+}
+function pill(){
+  if(!wxInfo||demo.on||wxInfo.temp==null){wxp.style.display='none';return}
+  let tx=bn(String(Math.round(wxInfo.temp)))+'°C · '+wxName(liveTg);
+  if(wxInfo.prob>=40&&liveTg.rain<.3)tx+=' · '+(isEn()?'Rain ':'বৃষ্টি ')+bn(String(Math.round(wxInfo.prob)))+'%';
+  wxp.textContent=tx;wxp.style.display='block';
+}
+let fxForce='';window.skyFx=n=>{fxForce=n||'';window.RMZF=(n==='ram');try{rmzRender()}catch(e){}};
+function evOf(){try{const h=hjParts(today0());if(h.m===9)return'ram';if((h.m===10&&h.d<=3)||(h.m===12&&h.d>=10&&h.d<=13))return'eid'}catch(e){}return''}
 function setDemo(on){
-  demo.on=on;chip.style.display=on?'block':'none';
+  demo.on=on;chip.style.display=on?'block':'none';window.RMZF=on;try{rmzRender()}catch(e){}
   if(on){const d=new Date();d.setHours(0,0,0,0);demo.t0=performance.now();demo.f0=(SR-70*M-d)/864e5;_dayStart=+d}
-  else tg=liveTg;
+  else{tg=liveTg;pill()}
+  if(on)wxp.style.display='none';
 }
 window.skyDemo=setDemo;
 let _dayStart=0,lastTap=0;
@@ -1591,6 +1934,31 @@ function moonState(now){
 }
 
 /* ---------- scenery state ---------- */
+const flies=Array.from({length:16},()=>({x:rn(),y:.6+rn()*.24,ph:rn()*6,sp:.3+rn()}));
+let flock=null,flT=6,fw=[],fwT=1,evCur='',evT=0,mr=null;
+const DEMO_EV=['ram','adhan','','eid','','ram'];
+function lantern(x,len,s,col,g,tt){
+  cx.save();cx.translate(x,0);cx.rotate(Math.sin(tt)*.05);
+  cx.strokeStyle='rgba(255,230,170,.55)';cx.lineWidth=1;cx.beginPath();cx.moveTo(0,-4);cx.lineTo(0,len);cx.stroke();
+  cx.translate(0,len);
+  const gr=cx.createRadialGradient(0,s*1.4,0,0,s*1.4,s*3.4);gr.addColorStop(0,rgb(col,.5*g));gr.addColorStop(1,rgb(col,0));cx.fillStyle=gr;cx.fillRect(-s*3.4,-s*2,s*6.8,s*6.8);
+  const dk=rgb(mixC(col,[20,16,10],.6),.96);cx.fillStyle=dk;
+  cx.beginPath();cx.moveTo(-s*.3,-s*.1);cx.lineTo(s*.3,-s*.1);cx.lineTo(s*.62,s*.45);cx.lineTo(-s*.62,s*.45);cx.closePath();cx.fill();
+  const bg=cx.createLinearGradient(-s*.9,0,s*.9,0);bg.addColorStop(0,rgb(mixC(col,[0,0,0],.4),.96));bg.addColorStop(.5,rgb(mixC(col,[255,255,255],.35*g+.1),.98));bg.addColorStop(1,rgb(mixC(col,[0,0,0],.4),.96));
+  cx.fillStyle=bg;cx.beginPath();cx.moveTo(-s*.62,s*.45);cx.quadraticCurveTo(-s*1.15,s*1.3,-s*.62,s*2.1);cx.lineTo(s*.62,s*2.1);cx.quadraticCurveTo(s*1.15,s*1.3,s*.62,s*.45);cx.closePath();cx.fill();
+  cx.fillStyle=dk;cx.beginPath();cx.moveTo(-s*.62,s*2.1);cx.lineTo(s*.62,s*2.1);cx.lineTo(0,s*2.65);cx.closePath();cx.fill();
+  cx.restore();
+}
+function starP(x,y,r){cx.beginPath();for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,rr=i%2?r*.45:r;cx.lineTo(x+Math.cos(a)*rr,y+Math.sin(a)*rr)}cx.closePath();cx.fill()}
+function hangMoon(x,len,r,g,tt){
+  cx.save();cx.translate(x,0);cx.rotate(Math.sin(tt)*.05);
+  cx.strokeStyle='rgba(255,230,170,.55)';cx.lineWidth=1;cx.beginPath();cx.moveTo(0,-4);cx.lineTo(0,len);cx.stroke();cx.translate(0,len+r);
+  const gr=cx.createRadialGradient(0,0,0,0,0,r*3);gr.addColorStop(0,`rgba(255,215,120,${.4*g})`);gr.addColorStop(1,'rgba(255,215,120,0)');cx.fillStyle=gr;cx.fillRect(-r*3,-r*3,r*6,r*6);
+  cx.fillStyle=`rgba(255,${205+(g*30|0)},${110+(g*60|0)},.97)`;
+  cx.beginPath();cx.arc(0,0,r,-Math.PI/2,Math.PI/2,true);cx.ellipse(0,0,r*.55,r,0,Math.PI/2,Math.PI*1.5,false);cx.closePath();cx.fill();
+  starP(r*.55,-r*.1,r*.42);cx.restore();
+}
+
 const stars=Array.from({length:80},()=>({x:rn(),y:rn()*.68,r:.4+rn()*1.1,p:rn()*6}));
 const clouds=Array.from({length:9},(_,i)=>({nx:rn(),y:.05+rn()*.34,s:.7+rn()*.8,sp:4+rn()*8,i,
   b:Array.from({length:6},(_,j)=>({dx:(j-2.5)*.7,dy:-Math.sin(j*1.3)*.25,r:.7+rn()*.5}))}));
@@ -1665,6 +2033,14 @@ function draw(ts,dt){
     const jd=now/864e5+2440587.5,age=(((jd-2451550.26)%29.530588)+29.530588)%29.530588;
     moonDraw(mx,my,w*.042,age/29.530588,ma);
   }
+  /* prayer-time light */
+  if(PT.fajr){
+    const mn=6e4;
+    if(now>PT.fajr-25*mn&&now<SR){const fj=clamp(Math.min((now-(PT.fajr-25*mn))/(12*mn),(SR-now)/(12*mn)));
+      const gg=cx.createRadialGradient(w*.5,hz,0,w*.5,hz,w*.85);gg.addColorStop(0,`rgba(200,225,255,${(.4*fj*(1-cur.cloud*.6)).toFixed(3)})`);gg.addColorStop(1,'rgba(200,225,255,0)');cx.fillStyle=gg;cx.fillRect(0,0,w,h)}
+    if(now>SS-10*mn&&now<SS+40*mn){const mg=clamp(Math.min((now-(SS-10*mn))/(12*mn),(SS+40*mn-now)/(18*mn)));
+      const gg=cx.createRadialGradient(w*.5,hz,0,w*.5,hz,w*.9);gg.addColorStop(0,`rgba(255,140,60,${(.42*mg*(1-cur.cloud*.5)).toFixed(3)})`);gg.addColorStop(1,'rgba(255,140,60,0)');cx.fillStyle=gg;cx.fillRect(0,0,w,h)}
+  }
   /* clouds */
   const wd=1+cur.wind*3;
   let cc=mixC(mixC([46,56,90],[255,255,255],clamp(dl*1.2)),c[1],.3+(1-dl)*.2);
@@ -1684,6 +2060,47 @@ function draw(ts,dt){
   /* hills */
   hills(rgb(mixC(c[2],[18,36,48],.35+(1-dl)*.25)),hz+h*.01,h*.04,1.2,6,w,h);
   hills(rgb(mixC(c[2],[6,14,24],.62+(1-dl)*.2)),hz+h*.07,h*.035,3.1,5,w,h);
+  /* events & life: lanterns, fireworks, birds, fireflies, sparkles, adhan */
+  evT-=dt;if(evT<=0){evT=30;evCur=evOf()}
+  const seg=demo.on?Math.floor((performance.now()-demo.t0)/15000)%6:0;
+  const ev=demo.on?DEMO_EV[seg]:(fxForce||evCur),night=clamp(1-dl*3);
+  if(ev==='ram'){
+    const g=.35+.65*clamp(1-dl*1.6),sw=t*.9;
+    lantern(w*.09,h*.05,w*.026,[255,176,60],g,sw);lantern(w*.2,h*.13,w*.022,[70,200,170],g,sw+1.3);lantern(w*.955,h*.2,w*.022,[255,120,70],g,sw+2.1);
+    hangMoon(w*.62,h*.1,w*.034,g,sw+.6);
+  }
+  if(ev==='eid'&&(dl<.6||demo.on)){
+    fwT-=dt;if(fwT<=0){fwT=.8+rn()*1.2;const x=w*(.12+rn()*.76),y=h*(.1+rn()*.34),hue=(rn()*360)|0;for(let i=0;i<34;i++){const a=i/34*6.283+rn()*.2,sp=50+rn()*80;fw.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,l:1.5,hue})}}
+    cx.save();cx.globalCompositeOperation='lighter';
+    for(let i=fw.length-1;i>=0;i--){const p=fw[i];p.l-=dt;if(p.l<=0){fw.splice(i,1);continue}p.vy+=60*dt;p.vx*=.985;p.x+=p.vx*dt;p.y+=p.vy*dt;const a=clamp(p.l/1.5);cx.fillStyle=`hsla(${p.hue},100%,62%,${a.toFixed(2)})`;cx.beginPath();cx.arc(p.x,p.y,1.6*a+.4,0,7);cx.fill()}
+    cx.restore();
+  }else if(fw.length)fw.length=0;
+  /* birds */
+  flT-=dt;
+  if(!flock&&flT<=0&&dl>.45&&cur.cloud<.75&&cur.rain<.1&&cur.storm<.1){flock={x:-.08,y:.14+rn()*.2,n:5+((rn()*3)|0)};flT=demo.on?10:25+rn()*20}
+  if(flock){
+    flock.x+=dt*.11;const dk=rgb(mixC(c[2],[10,16,28],.75),.8);cx.strokeStyle=dk;cx.lineWidth=1.3;cx.lineCap='round';
+    for(let i=0;i<flock.n;i++){const k=(i+1)>>1,sd=i%2?1:-1,bx=(flock.x-k*.035)*w,by=(flock.y+sd*k*.018+Math.sin(t*.7+i)*.004)*h,wy=Math.sin(t*9+i*1.7)*3.2;
+      if(i===0){cx.beginPath();cx.moveTo(flock.x*w-6,flock.y*h-wy);cx.quadraticCurveTo(flock.x*w-2,flock.y*h-2,flock.x*w,flock.y*h);cx.quadraticCurveTo(flock.x*w+2,flock.y*h-2,flock.x*w+6,flock.y*h-wy);cx.stroke();continue}
+      cx.beginPath();cx.moveTo(bx-6,by-wy);cx.quadraticCurveTo(bx-2,by-2,bx,by);cx.quadraticCurveTo(bx+2,by-2,bx+6,by-wy);cx.stroke()}
+    if(flock.x>1.2)flock=null;
+  }
+  /* fireflies */
+  const ff=night*(1-cur.rain)*(1-cur.storm)*(1-cur.fog);
+  if(ff>.05){for(const f of flies){const bl=Math.max(0,Math.sin(t*1.4*f.sp+f.ph)),px=(f.x+Math.sin(t*.25*f.sp+f.ph)*.05)*w,py=(f.y+Math.cos(t*.3*f.sp+f.ph)*.03)*h,a=bl*ff;if(a<.05)continue;
+    const gr=cx.createRadialGradient(px,py,0,px,py,7);gr.addColorStop(0,`rgba(220,255,120,${(a*.9).toFixed(2)})`);gr.addColorStop(1,'rgba(220,255,120,0)');cx.fillStyle=gr;cx.fillRect(px-7,py-7,14,14)}}
+  /* minaret sparkles + adhan light */
+  if(mr){
+    const sp=night*(1-cur.cloud*.6)*(1-cur.fog);
+    if(sp>.1){[[100,12],[300,12],[36,40],[364,40]].forEach((m,i)=>{const a=Math.max(0,Math.sin(t*1.8+i*1.9))*sp;if(a<.1)return;const x=mr.x+m[0]*mr.sx,y=mr.y+m[1]*mr.sx;
+      cx.strokeStyle=`rgba(255,240,200,${a.toFixed(2)})`;cx.lineWidth=1;cx.beginPath();cx.moveTo(x-5*a,y);cx.lineTo(x+5*a,y);cx.moveTo(x,y-6*a);cx.lineTo(x,y+6*a);cx.stroke()})}
+    let adS=-1;for(const k of ['fajr','dhuhr','asr','maghrib','isha'])if(PT[k]){const d=(now-PT[k])/1000;if(d>=0&&d<240)adS=d}
+    if(ev==='adhan')adS=t%12;
+    if(adS>=0){const dx=mr.x+200*mr.sx,dy=mr.y+52*mr.sx,pu=.5+.5*Math.sin(adS*2.2);
+      const gr=cx.createRadialGradient(dx,dy,0,dx,dy,w*.3);gr.addColorStop(0,`rgba(255,215,120,${(.22+.18*pu).toFixed(2)})`);gr.addColorStop(1,'rgba(255,215,120,0)');cx.fillStyle=gr;cx.fillRect(0,0,w,h);
+      cx.lineWidth=1.8;for(let k=0;k<3;k++){const ph=((adS%6)-k*1.5)/4.2;if(ph>0&&ph<1){cx.strokeStyle=`rgba(255,215,120,${((1-ph)*.55).toFixed(2)})`;cx.beginPath();cx.arc(dx,dy,ph*w*.55,0,7);cx.stroke()}}}
+    const wn=mos.querySelector('.mwin');if(wn&&adS>=0)wn.style.opacity='1';
+  }
   /* fog */
   if(cur.fog>.02){
     const fg=cx.createLinearGradient(0,0,0,h);const fc=mixC([150,158,170],[225,230,236],dl);
@@ -1723,7 +2140,7 @@ function draw(ts,dt){
   /* top shade for text legibility */
   const vg=cx.createLinearGradient(0,0,0,h*.5);vg.addColorStop(0,'rgba(0,0,0,.16)');vg.addColorStop(1,'rgba(0,0,0,0)');cx.fillStyle=vg;cx.fillRect(0,0,w,h*.5);
   /* mosque silhouette tint + demo chip */
-  mosT-=dt;if(mosT<=0&&mos){mosT=.5;mos.style.color=rgb(mixC(c[2],[6,12,28],.8+ (1-dl)*.1));{const wn=mos.querySelector('.mwin');if(wn)wn.style.opacity=(clamp(1-dl*3)*(1-cur.fog*.5)).toFixed(2)}}
+  mosT-=dt;if(mosT<=0&&mos){mosT=.5;{const a=mos.getBoundingClientRect(),b=hc.getBoundingClientRect();if(a.width>10)mr={x:a.left-b.left,y:a.top-b.top,sx:a.width/400}}mos.style.color=rgb(mixC(c[2],[6,12,28],.8+ (1-dl)*.1));{const wn=mos.querySelector('.mwin');if(wn)wn.style.opacity=(clamp(1-dl*3)*(1-cur.fog*.5)).toFixed(2)}}
   if(demo.on){const d=new Date(now);chip.textContent='ডেমো · '+bn(pd(d.getHours())+':'+pd(d.getMinutes()))+' · '+DW[Math.floor((performance.now()-demo.t0)/15000)%DW.length][0]}
 }
 
@@ -1739,7 +2156,7 @@ function loop(ts){
   const dt=Math.min(.1,(ts-last)/1000);last=ts;
   try{draw(ts,dt)}catch(e){}
 }
-sched();kStamp=performance.now();
+sched();kStamp=performance.now();pill();
 requestAnimationFrame(loop);
 getWx();setInterval(getWx,M);
 addEventListener('online',getWx);
@@ -1749,6 +2166,11 @@ document.addEventListener('visibilitychange',()=>{if(!document.hidden)getWx()});
 <style id="topBisCss">
 #tab-home>.bis{text-align:center;margin:12px 12px 0}
 .hc .hcx{background:transparent!important;box-shadow:none!important;border:none!important;backdrop-filter:none!important}
+</style>
+<style id="enFontCss">
+/* English mode: use the phone's own system font */
+html[lang="en"] *{font-family:system-ui,-apple-system,sans-serif}
+html[lang="en"] .bis,html[lang="en"] .ar,html[lang="en"] .cn small{font-family:'Amiri','Traditional Arabic','Noto Naskh Arabic',serif}
 </style>
 </body>
 </html>

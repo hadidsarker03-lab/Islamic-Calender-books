@@ -202,6 +202,68 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 
+    /* ---------- one-tap update: download APK and open installer ---------- */
+
+    private long dlId = -1;
+    private final android.os.Handler dlHandler = new android.os.Handler(android.os.Looper.getMainLooper());
+
+    private void apkStatus(String k, int p) {
+        web.evaluateJavascript("window.onApkStatus&&window.onApkStatus('" + k + "'," + p + ")", null);
+    }
+
+    private void startApkDownload(String url) {
+        if (Build.VERSION.SDK_INT >= 26 && !getPackageManager().canRequestPackageInstalls()) {
+            apkStatus("perm", 0);
+            try { startActivity(new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, Uri.parse("package:" + getPackageName()))); } catch (Exception ignored) { }
+            return;
+        }
+        try {
+            java.io.File f = new java.io.File(getExternalFilesDir(android.os.Environment.DIRECTORY_DOWNLOADS), "islamic-calendar.apk");
+            if (f.exists()) f.delete();
+            android.app.DownloadManager.Request r = new android.app.DownloadManager.Request(Uri.parse(url));
+            r.setTitle("Islamic Calendar update");
+            r.setMimeType("application/vnd.android.package-archive");
+            r.setNotificationVisibility(android.app.DownloadManager.Request.VISIBILITY_VISIBLE);
+            r.setDestinationInExternalFilesDir(this, android.os.Environment.DIRECTORY_DOWNLOADS, "islamic-calendar.apk");
+            android.app.DownloadManager dm = (android.app.DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+            dlId = dm.enqueue(r);
+            apkStatus("dl", 0);
+            pollDownload();
+        } catch (Exception e) {
+            apkStatus("err", 0);
+        }
+    }
+
+    private void pollDownload() {
+        dlHandler.postDelayed(() -> {
+            android.app.DownloadManager dm = (android.app.DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+            android.database.Cursor c = dm.query(new android.app.DownloadManager.Query().setFilterById(dlId));
+            if (c == null) { apkStatus("err", 0); return; }
+            try {
+                if (!c.moveToFirst()) { apkStatus("err", 0); return; }
+                int st = c.getInt(c.getColumnIndexOrThrow(android.app.DownloadManager.COLUMN_STATUS));
+                long got = c.getLong(c.getColumnIndexOrThrow(android.app.DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
+                long tot = c.getLong(c.getColumnIndexOrThrow(android.app.DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
+                if (st == android.app.DownloadManager.STATUS_SUCCESSFUL) {
+                    apkStatus("ok", 100);
+                    Uri u = dm.getUriForDownloadedFile(dlId);
+                    if (u == null) { apkStatus("err", 0); return; }
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setDataAndType(u, "application/vnd.android.package-archive");
+                    i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    try { startActivity(i); } catch (Exception e) { apkStatus("err", 0); }
+                } else if (st == android.app.DownloadManager.STATUS_FAILED) {
+                    apkStatus("err", 0);
+                } else {
+                    apkStatus("dl", tot > 0 ? (int) (got * 100 / tot) : 0);
+                    pollDownload();
+                }
+            } finally {
+                c.close();
+            }
+        }, 600);
+    }
+
     /* ---------- JS bridge ---------- */
 
     private final class Bridge {
@@ -213,6 +275,12 @@ public class MainActivity extends AppCompatActivity {
         @JavascriptInterface
         public String consumeFired() {
             return Scheduler.consumeFired(MainActivity.this);
+        }
+
+        @JavascriptInterface
+        public void installApk(String url) {
+            if (url == null || !url.startsWith("https://github.com/")) return;
+            runOnUiThread(() -> startApkDownload(url));
         }
 
         @JavascriptInterface
