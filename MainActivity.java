@@ -38,12 +38,14 @@ public class MainActivity extends AppCompatActivity {
     private static final String HOST = "appassets.androidplatform.net";
     private static final String START = "https://" + HOST + "/assets/www/index.html";
     private static final int REQ_PERM = 11;
+    private static final int REQ_FILE = 12;
 
     private WebView web;
     private GeolocationPermissions.Callback geoCb;
     private String geoOrigin;
     private AlertDialog dialog;
     private boolean askedOnce = false;
+    private android.webkit.ValueCallback<Uri[]> fileCb;
 
     @SuppressLint({"SetJavaScriptEnabled", "JavascriptInterface"})
     @Override
@@ -102,6 +104,20 @@ public class MainActivity extends AppCompatActivity {
                     geoOrigin = origin;
                     requestNeeded();
                 }
+            }
+
+            // <input type="file"> support (own adhan / alarm tone, backup files)
+            @Override
+            public boolean onShowFileChooser(WebView view, android.webkit.ValueCallback<Uri[]> cb, FileChooserParams params) {
+                if (fileCb != null) fileCb.onReceiveValue(null);
+                fileCb = cb;
+                try {
+                    startActivityForResult(params.createIntent(), REQ_FILE);
+                } catch (Exception e) {
+                    fileCb = null;
+                    return false;
+                }
+                return true;
             }
         });
 
@@ -163,6 +179,14 @@ public class MainActivity extends AppCompatActivity {
         } else {
             askGpsIfOff();
         }
+    }
+
+    @Override
+    protected void onActivityResult(int req, int res, Intent data) {
+        super.onActivityResult(req, res, data);
+        if (req != REQ_FILE || fileCb == null) return;
+        fileCb.onReceiveValue(WebChromeClient.FileChooserParams.parseResult(res, data));
+        fileCb = null;
     }
 
     @Override
