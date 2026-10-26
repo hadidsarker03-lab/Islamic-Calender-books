@@ -572,7 +572,7 @@ let SUN=ld('sun_api',{}),mqKey='';
 const coords=()=>S.gps&&S.loc?S.loc:S.up?[S.up.la,S.up.lo]:CITIES[S.city],locKey=()=>S.gps&&S.loc?'g'+S.loc[0].toFixed(1)+','+S.loc[1].toFixed(1):S.up?'u'+S.up.la.toFixed(2)+','+S.up.lo.toFixed(2):S.city;
 Object.assign(T.bn,{alMy:"আমার অ্যালার্ম",alNew:"নতুন অ্যালার্ম",alDone:"সম্পন্ন",alRep:"পুনরাবৃত্তি",alSnd:"সাউন্ড",alIn:"{} পরে বাজবে",uD:"দিন",uH:"ঘণ্টা",uM:"মিনিট",curPr:"বর্তমান ওয়াক্ত",nextPr:"পরবর্তী ওয়াক্ত",stT:"শুরু",enT:"শেষ"});Object.assign(T.en,{alMy:"My Alarm",alNew:"New Alarm",alDone:"Done",alRep:"Repeat",alSnd:"Sound",alIn:"Alarm in {}",uD:"d",uH:"h",uM:"min",curPr:"Current Prayer",nextPr:"Next Prayer",stT:"Start",enT:"End"});
 const t=k=>T[S.lang][k],L=S.lang==='bn'?0:1;
-const APP_VER='1.5.0',UPD_REPO='hadidsarker03-lab/Islamic-Calender-books';
+const APP_VER='6.5',UPD_REPO='hadidsarker03-lab/Islamic-Calender-books';
 const pad=n=>String(n).padStart(2,'0');
 const tod=h=>S.lang==='en'?(h>=12?'PM':'AM'):(h<4?'রাত':h<6?'ভোর':h<12?'সকাল':h<16?'দুপুর':h<18?'বিকেল':h<20?'সন্ধ্যা':'রাত');
 const wrapT=(h,b)=>S.lang==='en'?b+' '+tod(h):tod(h)+' '+b;
@@ -1159,12 +1159,12 @@ function updShow(){
   const b=$('updBn'),st=$('updS');if(!b||!st)return;
   if(UPD){
     const msg=`${t('updNew')}: v${esc(UPD.v)}`;
-    if(S.updSkip!==UPD.tag){b.style.display='';b.innerHTML=`<div><b>${msg}</b><small>${t('updHow')}</small></div><button class="btn" onclick="updInstall()">${t('updDl')}</button><button class="btn alt" onclick="updSkip()">${t('updLater')}</button>`}
+    if(S.updSkip!==UPD.tag||Date.now()-(S.updSkipT||0)>864e5){b.style.display='';b.innerHTML=`<div><b>${msg}</b><small>${t('updHow')}</small></div><button class="btn" onclick="updInstall()">${t('updDl')}</button><button class="btn alt" onclick="updSkip()">${t('updLater')}</button>`}
     else b.style.display='none';
     st.innerHTML=`${msg} · <a href="#" onclick="updInstall();return false" style="color:var(--gold);font-weight:700">${t('updDl')}</a>`;
   }else{b.style.display='none'}
 }
-function updSkip(){if(UPD){S.updSkip=UPD.tag;save()}updShow()}
+function updSkip(){if(UPD){S.updSkip=UPD.tag;S.updSkipT=Date.now();save()}updShow()}
 function updInstall(){
   if(!UPD)return;
   if(NATIVE&&/\.apk$/i.test(UPD.url)){try{AndroidApp.installApk(UPD.url);window.onApkStatus('dl',0);return}catch(e){}}
@@ -1196,8 +1196,9 @@ function updInit(){
   $('updOn').checked=S.autoUpd!==false;
   $('updS').textContent=`${t('updCur')}: v${APP_VER}`;
   if(S.updNew&&vNewer(S.updNew.tag,APP_VER)){UPD=S.updNew;updShow()}else S.updNew=null;
-  if(S.autoUpd!==false&&(!S.updAt||Date.now()-S.updAt>432e5))setTimeout(()=>updCheck(false),4000);
+  if(S.autoUpd!==false&&(!S.updAt||Date.now()-S.updAt>9e5))setTimeout(()=>updCheck(false),4000);
 }
+{const _u=window.onNativeResume;window.onNativeResume=()=>{if(_u)_u();if(NATIVE&&S.autoUpd!==false&&(!S.updAt||Date.now()-S.updAt>9e5))updCheck(false)}}
 function stShow(){const v=S.stTab;$('stGen').style.display=(v==='thm'||v==='tools')?'none':'';$('stThm').style.display=v==='thm'?'':'none';$('stTools').style.display=v==='tools'?'':'none';segs()}
 function upd(k,v){S[k]=v;if(k==='stTab'){save();stShow();const e=$('tab-settings');if(e)e.scrollTop=0;return}if(k==='lang'){save();location.reload();return}if(k==='locMode'){if(v==='auto')getLoc();else{S.gps=false;SC={key:''};lastR='';fetchSun();tick(true)}save();locStat();segs();return}if(k==='city'){S.gps=false;S.up=S.upz=S.vil=null;S.locMode='manual'}save();if(k==='city'){SC={key:''};fetchSun()}if(k==='main')MV=newView(v);if(['lang','hadj','main','city'].includes(k)){if(k==='hadj')MV=newView(S.main);applyLang()}else applyLook();segs()}
 function applyLang(){
