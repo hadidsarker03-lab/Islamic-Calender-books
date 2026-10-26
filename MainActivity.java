@@ -208,10 +208,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /** Automatic reminder that GPS is off: shown at most once a week, never on every launch. */
+    private static final long GPS_ASK_GAP = 7L * 24 * 60 * 60 * 1000;
+
     private void askGpsIfOff() {
-        if (hasLocationPermission() && !locationEnabled()) {
-            showDialog(R.string.loc_title, R.string.loc_msg, new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-        }
+        if (!hasLocationPermission() || locationEnabled()) return;
+        android.content.SharedPreferences sp = getSharedPreferences("prompts", MODE_PRIVATE);
+        long now = System.currentTimeMillis();
+        if (now - sp.getLong("gps_ask", 0) < GPS_ASK_GAP) return;
+        sp.edit().putLong("gps_ask", now).apply();
+        showDialog(R.string.loc_title, R.string.loc_msg, new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
     }
 
     private void showDialog(int title, int msg, Intent action) {
@@ -288,6 +294,26 @@ public class MainActivity extends AppCompatActivity {
         }, 600);
     }
 
+    /* ---------- share a generated file (timetable image / PDF) ---------- */
+
+    private void doShare(String b64, String name, String mime) {
+        try {
+            byte[] data = android.util.Base64.decode(b64, android.util.Base64.DEFAULT);
+            java.io.File dir = new java.io.File(getCacheDir(), "share");
+            dir.mkdirs();
+            java.io.File f = new java.io.File(dir, name.replaceAll("[^A-Za-z0-9._-]", "_"));
+            try (java.io.FileOutputStream o = new java.io.FileOutputStream(f)) { o.write(data); }
+            Uri u = androidx.core.content.FileProvider.getUriForFile(this, getPackageName() + ".fileprovider", f);
+            Intent i = new Intent(Intent.ACTION_SEND);
+            i.setType(mime);
+            i.putExtra(Intent.EXTRA_STREAM, u);
+            i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            startActivity(Intent.createChooser(i, null));
+        } catch (Exception e) {
+            web.evaluateJavascript("window.onShareErr&&window.onShareErr()", null);
+        }
+    }
+
     /* ---------- JS bridge ---------- */
 
     private final class Bridge {
@@ -299,6 +325,17 @@ public class MainActivity extends AppCompatActivity {
         @JavascriptInterface
         public String consumeFired() {
             return Scheduler.consumeFired(MainActivity.this);
+        }
+
+        @JavascriptInterface
+        public void setWidget(String json) {
+            getSharedPreferences("widget", MODE_PRIVATE).edit().putString("data", json).apply();
+            CountdownWidget.refreshAll(MainActivity.this);
+        }
+
+        @JavascriptInterface
+        public void shareFile(String b64, String name, String mime) {
+            runOnUiThread(() -> doShare(b64, name, mime));
         }
 
         @JavascriptInterface

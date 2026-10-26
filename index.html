@@ -324,6 +324,7 @@ html:not([data-nn]) .nan{box-shadow:none;border-radius:0}
     <div class="updbn nat-only" id="updBn" style="display:none"></div>
     <div class="in4" id="info"></div>
     <div id="rmz" class="glass rmz" style="display:none"></div>
+    <div id="rmz2" class="glass rmz" style="display:none"></div>
     <div class="live" id="live"></div>
     <div id="pr"></div>
     <div id="ptr" class="glass ptr"></div>
@@ -828,7 +829,7 @@ function drawRam(){
   const[hy,s]=ramHY(RY),len=ramLen(s),td=new Date().toDateString();
   $('rT').textContent=t('ramCal');$('rY').innerHTML=`${dg(RY)}<small>${t('hm')[8]} ${dg(hy)} · ${AR[8]}</small>`;
   const SE=[['rahmat','rahmatS',0,10,'#10b981'],['magfirat','magfiratS',10,20,'#f59e0b'],['najat','najatS',20,len,'#8b5cf6']];
-  $('rList').innerHTML=SE.map(([k,ks,a,b,col],j)=>{
+  $('rList').innerHTML=ramShBar()+SE.map(([k,ks,a,b,col],j)=>{
     let h=`<div class="rs" style="--rc:${col};animation-delay:${j*90}ms"><div class="rsh"><b>${t(k)}</b><small>${t(ks)}<br>${dg(a+1)}–${dg(b)} ${t('rojaL')}</small></div><div class="rd h"><span>#</span><span>${t('dateL')}</span><span>${t('sehriS')}</span><span>${t('iftarS')}</span></div>`;
     for(let i=a;i<b;i++){const c=addD(s,i),z=sunTimes(c);
       h+=`<div class="rd${c.toDateString()===td?' td':''}"><span class="no">${dg(i+1)}</span><span>${t('days')[c.getDay()]}, ${dg(c.getDate())} ${t('months')[c.getMonth()]}${i===26?' <span class="qd">★</span>':''}</span><span>${fmtT(z.sehri)}</span><span>${fmtT(z.iftar)}</span></div>`}
@@ -939,8 +940,10 @@ function pushNative(){
     if(S.adhan)[['fajr',z.fajr],['dhuhr',z.dhuhr],['asr',z.asr],['maghrib',z.maghrib],['isha',z.isha]].forEach(([k,x])=>{if(+x>now&&adOn(k))out.push({t:+x,id:'p'+ds+k,n:t('pn')[k],b:t('adhanBody'),k:'adhan'})});
     if(S.pre>0&&d<5)[['fajr',z.fajr],['dhuhr',z.dhuhr],['asr',z.asr],['maghrib',z.maghrib],['isha',z.isha]].forEach(([k,x])=>{const y=+x-S.pre*6e4;if(y>now&&adOn(k))out.push({t:y,id:'q'+ds+k,n:S.lang==='en'?`${t('pn')[k]} in ${S.pre} min`:`${t('pn')[k]}-এর ${dg(S.pre)} মিনিট বাকি`,b:S.lang==='en'?'Time to prepare for prayer':'নামাজের প্রস্তুতি নিন',k:'alarm',aid:0})});
     if(S.rmzRem!==false&&hjParts(c).m===9)[15,5].forEach(m=>{const x=+z.sehri-m*6e4;if(x>now)out.push({t:x,id:'r'+ds+'s'+m,n:S.lang==='en'?`Sehri ends in ${m} min`:`সাহরি শেষ হতে ${dg(m)} মিনিট বাকি`,b:S.lang==='en'?'Ramadan Mubarak':'রমজান মোবারক — এখনই সাহরি শেষ করুন',k:'alarm',aid:0})});
+    rmzPush(out,c,z,ds,now);
     S.alarms.forEach(a=>{if(!a.active)return;const dd=a.days||[];if(dd.length&&!dd.includes(c.getDay()))return;const[h,m]=a.time.split(':').map(Number),x=new Date(c.getFullYear(),c.getMonth(),c.getDate(),h,m).getTime();if(x<=now)return;if(!dd.length){if(seen.has(a.id))return;seen.add(a.id)}out.push({t:x,id:'a'+a.id+'_'+ds,n:a.label,b:t('alarmBody'),k:'alarm',aid:dd.length?0:a.id})});
   }
+  try{if(typeof AndroidApp.setWidget==='function')AndroidApp.setWidget(JSON.stringify(wData()))}catch(e){}
   try{AndroidApp.setSchedule(JSON.stringify(out))}catch(e){}
 }
 function applyFired(){if(!NATIVE)return;try{const ids=JSON.parse(AndroidApp.consumeFired()||'[]');if(ids.length){S.alarms.forEach(a=>{if(ids.includes(a.id))a.active=false});sv('cal_v4',S);renderAlarms()}}catch(e){}}
@@ -1573,7 +1576,10 @@ function render(){
 <div class="row" style="margin-top:8px;gap:8px"><span>${X('আজকের পড়া','Today')}: <b>${X('পারা','Juz')} ${rng}</b></span><button class="btn" style="padding:8px 14px;font-size:.85rem${dn?';opacity:.65':''}" onclick="khTog()">${dn?X('✓ পড়া হয়েছে','✓ Done'):X('পড়া হয়েছে','Mark done')}</button></div>
 <div class="rmzBar" style="margin-top:8px"><i style="width:${Math.min(100,juz/30*100)}%"></i></div>
 <div class="note" style="text-align:left">${X('খতম','Progress')}: ${dg(juz)}/${dg(30)} ${X('পারা','juz')}</div>
-<div class="row" style="margin-top:12px"><span style="font-weight:600">${X('সাহরির রিমাইন্ডার (১৫ ও ৫ মিনিট আগে)','Sehri reminder (15 & 5 min before)')}</span><label class="sw2 fit"><input type="checkbox" ${S.rmzRem!==false?'checked':''} onchange="rmRem(this)"><i></i></label></div>`;
+<div class="row" style="margin-top:12px"><span style="font-weight:600">${X('সাহরির রিমাইন্ডার (১৫ ও ৫ মিনিট আগে)','Sehri reminder (15 & 5 min before)')}</span><label class="sw2 fit"><input type="checkbox" ${S.rmzRem!==false?'checked':''} onchange="rmRem(this)"><i></i></label></div>
+<div class="row" style="margin-top:10px"><span style="font-weight:600">${X('ইফতারের রিমাইন্ডার (১৫ ও ৫ মিনিট আগে)','Iftar reminder (15 & 5 min before)')}</span><label class="sw2 fit"><input type="checkbox" ${S.iftRem!==false?'checked':''} onchange="rm2('iftRem',this.checked)"><i></i></label></div>
+<div class="row" style="margin-top:10px"><span style="font-weight:600">${X('সাহরির জাগানো অ্যালার্ম','Sehri wake-up alarm')}</span><label class="sw2 fit"><input type="checkbox" ${S.wakeAl!==false?'checked':''} onchange="rm2('wakeAl',this.checked)"><i></i></label></div>
+<div class="row" style="margin-top:8px;gap:8px"><span>${X('সাহরি শেষের কত মিনিট আগে','Minutes before sehri ends')}</span><select class="rmzSel" onchange="rm2('wakeMin',this.value)">${[30,45,60,90].map(n=>`<option value="${n}"${n===(S.wakeMin||45)?' selected':''}>${dg(n)}</option>`).join('')}</select></div>`;
   tickCd();
 }
 function tickCd(){
@@ -1591,10 +1597,155 @@ window.khTog=()=>{const[,kh]=st(),pd=Math.min(kh.days,rd()),k=kh.done.indexOf(pd
 window.twSet=n=>{S.tw=S.tw||{};const t0=S.tw[yr()]=S.tw[yr()]||{},d=rd();t0[d]===n?delete t0[d]:t0[d]=n;save();render()};
 window.khDays=v=>{const[,kh]=st();kh.days=+v||30;kh.done=[];save();render()};
 window.rmRem=c=>{S.rmzRem=c.checked;save();try{qPush()}catch(e){}};
+window.rm2=(k,v)=>{S[k]=k==='wakeMin'?+v:v;save();render()};
 window.rmzRender=render;
 render();setInterval(tickCd,1000);setInterval(render,6e4);
 })();
 </script>
+<script id="rmz2Js">
+/* ===== রমজান আপডেট: ইফতার/সাহরি রিমাইন্ডার, শেষ ১০ রাত, সময়সূচি শেয়ার, উইজেট ডেটা ===== */
+function rmzPush(out,c,z,ds,now){
+  const h=hjParts(c);if(h.m!==9)return;
+  const en=S.lang==='en',D=dg;
+  if(S.iftRem!==false)[15,5].forEach(m=>{const x=+z.iftar-m*6e4;if(x>now)out.push({t:x,id:'r'+ds+'i'+m,n:en?`Iftar in ${m} min`:`ইফতারের ${D(m)} মিনিট বাকি`,b:m===5?(en?'Dua after iftar: ذَهَبَ الظَّمَأُ وَابْتَلَّتِ الْعُرُوقُ وَثَبَتَ الْأَجْرُ إِنْ شَاءَ اللَّهُ':'ইফতারের পর দোয়া: ذَهَبَ الظَّمَأُ وَابْتَلَّتِ الْعُرُوقُ وَثَبَتَ الْأَجْرُ إِنْ شَاءَ اللَّهُ'):(en?'Get ready to break your fast':'ইফতারের প্রস্তুতি নিন'),k:'alarm',aid:0})});
+  if(S.wakeAl!==false){const mm=S.wakeMin||45,x=+z.sehri-mm*6e4;if(x>now)out.push({t:x,id:'r'+ds+'w',n:en?'Wake up for Sehri':'সাহরির জন্য উঠুন',b:en?`Sehri ends in ${mm} min`:`সাহরি শেষ হতে ${D(mm)} মিনিট বাকি`,k:'alarm',aid:0})}
+  if(S.qdRem!==false&&[20,22,24,26,28].includes(h.d)){const x=+z.isha+15*6e4,nt=h.d+1;if(x>now)out.push({t:x,id:'r'+ds+'q',n:en?`Night ${nt} — seek Laylat al-Qadr`:`${D(nt)}তম রাত — লাইলাতুল কদর খুঁজুন`,b:en?'Odd night of the last ten. Dua: اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي':'শেষ দশকের বিজোড় রাত। দোয়া: اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي',k:'alarm',aid:0})}
+}
+function wData(){
+  const n=today0(),en=S.lang==='en',now=Date.now(),ev=[];
+  const f=(x,s)=>{const h=x.getHours(),m=dg(pad(x.getMinutes())),hh=dg(h%12||12);return en?`${hh}:${m} ${h<12?'AM':'PM'}`:`${s} ${hh}:${m}`};
+  for(let d=0;d<6;d++){const c=addD(n,d),z=sunTimes(c),ln=`${en?'Sehri':'সাহরি'} ${f(z.sehri,'ভোর')} · ${en?'Iftar':'ইফতার'} ${f(z.iftar,'সন্ধ্যা')}`;
+    if(+z.sehri>now)ev.push({t:+z.sehri,k:'s',lb:en?'Sehri ends in':'সাহরি শেষ হতে বাকি',tm:f(z.sehri,'ভোর'),ln});
+    if(+z.iftar>now)ev.push({t:+z.iftar,k:'i',lb:en?'Iftar in':'ইফতারে বাকি',tm:f(z.iftar,'সন্ধ্যা'),ln})}
+  let area='';try{area=locParts().p.join(', ')}catch(e){}
+  return{area,ev,open:en?'Open the app':'অ্যাপ খুলুন',hint:en?'Open the app once to refresh times':'সময় আপডেট করতে অ্যাপ একবার খুলুন'};
+}
+/* সময়সূচি শেয়ার */
+function ramShBar(){const en=S.lang==='en';return `<div class="shB"><button class="btn alt" onclick="ramShare('png')">${en?'Share as image':'ছবি শেয়ার'}</button><button class="btn alt" onclick="ramShare('pdf')">${en?'Share as PDF':'PDF শেয়ার'}</button></div>`}
+async function ramCanvas(){
+  try{await document.fonts.ready}catch(e){}
+  const en=S.lang==='en',[hy,s]=ramHY(RY),len=ramLen(s),W=1080,RH=54,HH=250,FH=140,H=HH+RH*(len+1)+FH;
+  const cv=document.createElement('canvas');cv.width=W;cv.height=H;const g=cv.getContext('2d'),ff=getComputedStyle(document.body).fontFamily||'sans-serif';
+  g.fillStyle='#ffffff';g.fillRect(0,0,W,H);
+  const gr=g.createLinearGradient(0,0,W,HH);gr.addColorStop(0,'#0b5d46');gr.addColorStop(1,'#022c22');g.fillStyle=gr;g.fillRect(0,0,W,HH);
+  g.textAlign='center';g.textBaseline='middle';
+  g.fillStyle='#fde68a';g.font=`bold 64px ${ff}`;g.fillText(en?'Ramadan Timetable':'রমজানের সময়সূচি',W/2,90);
+  let area='';try{area=locParts().p.join(', ')}catch(e){}
+  g.fillStyle='#ffffff';g.font=`36px ${ff}`;g.fillText(`${dg(RY)} · ${t('hm')[8]} ${dg(hy)}`,W/2,155);
+  g.fillStyle='#a7f3d0';g.font=`30px ${ff}`;g.fillText(area||(en?'Sehri ends & Iftar':'সাহরি শেষ ও ইফতার'),W/2,205);
+  const hy0=HH;g.fillStyle='#064e3b';g.fillRect(0,hy0,W,RH);g.fillStyle='#ffffff';g.font=`bold 28px ${ff}`;
+  g.textAlign='center';g.fillText('#',70,hy0+RH/2);g.fillText(t('dateL'),400,hy0+RH/2);g.fillText(en?'Sehri ends (AM)':'সাহরি শেষ (ভোর)',720,hy0+RH/2);g.fillText(en?'Iftar (PM)':'ইফতার (সন্ধ্যা)',930,hy0+RH/2);
+  const tf=x=>{const h=x.getHours();return`${dg(h%12||12)}:${dg(pad(x.getMinutes()))}`};
+  for(let i=0;i<len;i++){const c=addD(s,i),z=sunTimes(c),y=HH+RH*(i+1);
+    g.fillStyle=c.getDay()===5?'#fef3c7':(i%2?'#ffffff':'#f0fdf4');g.fillRect(0,y,W,RH);
+    g.fillStyle='#064e3b';g.font=`bold 28px ${ff}`;g.textAlign='center';g.fillText(dg(i+1)+(i===26?' ★':''),70,y+RH/2);
+    g.textAlign='left';g.font=`28px ${ff}`;g.fillText(`${t('days')[c.getDay()]}, ${dg(c.getDate())} ${t('months')[c.getMonth()]}`,150,y+RH/2);
+    g.textAlign='center';g.font=`bold 30px ${ff}`;g.fillText(tf(z.sehri),720,y+RH/2);g.fillText(tf(z.iftar),930,y+RH/2)}
+  g.textAlign='center';g.fillStyle='#475569';g.font=`26px ${ff}`;g.fillText(t('ramNote'),W/2,H-80);
+  g.fillStyle='#0b5d46';g.font=`bold 30px ${ff}`;g.fillText(en?'Ramadan Mubarak':'রমজান মোবারক',W/2,H-35);
+  return cv;
+}
+const u8b64=u=>{let s='';for(let i=0;i<u.length;i+=8192)s+=String.fromCharCode.apply(null,u.subarray(i,i+8192));return btoa(s)};
+function mkPdf(jb64,w,h){
+  const bin=atob(jb64),n=bin.length,jpg=new Uint8Array(n);for(let i=0;i<n;i++)jpg[i]=bin.charCodeAt(i);
+  const PW=595,PH=842,sc=Math.min((PW-30)/w,(PH-30)/h),iw=(w*sc).toFixed(2),ih=(h*sc).toFixed(2),ox=((PW-w*sc)/2).toFixed(2),oy=((PH-h*sc)/2).toFixed(2);
+  const enc=new TextEncoder(),parts=[],offs=[];let len=0;
+  const push=b=>{parts.push(b);len+=b.length},add=s=>push(enc.encode(s));
+  add('%PDF-1.4\n');
+  offs[1]=len;add('1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj\n');
+  offs[2]=len;add('2 0 obj<</Type/Pages/Kids[3 0 R]/Count 1>>endobj\n');
+  offs[3]=len;add(`3 0 obj<</Type/Page/Parent 2 0 R/MediaBox[0 0 ${PW} ${PH}]/Resources<</XObject<</Im0 4 0 R>>>>/Contents 5 0 R>>endobj\n`);
+  offs[4]=len;add(`4 0 obj<</Type/XObject/Subtype/Image/Width ${w}/Height ${h}/ColorSpace/DeviceRGB/BitsPerComponent 8/Filter/DCTDecode/Length ${n}>>stream\n`);push(jpg);add('\nendstream endobj\n');
+  const cs=`q ${iw} 0 0 ${ih} ${ox} ${oy} cm /Im0 Do Q`;
+  offs[5]=len;add(`5 0 obj<</Length ${cs.length}>>stream\n${cs}\nendstream endobj\n`);
+  const xr=len;add('xref\n0 6\n0000000000 65535 f \n');
+  for(let i=1;i<=5;i++)add(String(offs[i]).padStart(10,'0')+' 00000 n \n');
+  add(`trailer<</Size 6/Root 1 0 R>>\nstartxref\n${xr}\n%%EOF`);
+  const out=new Uint8Array(len);let p=0;parts.forEach(b=>{out.set(b,p);p+=b.length});return out;
+}
+async function ramShare(kind){
+  const bs=document.querySelectorAll('.shB .btn');bs.forEach(b=>b.disabled=true);
+  try{
+    const cv=await ramCanvas(),nm='ramadan-'+RY+'-timetable';let mime,name,b64;
+    if(kind==='pdf'){const j=cv.toDataURL('image/jpeg',.92).split(',')[1];b64=u8b64(mkPdf(j,cv.width,cv.height));mime='application/pdf';name=nm+'.pdf'}
+    else{b64=cv.toDataURL('image/png').split(',')[1];mime='image/png';name=nm+'.png'}
+    if(NATIVE&&typeof AndroidApp.shareFile==='function'){AndroidApp.shareFile(b64,name,mime)}
+    else{const by=Uint8Array.from(atob(b64),c=>c.charCodeAt(0)),file=new File([by],name,{type:mime});
+      if(navigator.canShare&&navigator.canShare({files:[file]}))await navigator.share({files:[file]});
+      else{const a=document.createElement('a');a.href=URL.createObjectURL(file);a.download=name;document.body.appendChild(a);a.click();a.remove()}}
+  }catch(e){}
+  bs.forEach(b=>b.disabled=false);
+}
+window.onShareErr=()=>{};
+/* শেষ ১০ রাত + ইফতারের দোয়া পপআপ */
+(function(){
+'use strict';
+const el=$('rmz2');if(!el)return;
+const X=(b,e)=>S.lang==='en'?e:b;
+const AM=[['নফল নামাজ / তাহাজ্জুদ','Night prayer'],['কুরআন তিলাওয়াত','Quran recitation'],['দোয়া ও ইস্তিগফার','Dua & istighfar'],['দান-সদকা','Charity']];
+let sel=0;
+function ctx(){
+  const n=Date.now(),T=today0(),h=hjParts(T),Z=sunTimes(T);
+  if(!window.RMZF&&h.m!==9)return null;
+  let night=n<+Z.fajr?h.d:h.d+1;const live=n<+Z.fajr||n>=+Z.maghrib;
+  if(window.RMZF&&night<21)night=27;
+  if(night<21||night>30)return null;
+  return{night,live,y:String(h.y)};
+}
+function st(y){S.q10=S.q10||{};S.itk=S.itk||{};return[S.q10[y]=S.q10[y]||{},S.itk[y]=S.itk[y]||{}]}
+function render(){
+  const c=ctx();if(!c){el.style.display='none';return}
+  el.style.display='';
+  const[q,it]=st(c.y);if(sel<21||sel>30)sel=c.night;
+  let g='';for(let i=21;i<=30;i++){const od=i%2===1;g+=`<button class="qdn${od?' od':''}${(q[i]||[]).length?' on':''}${i===c.night?' td':''}${i===sel?' sl':''}" onclick="qdSel(${i})">${dg(i)}${od?'<small>★</small>':''}</button>`}
+  const cur=q[sel]||[];
+  const ck=AM.map((a,i)=>`<label class="qdc"><input type="checkbox" ${cur.includes(i)?'checked':''} onchange="qdTog(${i},this.checked)"><span>${X(a[0],a[1])}</span></label>`).join('');
+  let ik='';for(let i=21;i<=30;i++)ik+=`<button class="qdi${it[i]?' on':''}" onclick="qdItk(${i})">${dg(i)}</button>`;
+  el.innerHTML=`<div class="sec"><span class="sic">${ic('moon',20)}</span><h4>${X('শেষ ১০ রাত · লাইলাতুল কদর','Last 10 nights · Laylat al-Qadr')}</h4></div>
+<div class="note" style="text-align:left">${c.live?X('এখন চলছে','Now'):X('আজ সন্ধ্যায় শুরু','Starts tonight')}: ${X(dg(c.night)+'তম রাত','night '+c.night)}${c.night%2?' ★':''}</div>
+<div class="note" style="text-align:left">${X('রাসূলুল্লাহ ﷺ শেষ দশকের বিজোড় রাতে লাইলাতুল কদর খুঁজতে বলেছেন (বুখারি)।','The Prophet ﷺ told us to seek Laylat al-Qadr in the odd nights of the last ten (Bukhari).')}</div>
+<div class="qdg">${g}</div>
+<div class="rmzH">${X(dg(sel)+'তম রাতের আমল','Deeds for night '+sel)}</div>${ck}
+<div class="qda" dir="rtl">اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي</div>
+<div class="note" style="text-align:left">${X('হে আল্লাহ, আপনি ক্ষমাশীল, ক্ষমা ভালোবাসেন; অতএব আমাকে ক্ষমা করুন।','O Allah, You are Forgiving and love forgiveness, so forgive me.')}</div>
+<div class="rmzH">${X('ই\'তিকাফের দিন','Itikaf days')}</div><div class="qdr">${ik}</div>
+<div class="note" style="text-align:left">${X('শেষ ১০ দিনের সুন্নত ই\'তিকাফ ২০ রমজান সূর্যাস্তের আগে শুরু হয়।','The sunnah itikaf of the last ten days begins before sunset on 20 Ramadan.')}</div>
+<div class="row" style="margin-top:12px"><span style="font-weight:600">${X('বিজোড় রাতের রিমাইন্ডার','Odd-night reminder')}</span><label class="sw2 fit"><input type="checkbox" ${S.qdRem!==false?'checked':''} onchange="qdRem(this.checked)"><i></i></label></div>`;
+}
+window.qdSel=i=>{sel=i;render()};
+window.qdTog=(i,on)=>{const c=ctx();if(!c)return;const[q]=st(c.y),a=q[sel]=q[sel]||[],k=a.indexOf(i);if(on&&k<0)a.push(i);if(!on&&k>=0)a.splice(k,1);if(!a.length)delete q[sel];save();render()};
+window.qdItk=i=>{const c=ctx();if(!c)return;const[,it]=st(c.y);it[i]?delete it[i]:it[i]=1;save();render()};
+window.qdRem=v=>{S.qdRem=v;save()};
+/* ইফতারের দোয়া পপআপ */
+function pop(){
+  if($('iftPop'))return;
+  const d=document.createElement('div');d.id='iftPop';d.className='iftPop';
+  d.innerHTML=`<div class="iftC"><div class="iftI">${ic('bowl',34)}</div><h3>${X('ইফতারের সময় হয়েছে','Time to break your fast')}</h3><p>${X('ইফতারের পর এই দোয়া পড়ুন','Say this dua after breaking your fast')}</p><div class="qda" dir="rtl">ذَهَبَ الظَّمَأُ وَابْتَلَّتِ الْعُرُوقُ وَثَبَتَ الْأَجْرُ إِنْ شَاءَ اللَّهُ</div><p>${X('পিপাসা দূর হয়েছে, শিরাগুলো সিক্ত হয়েছে এবং ইনশাআল্লাহ সওয়াব নিশ্চিত হয়েছে।','The thirst is gone, the veins are moistened, and the reward is confirmed, God willing.')}</p><button class="btn" style="width:100%" onclick="document.getElementById('iftPop').remove()">${X('আমীন','Ameen')}</button></div>`;
+  document.body.appendChild(d);
+}
+function iftChk(){
+  try{const T=today0();if(!window.RMZF&&hjParts(T).m!==9)return;if(S.iftRem===false)return;
+    const n=Date.now(),z=sunTimes(T),k=T.toDateString();
+    if(n>=+z.iftar&&n<+z.iftar+6e5&&S.iftDua!==k&&!$('iftPop')){S.iftDua=k;save();pop()}}catch(e){}
+}
+const _r=window.onNativeResume;window.onNativeResume=()=>{if(_r)_r();render();iftChk()};
+render();setInterval(render,6e4);setInterval(iftChk,15e3);iftChk();
+})();
+</script>
+<style id="rmz2Css">
+.shB{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 12px}.shB .btn{padding:10px 6px;font-size:.9rem}
+.qdg{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:10px 0}
+.qdn{border-radius:14px;border:1.5px solid rgba(127,127,127,.4);background:transparent;color:var(--tx);padding:8px 0;font-weight:700;font-family:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:center;line-height:1.1}
+.qdn small{font-size:.65rem;color:var(--ac)}.qdn.od{border-color:var(--ac)}.qdn.on{background:var(--ac);color:#fff}.qdn.on small{color:#fff}
+.qdn.td{outline:2px solid var(--ac);outline-offset:2px}.qdn.sl{box-shadow:0 0 12px var(--glow)}
+.qdc{display:flex;align-items:center;gap:10px;margin:8px 0;cursor:pointer}.qdc input{width:20px;height:20px;accent-color:var(--ac)}
+.qda{font-size:1.45rem;line-height:2;text-align:center;margin:10px 0 2px;font-family:'Amiri','Scheherazade New',serif}
+.qdr{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;margin:6px 0}
+.qdi{aspect-ratio:1;border-radius:50%;border:1.5px solid rgba(127,127,127,.4);background:transparent;color:var(--tx);font-size:.7rem;font-weight:700;font-family:inherit;padding:0;cursor:pointer}.qdi.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.iftPop{position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;padding:18px}
+.iftC{background:var(--sheet);color:var(--tx);border:1px solid var(--ac);border-radius:24px;padding:22px;max-width:360px;width:100%;text-align:center;box-shadow:0 0 30px var(--glow)}
+.iftI{color:var(--ac);margin-bottom:6px}.iftC h3{margin:4px 0}.iftC p{margin:6px 0;opacity:.9}
+</style>
 <style id="extraCss">
 .ptr{margin:10px 0}
 .ptRow{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:10px 0}
