@@ -22,9 +22,13 @@ jobs:
           M=proj/app/src/main
           J=$M/java/com/hadid/islamiccal
           mkdir -p $J $M/assets/www/icons $M/res/values
-          for f in MainActivity Scheduler AlarmReceiver BootReceiver; do cp $f.java $J/; done
+          for f in MainActivity Scheduler AlarmReceiver BootReceiver CountdownWidget; do cp $f.java $J/; done
           cp AndroidManifest.xml $M/
           cp strings.xml styles.xml $M/res/values/
+          mkdir -p $M/res/layout $M/res/xml $M/res/drawable
+          cp widget_countdown.xml $M/res/layout/
+          cp widget_info.xml share_paths.xml $M/res/xml/
+          cp widget_bg.xml $M/res/drawable/
           cp index.html manifest.json $M/assets/www/
           cat > proj/settings.gradle <<'E'
           pluginManagement { repositories { google(); mavenCentral(); gradlePluginPortal() } }
