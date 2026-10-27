@@ -153,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         if (dialog != null) dialog.dismiss();
+        stopRing();
         super.onDestroy();
     }
 
@@ -300,6 +301,30 @@ public class MainActivity extends AppCompatActivity {
         }, 600);
     }
 
+    /* ---------- phone's own alarm sound (used while the app is open) ---------- */
+
+    private android.media.Ringtone ringtone;
+
+    private void startRing() {
+        stopRing();
+        try {
+            Uri u = android.media.RingtoneManager.getActualDefaultRingtoneUri(this, android.media.RingtoneManager.TYPE_ALARM);
+            if (u == null) u = android.media.RingtoneManager.getDefaultUri(android.media.RingtoneManager.TYPE_ALARM);
+            ringtone = android.media.RingtoneManager.getRingtone(this, u);
+            if (ringtone == null) return;
+            ringtone.setAudioAttributes(new android.media.AudioAttributes.Builder()
+                    .setUsage(android.media.AudioAttributes.USAGE_ALARM)
+                    .setContentType(android.media.AudioAttributes.CONTENT_TYPE_SONIFICATION).build());
+            if (Build.VERSION.SDK_INT >= 28) ringtone.setLooping(true);
+            ringtone.play();
+        } catch (Exception ignored) { }
+    }
+
+    private void stopRing() {
+        try { if (ringtone != null) ringtone.stop(); } catch (Exception ignored) { }
+        ringtone = null;
+    }
+
     /* ---------- share a generated file (timetable image / PDF) ---------- */
 
     private void doShare(String b64, String name, String mime) {
@@ -331,6 +356,16 @@ public class MainActivity extends AppCompatActivity {
         @JavascriptInterface
         public String consumeFired() {
             return Scheduler.consumeFired(MainActivity.this);
+        }
+
+        @JavascriptInterface
+        public void playAlarm() {
+            runOnUiThread(() -> startRing());
+        }
+
+        @JavascriptInterface
+        public void stopAlarm() {
+            runOnUiThread(() -> stopRing());
         }
 
         @JavascriptInterface

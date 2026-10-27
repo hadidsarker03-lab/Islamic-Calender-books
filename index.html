@@ -1292,7 +1292,7 @@ function playTone(i,v){
   return ns.length*st+.5;
 }
 const tv=x=>x===undefined||x==='d'?S.tone:(x==='c'?'c':+x);
-function previewTone(x){x=tv(x);if(x==='c'){const src=ld('alarm_a','');if(src){const a=new Audio(src);a.play().catch(()=>{});setTimeout(()=>a.pause(),5000)}return}unlock();playTone(x,.4)}
+function previewTone(x){x=tv(x);if(NATIVE&&x!=='c'&&typeof AndroidApp.playAlarm==='function'){try{AndroidApp.playAlarm();setTimeout(()=>{try{AndroidApp.stopAlarm()}catch(e){}},3500)}catch(e){}return}if(x==='c'){const src=ld('alarm_a','');if(src){const a=new Audio(src);a.play().catch(()=>{});setTimeout(()=>a.pause(),5000)}return}unlock();playTone(x,.4)}
 function loadAlTone(i){const f=i.files[0];if(!f)return;if(f.size>3e6){$('alS').textContent=t('adBig');return}
   const r=new FileReader();r.onload=()=>{sv('alarm_a',r.result);$('alS').textContent=t('alSaved');fillTones()};r.readAsDataURL(f)}
 function fillTones(){
@@ -1307,11 +1307,12 @@ function ring(label,ad,tone){
   if(ad){const src=ld('adhan_a','')||ADHAN_DEF;if(src){adA=new Audio(src);adA.play().catch(()=>{});return}
     const N=[392,440,494,523,494,440];let i=0;const go=()=>beep(.35,N[i++%6],.55);go();ringTimer=setInterval(go,700);return}
   const x=tv(tone);
+  if(NATIVE&&x!=='c'&&typeof AndroidApp.playAlarm==='function'){try{AndroidApp.playAlarm();if(navigator.vibrate)navigator.vibrate([300,150,300]);return}catch(e){}}
   if(x==='c'&&ld('alarm_a','')){adA=new Audio(ld('alarm_a',''));adA.loop=true;adA.play().catch(()=>{})}
   else{const i=x==='c'?0:x,go=()=>{vol=Math.min(.7,vol+.05);playTone(i,vol)};go();ringTimer=setInterval(go,Math.round(((TN[i]||TN[0])[1].length*(TN[i]||TN[0])[2]+.6)*1000))}
   if(navigator.vibrate)navigator.vibrate([300,150,300]);
 }
-function stopAlarm(){clearInterval(ringTimer);if(adA){adA.pause();adA=null}ringing=null;$('ringM').classList.remove('on')}
+function stopAlarm(){try{if(NATIVE&&typeof AndroidApp.stopAlarm==='function')AndroidApp.stopAlarm()}catch(e){}clearInterval(ringTimer);if(adA){adA.pause();adA=null}ringing=null;$('ringM').classList.remove('on')}
 function snooze(){snoozeLabel=ringing;snoozeTone=ringTone;stopAlarm();snoozeAt=Date.now()+S.snz*60000}
 function loadAdhan(i){
   const f=i.files[0];if(!f)return;if(f.size>3e6){$('adS').textContent=t('adBig');return}
@@ -1611,9 +1612,9 @@ render();setInterval(tickCd,1000);setInterval(render,6e4);
 function rmzPush(out,c,z,ds,now){
   const h=hjParts(c);if(h.m!==9)return;
   const en=S.lang==='en',D=dg;
-  if(S.iftRem!==false)[15,5].forEach(m=>{const x=+z.iftar-m*6e4;if(x>now)out.push({t:x,id:'r'+ds+'i'+m,n:en?`Iftar in ${m} min`:`ইফতারের ${D(m)} মিনিট বাকি`,b:m===5?(en?'Dua after iftar: ذَهَبَ الظَّمَأُ وَابْتَلَّتِ الْعُرُوقُ وَثَبَتَ الْأَجْرُ إِنْ شَاءَ اللَّهُ':'ইফতারের পর দোয়া: ذَهَبَ الظَّمَأُ وَابْتَلَّتِ الْعُرُوقُ وَثَبَتَ الْأَجْرُ إِنْ شَاءَ اللَّهُ'):(en?'Get ready to break your fast':'ইফতারের প্রস্তুতি নিন'),k:'alarm',aid:0})});
+  if(S.iftRem!==false)[15,5].forEach(m=>{const x=+z.iftar-m*6e4;if(x>now)out.push({t:x,id:'r'+ds+'i'+m,n:en?`Iftar in ${m} min`:`ইফতারের ${D(m)} মিনিট বাকি`,b:m===5?(en?'Dua after iftar: ذَهَبَ الظَّمَأُ وَابْتَلَّتِ الْعُرُوقُ وَثَبَتَ الْأَجْرُ إِنْ شَاءَ اللَّهُ':'ইফতারের পর দোয়া: ذَهَبَ الظَّمَأُ وَابْتَلَّتِ الْعُرُوقُ وَثَبَتَ الْأَجْرُ إِنْ شَاءَ اللَّهُ'):(en?'Get ready to break your fast':'ইফতারের প্রস্তুতি নিন'),k:'adhan',aid:0})});
   if(S.wakeAl!==false){const mm=S.wakeMin||45,x=+z.sehri-mm*6e4;if(x>now)out.push({t:x,id:'r'+ds+'w',n:en?'Wake up for Sehri':'সাহরির জন্য উঠুন',b:en?`Sehri ends in ${mm} min`:`সাহরি শেষ হতে ${D(mm)} মিনিট বাকি`,k:'alarm',aid:0})}
-  if(S.qdRem!==false&&[20,22,24,26,28].includes(h.d)){const x=+z.isha+15*6e4,nt=h.d+1;if(x>now)out.push({t:x,id:'r'+ds+'q',n:en?`Night ${nt} — seek Laylat al-Qadr`:`${D(nt)}তম রাত — লাইলাতুল কদর খুঁজুন`,b:en?'Odd night of the last ten. Dua: اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي':'শেষ দশকের বিজোড় রাত। দোয়া: اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي',k:'alarm',aid:0})}
+  if(S.qdRem!==false&&[20,22,24,26,28].includes(h.d)){const x=+z.isha+15*6e4,nt=h.d+1;if(x>now)out.push({t:x,id:'r'+ds+'q',n:en?`Night ${nt} — seek Laylat al-Qadr`:`${D(nt)}তম রাত — লাইলাতুল কদর খুঁজুন`,b:en?'Odd night of the last ten. Dua: اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي':'শেষ দশকের বিজোড় রাত। দোয়া: اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي',k:'adhan',aid:0})}
 }
 function wData(){
   const n=today0(),en=S.lang==='en',now=Date.now(),ev=[],ph=[],hj={};
