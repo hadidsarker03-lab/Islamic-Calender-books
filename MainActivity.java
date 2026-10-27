@@ -139,6 +139,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onConfigurationChanged(android.content.res.Configuration c) {
+        super.onConfigurationChanged(c);
+        if (web != null) web.evaluateJavascript("window.onSysTheme&&window.onSysTheme()", null);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         web.evaluateJavascript("window.onNativeResume&&window.onNativeResume()", null);
@@ -325,6 +331,13 @@ public class MainActivity extends AppCompatActivity {
         @JavascriptInterface
         public String consumeFired() {
             return Scheduler.consumeFired(MainActivity.this);
+        }
+
+        @JavascriptInterface
+        public boolean isDark() {
+            return (MainActivity.this.getResources().getConfiguration().uiMode
+                    & android.content.res.Configuration.UI_MODE_NIGHT_MASK)
+                    == android.content.res.Configuration.UI_MODE_NIGHT_YES;
         }
 
         @JavascriptInterface

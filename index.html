@@ -724,7 +724,7 @@ async function fetchSun(){
 }
 
 /* ব্যাকগ্রাউন্ড ও নোটিফিকেশন */
-function adhanCheck(n){if(NATIVE)return;const sc=getSched(n);sc.list.slice(1).forEach(x=>{const k=sc.key+x[0];if(S.adhan&&adOn(x[0])&&!fired[k]&&ringing===null&&n>=x[1]&&n-x[1]<12e4){fired[k]=1;ring(t('pn')[x[0]],true)}})}
+function adhanCheck(n){if(NATIVE&&document.hidden)return;const sc=getSched(n);sc.list.slice(1).forEach(x=>{const k=sc.key+x[0];if(S.adhan&&adOn(x[0])&&!fired[k]&&ringing===null&&n>=x[1]&&n-x[1]<12e4){fired[k]=1;ring(t('pn')[x[0]],true)}})}
 function setNotif(el){
   if(!el.checked){S.notif=false;save();return}
   if(!('Notification' in window)){el.checked=false;return}
@@ -1144,9 +1144,10 @@ function pdShow(k){pdK=k;const d=PD[k],e=esc,x=getSched(new Date()).list.find(y=
    +`<div class="pdn">${t('pdQb')}</div>`;
   $('pdBody').parentElement.scrollTop=0}
 const THN={islamic:['ইসলামিক সবুজ','Islamic green'],indigo:['নীলচে বেগুনি','Indigo'],sunset:['সূর্যাস্ত','Sunset'],midnight:['মধ্যরাত','Midnight'],makkah:['মক্কা','Makkah'],ramadan:['রমজান','Ramadan'],cream:['হালকা ক্রিম','Cream'],beige:['বেইজ','Beige'],sand:['বালুকা (স্যান্ড)','Sand']};
+function sysLight(){try{if(typeof NATIVE!=='undefined'&&NATIVE&&typeof AndroidApp.isDark==='function')return!AndroidApp.isDark()}catch(e){}return matchMedia('(prefers-color-scheme: light)').matches}
 function applyLook(){
   const r=document.documentElement;r.dataset.theme=S.theme;r.dataset.ui=S.ui||'normal';
-  r.dataset.m=S.mode==='auto'?(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'):S.mode;
+  r.dataset.m=S.mode==='auto'?(sysLight()?'light':'dark'):S.mode;
   document.querySelectorAll('.sw').forEach(e=>e.classList.toggle('on',e.dataset.th===S.theme));
   {const n=THN[S.theme];if($('thN'))$('thN').textContent=n?n[S.lang==='bn'?0:1]:''}
 }
@@ -1332,6 +1333,8 @@ function tmDraw(){
 /* শুরু */
 $('sws').innerHTML=[['islamic','#2f6bff'],['indigo','#818cf8'],['sunset','#f97316'],['midnight','#60a5fa'],['makkah','#e0b84d'],['ramadan','#f59e0b'],['cream','#f3e2bd'],['beige','#d9ccb4'],['sand','#c9d3a8']].map(([n,c])=>`<button class="sw" data-th="${n}" style="background:${c}" aria-label="${n}" onclick="upd('theme','${n}')"></button>`).join('');
 try{matchMedia('(prefers-color-scheme: light)').addEventListener('change',applyLook)}catch(e){}
+window.onSysTheme=()=>{if(S.mode==='auto')applyLook()};
+{const _t=window.onNativeResume;window.onNativeResume=()=>{if(_t)_t();if(S.mode==='auto')applyLook()}}
 document.addEventListener('pointerdown',unlock,{once:true});
 MV=newView(S.main);applyLook();applyLang();
 fetchSun();setInterval(fetchSun,6*36e5);
@@ -1613,13 +1616,24 @@ function rmzPush(out,c,z,ds,now){
   if(S.qdRem!==false&&[20,22,24,26,28].includes(h.d)){const x=+z.isha+15*6e4,nt=h.d+1;if(x>now)out.push({t:x,id:'r'+ds+'q',n:en?`Night ${nt} — seek Laylat al-Qadr`:`${D(nt)}তম রাত — লাইলাতুল কদর খুঁজুন`,b:en?'Odd night of the last ten. Dua: اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي':'শেষ দশকের বিজোড় রাত। দোয়া: اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي',k:'alarm',aid:0})}
 }
 function wData(){
-  const n=today0(),en=S.lang==='en',now=Date.now(),ev=[];
+  const n=today0(),en=S.lang==='en',now=Date.now(),ev=[],ph=[],hj={};
   const f=(x,s)=>{const h=x.getHours(),m=dg(pad(x.getMinutes())),hh=dg(h%12||12);return en?`${hh}:${m} ${h<12?'AM':'PM'}`:`${s} ${hh}:${m}`};
-  for(let d=0;d<6;d++){const c=addD(n,d),z=sunTimes(c),ln=`${en?'Sehri':'সাহরি'} ${f(z.sehri,'ভোর')} · ${en?'Iftar':'ইফতার'} ${f(z.iftar,'সন্ধ্যা')}`;
-    if(+z.sehri>now)ev.push({t:+z.sehri,k:'s',lb:en?'Sehri ends in':'সাহরি শেষ হতে বাকি',tm:f(z.sehri,'ভোর'),ln});
-    if(+z.iftar>now)ev.push({t:+z.iftar,k:'i',lb:en?'Iftar in':'ইফতারে বাকি',tm:f(z.iftar,'সন্ধ্যা'),ln})}
+  const tf=x=>`${dg(x.getHours()%12||12)}:${dg(pad(x.getMinutes()))}`;
+  const pn=t('pn');
+  for(let d=-1;d<6;d++){const c=addD(n,d),z=sunTimes(c),zn=sunTimes(addD(c,1));
+    if(d>=0){const ln=`${en?'Sehri':'সাহরি'} ${f(z.sehri,'ভোর')} · ${en?'Iftar':'ইফতার'} ${f(z.iftar,'সন্ধ্যা')}`;
+      if(+z.sehri>now)ev.push({t:+z.sehri,k:'s',lb:'',tm:f(z.sehri,'ভোর'),ln});
+      if(+z.iftar>now)ev.push({t:+z.iftar,k:'i',lb:'',tm:f(z.iftar,'সন্ধ্যা'),ln});
+      const h=hjParts(c);hj[`${c.getFullYear()}-${pad(c.getMonth()+1)}-${pad(c.getDate())}`]=`${dg(h.d)} ${t('hm')[h.m-1]} ${dg(h.y)}`}
+    [[c.getDay()===5?pn.jum:pn.fajr,z.fajr,z.sunrise],[c.getDay()===5?pn.jum:pn.dhuhr,z.dhuhr,z.asr],[pn.asr,z.asr,z.sunset],[pn.maghrib,z.maghrib,z.isha],[pn.isha,z.isha,zn.fajr]].forEach(([nm,s,e])=>{if(+e>now)ph.push({n:nm,s:+s,e:+e})})}
   let area='';try{area=locParts().p.join(', ')}catch(e){}
-  return{area,ev,open:en?'Open the app':'অ্যাপ খুলুন',hint:en?'Open the app once to refresh times':'সময় আপডেট করতে অ্যাপ একবার খুলুন'};
+  let tp='',wx='';
+  try{if(wxInfo&&wxInfo.temp!=null){const T=Math.round(wxInfo.temp),c=wxCode;tp=dg(T)+'°';
+    wx=(c>=95)?(en?'Storm':'ঝড়'):([51,53,55,56,57,61,63,65,66,67,80,81,82].includes(c))?(en?'Rain':'বৃষ্টি'):(c===45||c===48)?(en?'Fog':'কুয়াশা'):T>=35?(en?'Hot':'প্রচণ্ড গরম'):T>=30?(en?'Warm':'গরম'):T>=24?(en?'Pleasant':'মনোরম'):T>=16?(en?'Cool':'ঠান্ডা'):(en?'Cold':'শীত')}}catch(e){}
+  const z0=sunTimes(n);
+  const lb=en?{sehri:'Sehri',iftar:'Iftar',run:'running',end:'ends in',next:'Next',start:'starts in',sl:'ends in',il:'in',gr:'Gregorian',hj:'Hijri'}
+    :{sehri:'সাহরি',iftar:'ইফতার',run:'চলছে',end:'শেষ হতে',next:'পরবর্তী',start:'শুরু হতে',sl:'শেষ হতে',il:'বাকি',gr:'ইংরেজি',hj:'হিজরি'};
+  return{area,tp,wx,sr:tf(z0.sunrise),ss:tf(z0.sunset),ev,ph,hj,lb,open:en?'Open the app':'অ্যাপ খুলুন',hint:en?'Open the app once to refresh times':'সময় আপডেট করতে অ্যাপ একবার খুলুন'};
 }
 /* সময়সূচি শেয়ার */
 function ramShBar(){const en=S.lang==='en';return `<div class="shB"><button class="btn alt" onclick="ramShare('png')">${en?'Share as image':'ছবি শেয়ার'}</button><button class="btn alt" onclick="ramShare('pdf')">${en?'Share as PDF':'PDF শেয়ার'}</button></div>`}
@@ -2237,6 +2251,7 @@ async function getWx(){
     liveTg=mapWx(q.weather_code,q.cloud_cover,q.wind_speed_10m,q.precipitation);wxCode=q.weather_code;
     wxInfo={temp:q.temperature_2m,prob:Math.max(0,...(((jj.hourly||{}).precipitation_probability)||[0]).filter(x=>x!=null))};pill();
     if(!demo.on)tg=liveTg;
+    try{qPush()}catch(e){}
     try{localStorage.setItem('skyWx',JSON.stringify({t:Date.now(),w:liveTg,code:wxCode,info:wxInfo}))}catch(e){}
   }catch(e){}
 }
