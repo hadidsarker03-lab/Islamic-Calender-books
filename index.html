@@ -2931,18 +2931,32 @@ if(typeof accBox==='function'){
 <script id="aiJs">
 (function(){
 'use strict';
-/* ===== ফ্রি AI: Google Gemini API =====
-   বিনামূল্যে key: aistudio.google.com → Get API key (কার্ড লাগে না)।
-   key শুধু এই ফোনের localStorage-এ থাকে, ক্লাউডে সিঙ্ক হয় না।
-   মডেল বন্ধ বা বদলে গেলে শুধু AI_MODEL-এর নাম বদলান। */
-const AI_MODEL='gemini-2.5-flash';
-const AI_URL='https://generativelanguage.googleapis.com/v1beta/models/';
-const KEY_LS='ai_gkey_v1',HIST_LS='ai_hist_v1';
+/* ===== AI: যেকোনো API (Gemini, OpenAI, OpenRouter, Groq, DeepSeek, Claude, কাস্টম) =====
+   ⚙ বোতাম থেকে সেবা, মডেল, Base URL ও key বদলানো যায়। ফাইল এডিট করতে হয় না।
+   key শুধু এই ফোনের localStorage-এ থাকে, ক্লাউডে সিঙ্ক হয় না। */
+const PR={
+  gemini:{n:'Google Gemini',t:'g',model:'gemini-flash-latest',base:'https://generativelanguage.googleapis.com/v1beta'},
+  openai:{n:'OpenAI',t:'o',model:'gpt-4o-mini',base:'https://api.openai.com/v1'},
+  openrouter:{n:'OpenRouter',t:'o',model:'openrouter/auto',base:'https://openrouter.ai/api/v1'},
+  groq:{n:'Groq',t:'o',model:'llama-3.3-70b-versatile',base:'https://api.groq.com/openai/v1'},
+  deepseek:{n:'DeepSeek',t:'o',model:'deepseek-chat',base:'https://api.deepseek.com/v1'},
+  claude:{n:'Anthropic Claude',t:'c',model:'claude-haiku-4-5',base:'https://api.anthropic.com/v1'},
+  custom:{n:'Custom (OpenAI-compatible)',t:'o',model:'',base:''}
+};
+const KEY_LS='ai_gkey_v1',HIST_LS='ai_hist_v1',CFG_LS='ai_cfg_v2';
+let cfg={p:'gemini',d:{}};
+try{const s=JSON.parse(localStorage.getItem(CFG_LS)||'null');if(s&&s.d)cfg=s}catch(e){}
+try{const old=localStorage.getItem(KEY_LS);if(old&&!(cfg.d.gemini&&cfg.d.gemini.key)){cfg.d.gemini=Object.assign({},cfg.d.gemini,{key:old})}}catch(e){}
+const saveCfg=()=>{try{localStorage.setItem(CFG_LS,JSON.stringify(cfg))}catch(e){}};
+function cur(){
+  const id=PR[cfg.p]?cfg.p:'gemini',d=cfg.d[id]||{},P=PR[id];
+  return {id:id,t:P.t,model:(d.model||P.model||'').trim(),base:(d.base||P.base||'').trim().replace(/\/+$/,''),key:(d.key||'').trim()};
+}
 
 const X=(b,e)=>S.lang==='en'?e:b;
 const $$=id=>document.getElementById(id);
 
-function mkSSE(onText){
+function mkSSE(onText,t){
   let buf='';
   return function feed(chunk){
     buf+=chunk;let i;
@@ -2952,9 +2966,16 @@ function mkSSE(onText){
       const j=line.slice(5).trim();if(!j||j==='[DONE]')continue;
       let o=null;try{o=JSON.parse(j)}catch(e){}
       if(!o)continue;
-      if(o.error)throw new Error(o.error.message||'stream error');
-      const c=o.candidates&&o.candidates[0],ps=c&&c.content&&c.content.parts;
-      if(ps)ps.forEach(p=>{if(p&&typeof p.text==='string'&&!p.thought)onText(p.text)});
+      if(o.error)throw new Error((o.error&&o.error.message)||(typeof o.error==='string'?o.error:'stream error'));
+      if(t==='g'){
+        const c=o.candidates&&o.candidates[0],ps=c&&c.content&&c.content.parts;
+        if(ps)ps.forEach(p=>{if(p&&typeof p.text==='string'&&!p.thought)onText(p.text)});
+      }else if(t==='c'){
+        if(o.type==='content_block_delta'&&o.delta&&typeof o.delta.text==='string')onText(o.delta.text);
+      }else{
+        const d=o.choices&&o.choices[0]&&o.choices[0].delta;
+        if(d&&typeof d.content==='string')onText(d.content);
+      }
     }
   };
 }
@@ -2962,7 +2983,24 @@ function mkSSE(onText){
 let hist=[];try{hist=JSON.parse(localStorage.getItem(HIST_LS)||'[]')}catch(e){}
 let busy=false,ctl=null;
 const saveHist=()=>{try{localStorage.setItem(HIST_LS,JSON.stringify(hist.slice(-40)))}catch(e){}};
-const getKey=()=>{try{return localStorage.getItem(KEY_LS)||''}catch(e){return''}};
+const getKey=()=>cur().key;
+
+function buildReq(sys,msgs){
+  const c=cur();
+  if(c.t==='g'){
+    return {url:c.base+'/models/'+encodeURIComponent(c.model)+':streamGenerateContent?alt=sse',
+      headers:{'Content-Type':'application/json','x-goog-api-key':c.key},
+      body:{systemInstruction:{parts:[{text:sys}]},contents:msgs.map(m=>({role:m.role==='user'?'user':'model',parts:[{text:m.content}]})),generationConfig:{maxOutputTokens:1024}}};
+  }
+  if(c.t==='c'){
+    return {url:c.base+'/messages',
+      headers:{'Content-Type':'application/json','x-api-key':c.key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:{model:c.model,max_tokens:1024,system:sys,messages:msgs,stream:true}};
+  }
+  return {url:c.base+'/chat/completions',
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+c.key},
+    body:{model:c.model,stream:true,messages:[{role:'system',content:sys}].concat(msgs)}};
+}
 
 function sysPrompt(){
   let ctx='';
@@ -2995,6 +3033,9 @@ function ensure(){
 <div class="aiF"><textarea id="aiT" rows="1" maxlength="2000"></textarea><button id="aiS" data-a="send" aria-label="send">➤</button></div>`;
   document.body.appendChild(m);
   m.addEventListener('click',onClick);
+  m.addEventListener('change',e=>{
+    if(e.target&&e.target.id==='aiP'){cfg.p=e.target.value;saveCfg();$$('aiCfg').innerHTML=cfgHTML()}
+  });
   const ta=$$('aiT');
   ta.addEventListener('input',()=>{ta.style.height='auto';ta.style.height=Math.min(120,ta.scrollHeight)+'px'});
   ta.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey&&!e.isComposing){e.preventDefault();send()}});
@@ -3002,11 +3043,39 @@ function ensure(){
 }
 
 function cfgHTML(){
-  const has=!!getKey();
-  return `<b>${X('ফ্রি AI (Google Gemini) কী','Free AI (Google Gemini) key')}</b>
-<div class="note" style="text-align:left;margin-top:4px">${X('aistudio.google.com-এ Google অ্যাকাউন্ট দিয়ে ঢুকে "Get API key" চাপুন। কার্ড লাগে না। key শুধু এই ফোনে সেভ থাকে। ফ্রি ব্যবহারে আপনার প্রশ্ন Google তাদের সেবা উন্নত করতে ব্যবহার করতে পারে, তাই ব্যক্তিগত তথ্য লিখবেন না।','Sign in at aistudio.google.com and tap "Get API key". No card needed. The key stays on this device only. On the free tier Google may use your prompts to improve its products, so avoid personal details.')}</div>
-<input id="aiK" class="in" type="password" autocomplete="off" placeholder="${has?'••••••••••••':'AIza...'}">
-<div class="row2"><button class="btn" data-a="savekey">${X('সেভ','Save')}</button>${has?`<button class="btn alt" data-a="delkey">${X('মুছুন','Remove')}</button>`:''}</div>`;
+  const c=cur(),has=!!c.key;
+  const opts=Object.keys(PR).map(k=>`<option value="${k}"${k===c.id?' selected':''}>${esc(PR[k].n)}</option>`).join('');
+  return `<b>${X('AI সেটিংস','AI settings')}</b>
+<div class="note" style="text-align:left;margin-top:4px">${X('যেকোনো সেবা বেছে নিন: Gemini, OpenAI, OpenRouter, Groq, DeepSeek, Claude, অথবা নিজের OpenAI-সামঞ্জস্যপূর্ণ ঠিকানা। key শুধু এই ফোনে সেভ থাকে। ফ্রি ব্যবহারে প্রশ্ন সেবাদাতা ব্যবহার করতে পারে, তাই ব্যক্তিগত তথ্য লিখবেন না।','Pick any service: Gemini, OpenAI, OpenRouter, Groq, DeepSeek, Claude, or your own OpenAI-compatible URL. The key stays on this device only. Providers may use free-tier prompts, so avoid personal details.')}</div>
+<select id="aiP" class="in" data-a="prov" style="margin-top:8px">${opts}</select>
+<input id="aiMo" class="in" list="aiML" autocomplete="off" value="${esc(c.model)}" placeholder="${X('মডেলের নাম','Model name')}" style="width:100%;margin-top:8px">
+<datalist id="aiML"></datalist>
+<input id="aiBa" class="in" autocomplete="off" value="${esc(c.base)}" placeholder="Base URL" style="width:100%;margin-top:8px">
+<input id="aiK" class="in" type="password" autocomplete="off" placeholder="${has?X('key সেভ আছে (বদলাতে নতুন key দিন)','Key saved (enter a new one to replace)'):'API key'}">
+<div class="note" id="aiNote" style="text-align:left;margin-top:6px"></div>
+<div class="row2"><button class="btn" data-a="savekey">${X('সেভ','Save')}</button><button class="btn alt" data-a="models">${X('মডেল তালিকা','Load models')}</button>${has?`<button class="btn alt" data-a="delkey">${X('key মুছুন','Remove key')}</button>`:''}</div>`;
+}
+
+async function listModels(){
+  const n=$$('aiNote'),id=$$('aiP').value,P=PR[id],typed=($$('aiK').value||'').trim();
+  const key=typed||((cfg.d[id]||{}).key)||'',base=($$('aiBa').value||P.base||'').trim().replace(/\/+$/,'');
+  if(!key){n.textContent=X('আগে API key দিন।','Enter the API key first.');return}
+  n.textContent=X('তালিকা আনা হচ্ছে…','Loading…');
+  try{
+    let url=base+'/models',h={};
+    if(P.t==='g'){url+='?pageSize=200';h={'x-goog-api-key':key}}
+    else if(P.t==='c'){url+='?limit=100';h={'x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'}}
+    else h={'Authorization':'Bearer '+key};
+    const r=await fetch(url,{headers:h});
+    if(!r.ok)throw Object.assign(new Error('http'),{status:r.status});
+    const j=await r.json();
+    let ids=P.t==='g'
+      ?(j.models||[]).filter(m=>!m.supportedGenerationMethods||m.supportedGenerationMethods.indexOf('generateContent')>=0).map(m=>String(m.name).replace(/^models\//,''))
+      :(j.data||[]).map(m=>m.id);
+    ids=ids.filter(Boolean);
+    $$('aiML').innerHTML=ids.map(i=>`<option value="${esc(i)}">`).join('');
+    n.textContent=X(ids.length+'টি মডেল পাওয়া গেছে। মডেলের ঘরে চাপ দিয়ে বেছে নিন, তারপর সেভ করুন।',ids.length+' models found. Tap the model box to choose, then Save.');
+  }catch(e){n.textContent=errText(e&&e.status,'')}
 }
 
 function render(){
@@ -3025,11 +3094,12 @@ function render(){
 }
 
 function errText(status,msg){
-  if(status===401||status===403||(status===400&&/api key/i.test(msg||'')))return X('API key সঠিক নয়। ⚙ থেকে key ঠিক করুন।','The API key is not valid. Fix it in ⚙.');
-  if(status===429)return X('ফ্রি সীমা শেষ বা অনেক বেশি অনুরোধ। একটু পরে আবার চেষ্টা করুন।','Free limit reached or too many requests. Try again later.');
-  if(status===404)return X('এই মডেলটি এখন পাওয়া যাচ্ছে না। ফাইলে AI_MODEL-এর নাম বদলাতে হবে।','This model is not available now. Change AI_MODEL in the file.');
-  if(status)return X('সমস্যা হয়েছে ('+status+')। আবার চেষ্টা করুন।','Something went wrong ('+status+'). Please try again.');
-  return X('ইন্টারনেট সংযোগ দেখুন, তারপর আবার চেষ্টা করুন।','Check your internet connection and try again.');
+  const d=msg?' ['+String(msg).replace(/\s+/g,' ').slice(0,140)+']':'';
+  if(status===401||status===403||(status===400&&/api.?key/i.test(msg||'')))return X('API key সঠিক নয়। ⚙ থেকে key ঠিক করুন।','The API key is not valid. Fix it in ⚙.')+d;
+  if(status===429)return X('ফ্রি সীমা শেষ বা অনেক বেশি অনুরোধ। একটু পরে আবার চেষ্টা করুন।','Free limit reached or too many requests. Try again later.')+d;
+  if(status===404)return X('মডেলের নাম বা ঠিকানা (URL) ঠিক নেই। ⚙ খুলে "মডেল তালিকা" চেপে একটি মডেল বেছে নিন।','Model name or URL is wrong. Open ⚙, tap "Load models" and pick one.')+d;
+  if(status)return X('সমস্যা হয়েছে ('+status+')। আবার চেষ্টা করুন।','Something went wrong ('+status+'). Please try again.')+d;
+  return X('ইন্টারনেট সংযোগ দেখুন (অথবা এই সেবা ব্রাউজার থেকে অনুমতি দেয় না), তারপর আবার চেষ্টা করুন।','Check your internet connection (or this service may block browser requests) and try again.');
 }
 
 async function send(q){
@@ -3044,14 +3114,13 @@ async function send(q){
   busy=true;$$('aiS').disabled=true;ctl=new AbortController();
   let acc='';
   try{
-    let msgs=hist.filter(m=>!m.e).slice(-12).map(m=>({role:m.r==='user'?'user':'model',parts:[{text:m.c}]}));
+    let msgs=hist.filter(m=>!m.e).slice(-12).map(m=>({role:m.r==='user'?'user':'assistant',content:m.c}));
     while(msgs.length&&msgs[0].role!=='user')msgs.shift();
-    const body={systemInstruction:{parts:[{text:sysPrompt()}]},contents:msgs,generationConfig:{maxOutputTokens:1024}};
-    const res=await fetch(AI_URL+AI_MODEL+':streamGenerateContent?alt=sse',{method:'POST',
-      headers:{'Content-Type':'application/json','x-goog-api-key':getKey()},body:JSON.stringify(body),signal:ctl.signal});
-    if(!res.ok){let m='';try{const j=await res.json();m=(j.error&&j.error.message)||''}catch(e){}
-      throw Object.assign(new Error(m||'http'),{status:res.status})}
-    const feed=mkSSE(t=>{acc+=t;box.innerHTML=fmt(acc)+'<span class="cur"></span>';L.scrollTop=L.scrollHeight});
+    const R=buildReq(sysPrompt(),msgs);
+    const res=await fetch(R.url,{method:'POST',headers:R.headers,body:JSON.stringify(R.body),signal:ctl.signal});
+    if(!res.ok){let m='';try{const j=await res.json();m=(j.error&&(j.error.message||j.error))||j.message||''}catch(e){}
+      throw Object.assign(new Error(typeof m==='string'?m:JSON.stringify(m)||'http'),{status:res.status})}
+    const feed=mkSSE(t=>{acc+=t;box.innerHTML=fmt(acc)+'<span class="cur"></span>';L.scrollTop=L.scrollHeight},cur().t);
     const rd=res.body.getReader(),dec=new TextDecoder();
     for(;;){const {value,done}=await rd.read();if(done)break;feed(dec.decode(value,{stream:true}))}
     feed('\n');
@@ -3074,8 +3143,13 @@ function onClick(e){
   else if(a==='send')send();
   else if(a==='chip')send(b.dataset.q);
   else if(a==='cfg'){const c=$$('aiCfg');c.classList.toggle('on');if(c.classList.contains('on'))c.innerHTML=cfgHTML()}
-  else if(a==='savekey'){const v=($$('aiK').value||'').trim();if(v){try{localStorage.setItem(KEY_LS,v)}catch(x){}}$$('aiCfg').classList.remove('on')}
-  else if(a==='delkey'){try{localStorage.removeItem(KEY_LS)}catch(x){}$$('aiCfg').innerHTML=cfgHTML()}
+  else if(a==='savekey'){
+    const id=$$('aiP').value,old=(cfg.d[id]||{}).key||'',v=($$('aiK').value||'').trim();
+    cfg.p=id;cfg.d[id]={model:($$('aiMo').value||'').trim(),base:($$('aiBa').value||'').trim(),key:v||old};
+    saveCfg();$$('aiCfg').classList.remove('on');
+  }
+  else if(a==='delkey'){const id=$$('aiP').value;if(cfg.d[id])cfg.d[id].key='';saveCfg();$$('aiCfg').innerHTML=cfgHTML()}
+  else if(a==='models')listModels();
   else if(a==='clr'){if(ctl)ctl.abort();hist=[];saveHist();render()}
 }
 
