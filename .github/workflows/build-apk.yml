@@ -28,7 +28,7 @@ jobs:
           mkdir -p $M/res/layout $M/res/xml $M/res/drawable
           cp widget_countdown.xml $M/res/layout/
           cp widget_info.xml share_paths.xml $M/res/xml/
-          cp widget_bg.xml $M/res/drawable/
+          cp widget_bg.xml widget_mosque.xml ic_w_therm.xml ic_w_pin.xml ic_w_sunrise.xml ic_w_sunset.xml $M/res/drawable/
           cp index.html manifest.json $M/assets/www/
           cat > proj/settings.gradle <<'E'
           pluginManagement { repositories { google(); mavenCentral(); gradlePluginPortal() } }
