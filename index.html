@@ -2985,8 +2985,8 @@ let busy=false,ctl=null;
 const saveHist=()=>{try{localStorage.setItem(HIST_LS,JSON.stringify(hist.slice(-40)))}catch(e){}};
 const getKey=()=>cur().key;
 
-function buildReq(sys,msgs){
-  const c=cur();
+function buildReq(sys,msgs,mdl){
+  const c=cur();if(mdl)c.model=mdl;
   if(c.t==='g'){
     return {url:c.base+'/models/'+encodeURIComponent(c.model)+':streamGenerateContent?alt=sse',
       headers:{'Content-Type':'application/json','x-goog-api-key':c.key},
@@ -3098,8 +3098,39 @@ function errText(status,msg){
   if(status===401||status===403||(status===400&&/api.?key/i.test(msg||'')))return X('API key সঠিক নয়। ⚙ থেকে key ঠিক করুন।','The API key is not valid. Fix it in ⚙.')+d;
   if(status===429)return X('ফ্রি সীমা শেষ বা অনেক বেশি অনুরোধ। একটু পরে আবার চেষ্টা করুন।','Free limit reached or too many requests. Try again later.')+d;
   if(status===404)return X('মডেলের নাম বা ঠিকানা (URL) ঠিক নেই। ⚙ খুলে "মডেল তালিকা" চেপে একটি মডেল বেছে নিন।','Model name or URL is wrong. Open ⚙, tap "Load models" and pick one.')+d;
+  if(status===500||status===502||status===503||status===504)return X('এই মুহূর্তে AI সার্ভার খুব ব্যস্ত ('+status+')। কয়েক সেকেন্ড পরে আবার পাঠান, অথবা ⚙ থেকে অন্য একটি মডেল বেছে নিন।','The AI server is very busy right now ('+status+'). Try again in a few seconds, or pick another model in ⚙.')+d;
   if(status)return X('সমস্যা হয়েছে ('+status+')। আবার চেষ্টা করুন।','Something went wrong ('+status+'). Please try again.')+d;
   return X('ইন্টারনেট সংযোগ দেখুন (অথবা এই সেবা ব্রাউজার থেকে অনুমতি দেয় না), তারপর আবার চেষ্টা করুন।','Check your internet connection (or this service may block browser requests) and try again.');
+}
+
+/* ব্যস্ত সার্ভার (503/500/502/504/429)-এ নিজে থেকে আবার চেষ্টা + Gemini-তে বিকল্প মডেল */
+const RT=[429,500,502,503,504];
+const GFB=['gemini-flash-lite-latest','gemini-2.5-flash'];
+const sleep=(ms,sig)=>new Promise((res,rej)=>{const t=setTimeout(res,ms);if(sig)sig.addEventListener('abort',()=>{clearTimeout(t);rej(Object.assign(new Error('abort'),{name:'AbortError'}))},{once:true})});
+async function fetchRetry(sys,msgs,box){
+  const c=cur(),models=[c.model];
+  if(c.t==='g')GFB.forEach(m=>{if(models.indexOf(m)<0)models.push(m)});
+  let first=null;
+  for(let mi=0;mi<models.length;mi++){
+    const tries=mi===0?3:1;
+    for(let a=0;a<tries;a++){
+      if(a>0||mi>0){
+        box.innerHTML='<i>'+X('সার্ভার ব্যস্ত, আবার চেষ্টা করছি…','Server busy, trying again…')+'</i><span class="cur"></span>';
+        if(a>0)await sleep(1500*a,ctl.signal);
+      }
+      const R=buildReq(sys,msgs,models[mi]);
+      let res;
+      try{res=await fetch(R.url,{method:'POST',headers:R.headers,body:JSON.stringify(R.body),signal:ctl.signal})}
+      catch(e){if(e&&e.name==='AbortError')throw e;if(!first)first=e;continue}
+      if(res.ok)return res;
+      let m='';try{const j=await res.json();m=(j.error&&(j.error.message||j.error))||j.message||''}catch(e){}
+      const err=Object.assign(new Error(typeof m==='string'?m:JSON.stringify(m)||'http'),{status:res.status});
+      if(!first)first=err;
+      if(mi===0&&RT.indexOf(res.status)<0)throw err;
+      if(mi>0||res.status===429)break;
+    }
+  }
+  throw first||new Error('http');
 }
 
 async function send(q){
@@ -3116,10 +3147,7 @@ async function send(q){
   try{
     let msgs=hist.filter(m=>!m.e).slice(-12).map(m=>({role:m.r==='user'?'user':'assistant',content:m.c}));
     while(msgs.length&&msgs[0].role!=='user')msgs.shift();
-    const R=buildReq(sysPrompt(),msgs);
-    const res=await fetch(R.url,{method:'POST',headers:R.headers,body:JSON.stringify(R.body),signal:ctl.signal});
-    if(!res.ok){let m='';try{const j=await res.json();m=(j.error&&(j.error.message||j.error))||j.message||''}catch(e){}
-      throw Object.assign(new Error(typeof m==='string'?m:JSON.stringify(m)||'http'),{status:res.status})}
+    const res=await fetchRetry(sysPrompt(),msgs,box);
     const feed=mkSSE(t=>{acc+=t;box.innerHTML=fmt(acc)+'<span class="cur"></span>';L.scrollTop=L.scrollHeight},cur().t);
     const rd=res.body.getReader(),dec=new TextDecoder();
     for(;;){const {value,done}=await rd.read();if(done)break;feed(dec.decode(value,{stream:true}))}
@@ -3159,6 +3187,7 @@ function openAI(){
 }
 function closeAI(){const m=$$('aiM');if(m)m.classList.remove('on')}
 window.aiOpen=openAI;
+window.aiAsk=function(q){openAI();if(q)send(q)};
 
 /* হোম পেজে বোতাম */
 function addBtn(){
@@ -3169,8 +3198,311 @@ function addBtn(){
   b.innerHTML='<span>🤖 '+X('AI সহকারীর সাথে চ্যাট','Chat with AI assistant')+'</span>';
   b.onclick=openAI;ref.parentNode.insertBefore(b,ref.nextSibling);
 }
-addBtn();setTimeout(addBtn,1500);
+
 })();
 </script>
+<!-- ===== AI Robot Assistant (স্মার্ট সাজেশন) — index.html এ </body> এর ঠিক আগে বসান ===== -->
+<style>
+#aiBot{position:fixed;left:-200px;top:0;z-index:999;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;transition:left var(--md,0s) ease-in-out,top var(--md,0s) ease-in-out;width:76px;height:91px;cursor:pointer;-webkit-tap-highlight-color:transparent;
+transform-origin:50% 100%;animation:aiPop .9s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes aiPop{0%{transform:translateY(40px) scale(.2);opacity:0}60%{opacity:1}100%{transform:none;opacity:1}}
+#aiBot svg{width:100%;height:100%;overflow:visible}
+#aiBot .float{animation:aiFloat 3.2s ease-in-out infinite}
+@keyframes aiFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+#aiBot .shadow{transform-origin:50px 116px;animation:aiShadow 3.2s ease-in-out infinite}
+@keyframes aiShadow{0%,100%{transform:scale(1);opacity:.28}50%{transform:scale(.8);opacity:.14}}
+#aiBot .breath{transform-origin:50px 108px;animation:aiBreath 3.2s ease-in-out infinite}
+@keyframes aiBreath{0%,100%{transform:scale(1,1)}50%{transform:scale(1.025,.975)}}
+#aiBot .breath.bump{animation:aiBump .55s cubic-bezier(.3,1.6,.5,1)}
+@keyframes aiBump{0%{transform:scale(1,1)}25%{transform:scale(1.12,.86)}55%{transform:scale(.93,1.1) translateY(-4px)}100%{transform:scale(1,1)}}
+#aiBot .head{transform-origin:50px 68px;animation:aiTilt 5s ease-in-out infinite}
+@keyframes aiTilt{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(3deg)}}
+#aiBot .ant{transform-origin:50px 26px;animation:aiSway 5s ease-in-out .3s infinite}
+@keyframes aiSway{0%,100%{transform:rotate(7deg)}50%{transform:rotate(-9deg)}}
+#aiBot .dot{animation:aiPulse 1.6s ease-in-out infinite}
+@keyframes aiPulse{0%,100%{opacity:1}50%{opacity:.35}}
+#aiBot .eyes{transform-origin:50px 46px;animation:aiBlink 5.5s infinite}
+@keyframes aiBlink{0%,7%,11%,47%,51%,53%,57%,100%{transform:scaleY(1)}9%,49%,55%{transform:scaleY(.08)}}
+#aiBot .pupils{animation:aiLook 7s ease-in-out infinite}
+@keyframes aiLook{0%,15%{transform:translate(0,0)}25%,40%{transform:translate(1.8px,-.4px)}50%,60%{transform:translate(-1.8px,.4px)}75%,100%{transform:translate(0,.3px)}}
+#aiBot .mouth{transform-origin:50px 56px;transform:scaleY(.55);transition:transform .2s}
+#aiBot.talk .mouth{animation:aiTalk .32s ease-in-out infinite alternate}
+@keyframes aiTalk{from{transform:scaleY(.5)}to{transform:scaleY(2.2)}}
+/* হাত: নামানো অবস্থা -> তোলা + কবজি নাড়ানো (শুধু সালামের সময়) */
+#aiBot .arm{transform-origin:68px 80px;transform:rotate(38deg);transition:transform .7s cubic-bezier(.34,1.56,.64,1)}
+#aiBot .hand{transform-origin:79px 80px;transition:transform .4s ease}
+#aiBot.wave .arm{transform:rotate(-64deg)}
+#aiBot.wave .hand{animation:aiHand .5s ease-in-out .5s infinite alternate}
+@keyframes aiHand{from{transform:rotate(-20deg)}to{transform:rotate(24deg)}}
+#aiBubble{position:fixed;left:0;top:0;z-index:999;max-width:230px;padding:10px 12px;border-radius:16px;
+background:#fff;color:#16322b;font:500 14px/1.45 system-ui,sans-serif;box-shadow:0 6px 18px rgba(0,0,0,.22);
+transform-origin:50% 100%;opacity:0;transform:scale(.4) translateY(10px);pointer-events:none;
+transition:opacity .2s,transform .45s cubic-bezier(.34,1.56,.64,1)}
+#aiBubble.show{opacity:1;transform:none;pointer-events:auto}
+#aiBubble .ask{background:#1ea0f0!important}
+#aiBubble .x{position:absolute;top:-8px;left:-8px;width:22px;height:22px;border-radius:50%;border:0;background:#0f766e;color:#fff;font-size:12px}
+#aiBubble .go,#aiBubble .ask{display:inline-block;margin-top:6px;margin-left:6px;padding:4px 12px;border-radius:12px;border:0;background:#0f766e;color:#fff;font-size:13px}
+#aiBot svg{transform-origin:50% 100%;transition:transform .2s,filter .2s}
+#aiBot .xf{display:none}
+#aiBot.x-happy .eyes,#aiBot.x-happy .mouth{display:none}#aiBot.x-happy .e-happy,#aiBot.x-happy .m-grin{display:inline}
+#aiBot.x-wink .wR,#aiBot.x-wink .pR,#aiBot.x-wink .mouth{display:none}#aiBot.x-wink .e-wink,#aiBot.x-wink .m-smile{display:inline}
+#aiBot.x-star .pupils,#aiBot.x-star .mouth{display:none}#aiBot.x-star .stars,#aiBot.x-star .m-grin{display:inline}
+#aiBot.x-love .eyes,#aiBot.x-love .mouth{display:none}#aiBot.x-love .hearts,#aiBot.x-love .m-smile{display:inline}
+#aiBot.x-love .hearts{animation:aiBeat .5s ease-in-out infinite alternate;transform-origin:50px 46px;display:inline}
+@keyframes aiBeat{from{transform:scale(1)}to{transform:scale(1.18)}}
+#aiBot.x-cool .sg,#aiBot.x-cool .m-smile{display:inline}#aiBot.x-cool .mouth{display:none}
+#aiBot.x-wow .mouth{display:none}#aiBot.x-wow .m-o{display:inline}
+#aiBot.x-tongue .mouth{display:none}#aiBot.x-tongue .tongue{display:inline}#aiBot.x-tongue .wR,#aiBot.x-tongue .pR{display:none}#aiBot.x-tongue .e-wink{display:inline}
+#aiBot.x-sleep .eyes{display:none}#aiBot.x-sleep .e-sleep{display:inline}
+#aiBot.pull{transition:none}
+#aiBot.pull .arm{transform:rotate(0deg)!important}
+#aiBot.pull .hand{transform:rotate(-8deg)}
+#aiBot.pull svg{animation:none!important;transform:rotate(9deg) translateY(2px)}
+#aiBot.pull.fl svg{transform:scaleX(-1) rotate(9deg) translateY(2px)}
+#aiBot.walk svg{animation:gWalk .45s ease-in-out infinite alternate}
+@keyframes gWalk{from{transform:rotate(-6deg) translateY(0)}to{transform:rotate(6deg) translateY(-4px)}}
+#aiBot.drag svg{transform:scale(1.18) rotate(-6deg);filter:drop-shadow(0 10px 10px rgba(0,0,0,.4))}
+#aiBot.g-jump svg{animation:gJump .8s ease-out}
+@keyframes gJump{0%,100%{transform:none}30%{transform:translateY(-28px) scale(.95,1.1)}55%{transform:scale(1.12,.88)}75%{transform:translateY(-8px)}}
+#aiBot.g-spin svg{animation:gSpin .9s ease-in-out 2}
+@keyframes gSpin{0%,100%{transform:scaleX(1)}50%{transform:scaleX(-1)}}
+#aiBot.g-dance svg{animation:gDance .5s ease-in-out 4 alternate}
+@keyframes gDance{from{transform:rotate(-14deg) translateY(0)}to{transform:rotate(14deg) translateY(-10px)}}
+#aiBot.g-nod svg{animation:gNod .45s ease-in-out 3}
+@keyframes gNod{0%,100%{transform:none}50%{transform:scaleY(.88) translateY(3px)}}
+#aiBot.g-shake svg{animation:gShake .2s ease-in-out 5 alternate}
+@keyframes gShake{from{transform:rotate(-10deg)}to{transform:rotate(10deg)}}
+#aiBot.g-flip svg{animation:gFlip 1s ease-in-out}
+@keyframes gFlip{0%{transform:translateY(0) rotate(0)}50%{transform:translateY(-34px) rotate(180deg)}100%{transform:translateY(0) rotate(360deg)}}
+@media (prefers-color-scheme:dark){#aiBubble{background:#1f2b28;color:#e6f4f0}}
+@media (prefers-reduced-motion:reduce){#aiBot,#aiBot *{animation:none!important;transition:none!important}}
+</style>
+
+<div id="aiBubble" role="status"></div>
+<div id="aiBot" aria-label="AI সহকারী">
+<svg viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<linearGradient id="aiG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8be78b"/><stop offset="1" stop-color="#22c5e8"/></linearGradient>
+<linearGradient id="aiG2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4fd8c0"/><stop offset="1" stop-color="#1ea0f0"/></linearGradient>
+</defs>
+<ellipse class="shadow" cx="50" cy="116" rx="19" ry="3.2" fill="#000"/>
+<g class="float">
+ <g class="breath">
+  <ellipse cx="50" cy="90" rx="20" ry="22" fill="url(#aiG2)"/>
+  <rect x="30" y="76" width="9" height="22" rx="4.5" fill="#1ea0f0" opacity=".8" transform="rotate(10 34 86)"/>
+  <g class="arm">
+   <rect x="66" y="76" width="15" height="9" rx="4.5" fill="url(#aiG2)"/>
+   <g class="hand"><rect x="76" y="76" width="16" height="9" rx="4.5" fill="url(#aiG2)"/><circle cx="92" cy="80.5" r="5.5" fill="#37c9e6"/></g>
+  </g>
+ </g>
+ <g class="head">
+  <g class="ant"><line x1="50" y1="16" x2="50" y2="26" stroke="#22c5e8" stroke-width="3" stroke-linecap="round"/><circle class="dot" cx="50" cy="11" r="4.5" fill="#5ef0d0"/></g>
+  <rect x="20" y="25" width="60" height="44" rx="21" fill="url(#aiG)"/>
+  <rect x="27" y="34" width="46" height="26" rx="13" fill="#1d3b5c"/>
+  <g class="eyes"><circle cx="41" cy="46" r="6" fill="#fff"/><circle class="wR" cx="59" cy="46" r="6" fill="#fff"/>
+   <g class="pupils"><circle cx="41.5" cy="46" r="2.7" fill="#1d3b5c"/><circle class="pR" cx="59.5" cy="46" r="2.7" fill="#1d3b5c"/></g></g>
+  <ellipse class="mouth" cx="50" cy="55.5" rx="4" ry="1.6" fill="#5ef0d0"/>
+  <g class="xf e-happy"><path d="M35 48 Q41 40 47 48 M53 48 Q59 40 65 48" stroke="#fff" stroke-width="3.2" fill="none" stroke-linecap="round"/></g>
+  <g class="xf e-wink"><path d="M53 47 Q59 52 65 47" stroke="#fff" stroke-width="3.2" fill="none" stroke-linecap="round"/></g>
+  <g class="xf e-sleep"><path d="M35 48 Q41 51 47 48 M53 48 Q59 51 65 48" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/></g>
+  <g class="xf hearts"><path transform="translate(41 46) scale(.75)" d="M0 4 C-10 -3 -7 -10 0 -5 C7 -10 10 -3 0 4Z" fill="#ff5f8a"/><path transform="translate(59 46) scale(.75)" d="M0 4 C-10 -3 -7 -10 0 -5 C7 -10 10 -3 0 4Z" fill="#ff5f8a"/></g>
+  <g class="xf stars"><polygon transform="translate(41 46) scale(1.05)" points="0,-6 1.8,-1.9 6,-1.9 2.6,1 3.7,5.2 0,2.8 -3.7,5.2 -2.6,1 -6,-1.9 -1.8,-1.9" fill="#ffd84d"/><polygon transform="translate(59 46) scale(1.05)" points="0,-6 1.8,-1.9 6,-1.9 2.6,1 3.7,5.2 0,2.8 -3.7,5.2 -2.6,1 -6,-1.9 -1.8,-1.9" fill="#ffd84d"/></g>
+  <g class="xf sg"><rect x="31" y="40" width="18" height="12" rx="5" fill="#06101c"/><rect x="51" y="40" width="18" height="12" rx="5" fill="#06101c"/><rect x="48" y="44" width="4" height="2.4" fill="#06101c"/><path d="M34 43 L38 43 M54 43 L58 43" stroke="#5a7a9a" stroke-width="1.4" stroke-linecap="round"/></g>
+  <path class="xf m-smile" d="M42 53.5 Q50 62 58 53.5" stroke="#5ef0d0" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+  <path class="xf m-grin" d="M41 53 H59 Q57 62 50 62 Q43 62 41 53Z" fill="#5ef0d0"/>
+  <g class="xf tongue"><path d="M42 53.5 Q50 62 58 53.5" stroke="#5ef0d0" stroke-width="2.8" fill="none" stroke-linecap="round"/><path d="M52 58 Q52 65 56 64 Q59 62 57 57Z" fill="#ff6b8b"/></g>
+  <ellipse class="xf m-o" cx="50" cy="57" rx="4" ry="5" fill="#5ef0d0"/>
+ </g>
+</g>
+</svg>
+</div>
+
+<script>
+/* ব্যবহার (ঐচ্ছিক): অ্যাপের ওয়াক্ত-লজিক থেকে তথ্য দিন:
+   AIAssist.setContext({currentPrayer:'asr', minutesLeft:18});
+   ট্যাবে যাওয়ার জন্য: AIAssist.go = function(tab){ আপনার ট্যাব-সুইচ ফাংশন ডাকুন }; */
+(function(){
+  var bn={fajr:'ফজর',dhuhr:'যোহর',asr:'আসর',maghrib:'মাগরিব',isha:'এশা'};
+  var ctx={}, idx=0, hideT, closed=false;
+  var bot=document.getElementById('aiBot'), bub=document.getElementById('aiBubble');
+  var breath=bot.querySelector('.breath');
+
+  function guessPrayer(h){
+    if(h>=4&&h<6)return'fajr'; if(h>=12&&h<15)return'dhuhr'; if(h>=15&&h<17)return'asr';
+    if(h>=17&&h<19)return'maghrib'; if(h>=19||h<4)return'isha'; return null;
+  }
+  function isRamadan(d){
+    try{return Intl.DateTimeFormat('en-u-ca-islamic-umalqura',{month:'numeric'}).format(d)==='9';}catch(e){return false;}
+  }
+  function appCtx(){
+    try{
+      var k=curPrayer();
+      if(!bn[k])return;
+      ctx.currentPrayer=k;
+      var z=sunTimes(today0()),order=['fajr','dhuhr','asr','maghrib','isha'],i=order.indexOf(k),nx=order[i+1],end=nx?+z[nx]:+z.sunrise+864e5;
+      if(k==='fajr')end=+z.sunrise;
+      ctx.minutesLeft=Math.max(0,Math.round((end-Date.now())/60000));
+    }catch(e){}
+  }
+  function build(){
+    appCtx();
+    var d=new Date(), h=d.getHours(), t=[];
+    var p=ctx.currentPrayer||guessPrayer(h);
+    if(p){
+      t.push({t:'এখন '+bn[p]+' এর ওয়াক্ত চলছে। নামাজ পড়ে নিন 🤲',go:'prayer'});
+      if(ctx.minutesLeft!=null&&ctx.minutesLeft<=20)
+        t.unshift({t:'ওয়াক্ত শেষ হতে আর '+ctx.minutesLeft+' মিনিট বাকি! তাড়াতাড়ি নামাজ পড়ুন।',go:'prayer'});
+    }
+    if(d.getDay()===5)t.push({t:'আজ জুমার দিন — গোসল, সূরা কাহফ ও বেশি বেশি দরুদ পড়ুন।',go:'books'});
+    if(isRamadan(d))t.push({t:'রমজান চলছে — আজকের সাহরি ও ইফতারের সময় দেখে নিন।',go:'calendar'});
+    if(h>=5&&h<11)t.push({t:'সকালের আযকার পড়েছেন?',go:'dua'});
+    if(h>=16&&h<19)t.push({t:'সন্ধ্যার আযকার পড়ার সময় হয়েছে।',go:'dua'});
+    if(h>=21||h<1)t.push({t:'ঘুমের আগে আয়াতুল কুরসি ও ঘুমের দোয়া পড়ে নিন।',go:'dua'});
+    t.push({t:'নামাজের পর ৩৩ বার সুবহানাল্লাহ, আলহামদুলিল্লাহ ও ৩৪ বার আল্লাহু আকবার।'});
+    t.push({t:'আজকের কুরআন তিলাওয়াত বাকি? কয়েকটি আয়াত পড়ে নিন 📖',go:'books'});
+    return t;
+  }
+  var W=76,H=91,pos={x:0,y:0},dragging=false;
+  function vw(){return window.innerWidth}
+  function vh(){return window.innerHeight}
+  function clampP(x,y){return{x:Math.max(4,Math.min(vw()-W-4,x)),y:Math.max(40,Math.min(vh()-H-4,y))}}
+  function setPos(x,y,dur){
+    var p=clampP(x,y);pos=p;
+    bot.style.setProperty('--md',(dur||0)+'s');
+    bot.style.left=p.x+'px';bot.style.top=p.y+'px';
+  }
+  function place(){
+    var s=null;try{s=JSON.parse(localStorage.getItem('aiBotPos')||'null')}catch(e){}
+    if(s&&typeof s.fx==='number')setPos(s.fx*vw(),s.fy*vh());
+    else setPos(vw()-W-12,vh()-H-90);
+  }
+  function savePos(){try{localStorage.setItem('aiBotPos',JSON.stringify({fx:pos.x/vw(),fy:pos.y/vh()}))}catch(e){}}
+  window.addEventListener('resize',function(){setPos(pos.x,pos.y)});
+
+  function placeBubble(){
+    var r=bot.getBoundingClientRect(),bw=bub.offsetWidth,bh=bub.offsetHeight;
+    var x=Math.max(8,Math.min(vw()-bw-8,r.left+r.width/2-bw/2));
+    var y=r.top-bh-8; if(y<8)y=r.bottom+8;
+    bub.style.left=x+'px';bub.style.top=y+'px';
+  }
+  function hide(){bub.className='';bot.classList.remove('talk','wave');}
+  function show(tip,ms,wave,quiet){
+    var go=(!quiet&&tip.go&&AIAssist.go)?'<button class="go">দেখুন</button>':'';
+    var ask=quiet?'':'<button class="ask">🤖 AI-কে জিজ্ঞেস করুন</button>';
+    bub.innerHTML=(quiet?'':'<button class="x" aria-label="বন্ধ">✕</button>')+tip.t+(quiet?'':'<br>'+go+ask);
+    placeBubble();
+    bub.className='show';
+    bot.classList.add('talk'); if(wave)bot.classList.add('wave'); else bot.classList.remove('wave');
+    if(!quiet){
+      bub.querySelector('.x').onclick=function(e){e.stopPropagation();hide();closed=true;};
+      var g=bub.querySelector('.go'); if(g)g.onclick=function(e){e.stopPropagation();hide();AIAssist.go(tip.go);};
+      bub.querySelector('.ask').onclick=function(e){e.stopPropagation();hide();
+        if(window.aiAsk)aiAsk(tip.q||tip.t.replace(/[🤲📖👋]/g,'')+' — এ বিষয়ে সংক্ষেপে বলুন।');};
+    }
+    clearTimeout(hideT); hideT=setTimeout(hide,ms||7000);
+  }
+  function next(){var l=build(); show(l[idx++%l.length],7000,false);}
+  function chatOpen(){var m=document.getElementById('aiM');return !!(m&&m.classList.contains('on'));}
+
+  /* ===== টাচ: একবার চাপ = চ্যাট, চেপে ধরে রাখা = টেনে সরানো ===== */
+  var holdT,sx=0,sy=0,ox=0,oy=0,moved=false,down=false;
+  bot.addEventListener('contextmenu',function(e){e.preventDefault()});
+  bot.addEventListener('pointerdown',function(e){
+    down=true;moved=false;dragging=false;sx=e.clientX;sy=e.clientY;
+    try{bot.setPointerCapture(e.pointerId)}catch(_){}
+    clearTimeout(holdT);
+    holdT=setTimeout(function(){
+      if(!down||moved)return;
+      var r=bot.getBoundingClientRect();
+      setPos(r.left,r.top,0);          /* চলতি ট্রানজিশন থামাও */
+      ox=sx-pos.x;oy=sy-pos.y;dragging=true;
+      hide();bot.classList.remove('walk');bot.classList.add('drag');
+      if(navigator.vibrate)try{navigator.vibrate(15)}catch(_){}
+    },420);
+  });
+  bot.addEventListener('pointermove',function(e){
+    if(!down)return;
+    if(dragging){setPos(e.clientX-ox,e.clientY-oy,0);return}
+    if(Math.abs(e.clientX-sx)>10||Math.abs(e.clientY-sy)>10){moved=true;clearTimeout(holdT)}
+  });
+  function up(e){
+    if(!down)return;down=false;clearTimeout(holdT);
+    if(dragging){dragging=false;bot.classList.remove('drag');savePos();return}
+    if(!moved&&e.type==='pointerup'){
+      closed=false;hide();face('x-happy',1500);
+      breath.classList.remove('bump'); void breath.getBoundingClientRect(); breath.classList.add('bump');
+      if(window.aiOpen)aiOpen();
+    }
+  }
+  bot.addEventListener('pointerup',up);
+  bot.addEventListener('pointercancel',up);
+  breath.addEventListener('animationend',function(e){if(e.animationName==='aiBump')breath.classList.remove('bump');});
+
+  /* ===== নিজে নিজে চলাচল ও অঙ্গভঙ্গি ===== */
+  var GES=['g-jump','g-spin','g-dance','g-nod','g-shake','g-flip','wave'];
+  var XP=['x-happy','x-wink','x-star','x-love','x-cool','x-wow','x-tongue','x-sleep'],curX=null;
+  function face(x,ms){
+    if(curX)bot.classList.remove(curX);
+    curX=x||XP[Math.floor(Math.random()*XP.length)];bot.classList.add(curX);
+    clearTimeout(face.t);face.t=setTimeout(function(){bot.classList.remove(curX);curX=null},ms||2600);
+  }
+  var still=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
+  function busy(){return dragging||down||document.hidden||chatOpen()||bub.classList.contains('show')}
+  function gesture(){
+    var g=GES[Math.floor(Math.random()*GES.length)];
+    if(g==='wave'){bot.classList.add('wave');setTimeout(function(){bot.classList.remove('wave')},2600);}
+    else{bot.classList.add(g);setTimeout(function(){bot.classList.remove(g)},2000);}
+    face();
+  }
+  function wander(){
+    var tx=8+Math.random()*(vw()-W-16),ty=70+Math.random()*(vh()-H-170);
+    var d=Math.hypot(tx-pos.x,ty-pos.y),dur=Math.max(1.6,Math.min(6,d/70));
+    bot.classList.add('walk');
+    setPos(tx,ty,dur);
+    setTimeout(function(){bot.classList.remove('walk')},dur*1000);
+  }
+  function tick(){
+    if(!still&&!busy()){ var r=Math.random(); if(r<.45)wander(); else if(r<.75)gesture(); else face(); }
+    setTimeout(tick,4500+Math.random()*5500);
+  }
+
+  window.AIAssist={go:function(t){try{tab({prayer:'home',calendar:'cal'}[t]||t)}catch(e){}},setContext:function(c){ctx=c||{};},say:function(text){show({t:text},7000,false);}};
+
+  /* ===== ট্যাব বদলালে রোবট হাত দিয়ে নতুন ট্যাবটি টেনে আনে ===== */
+  var pullT;
+  function pull(d){
+    if(still||dragging||down||chatOpen()||document.hidden)return;
+    clearTimeout(pullT);hide();
+    bot.classList.remove('walk','wave','g-jump','g-spin','g-dance','g-nod','g-shake','g-flip');
+    var y=Math.max(110,Math.min(vh()-H-120,pos.y));
+    var sx0=d>0?vw()-W-6:6, ex=d>0?vw()*0.3:vw()-W-vw()*0.3;
+    setPos(sx0,y,0);
+    bot.classList.add('pull'); if(d>0)bot.classList.add('fl'); else bot.classList.remove('fl');
+    face('x-happy',1200);
+    void bot.offsetWidth;
+    setPos(ex,y,.55);
+    pullT=setTimeout(function(){
+      bot.classList.remove('pull','fl');
+      bot.classList.add('g-jump');setTimeout(function(){bot.classList.remove('g-jump')},800);
+    },700);
+  }
+  var _tab=window.tab;
+  if(typeof _tab==='function'){
+    window.tab=function(n){
+      var d=0;
+      try{ if(n!==curTab)d=tabs.indexOf(n)>tabs.indexOf(curTab)?1:-1; }catch(e){}
+      var r=_tab.apply(this,arguments);
+      if(d)pull(d);
+      return r;
+    };
+  }
+  place();
+  /* সালাম */
+  setTimeout(function(){show({t:'আসসালামু আলাইকুম! 👋'},2500,true);},1000);
+  setTimeout(tick,9000);
+  setInterval(function(){if(!closed&&!busy())next();},60000);
+})();
+</script>
+
 </body>
 </html>
