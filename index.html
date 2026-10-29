@@ -432,7 +432,7 @@ html:not([data-nn]) .nan{box-shadow:none;border-radius:0}
 <div id="stThm">
       <div class="glass" data-icn="palette" data-ti="stThm">
         <div class="lbl" data-i="tMode"></div><div class="seg" data-k="mode" data-o="auto,light,dark" data-l="~auto,~light,~dark"></div>
-        <div class="lbl" data-i="tUI"></div><div class="seg" data-k="ui" data-o="normal,clear" data-l="~uiNormal,~uiClear"></div>
+        <div class="lbl" data-i="tUI"></div><div class="seg" data-k="ui" data-o="normal,plain,clear" data-l="~uiNormal,~uiPlain,~uiClear"></div>
         <div class="lbl" data-i="stThm"></div>
         <div class="sws" id="sws"></div><div class="note" id="thN"></div>
       </div>
@@ -533,8 +533,8 @@ days:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],
 months:["January","February","March","April","May","June","July","August","September","October","November","December"],
 bm:["Boishakh","Joishtho","Asharh","Shrabon","Bhadro","Ashwin","Kartik","Agrahayan","Poush","Magh","Falgun","Choitro"],
 hm:["Muharram","Safar","Rabi I","Rabi II","Jumada I","Jumada II","Rajab","Sha'ban","Ramadan","Shawwal","Dhul Qadah","Dhul Hijjah"]}};
-Object.assign(T.bn,{tUI:"অ্যাপের ইন্টারফেস (UI)",uiClear:"পুরো ট্রান্সপারেন্ট",uiNormal:"সাধারণ",tLocMode:"লোকেশন পদ্ধতি",lmAuto:"অটোমেটিক (GPS)",lmMan:"ম্যানুয়াল",tToneC:"নিজের অ্যালার্ম টোন (ফাইল)",toneCn:"নিজের টোন",toneDef:"ডিফল্ট (সেটিংস অনুযায়ী)",alSaved:"কাস্টম টোন সংরক্ষিত",rahmat:"রহমত",magfirat:"মাগফিরাত",najat:"নাজাত",rahmatS:"প্রথম ১০ দিন",magfiratS:"দ্বিতীয় ১০ দিন",najatS:"শেষ ১০ দিন",rojaL:"রোজা",tnames:["ক্লাসিক বিপ","মৃদু ঘণ্টা","ডিজিটাল","ঘণ্টাধ্বনি","সকালের সুর","বীণা","মারিম্বা","সূর্যোদয়","অ্যালার্ট পালস","পাখির ডাক","শান্ত পিয়ানো","ক্লাসিক রিং","জেন বোল","বিজয়ধ্বনি"]});
-Object.assign(T.en,{tUI:"App interface (UI)",uiClear:"Fully transparent",uiNormal:"Normal",tLocMode:"Location mode",lmAuto:"Automatic (GPS)",lmMan:"Manual",tToneC:"Your own alarm tone (file)",toneCn:"My tone",toneDef:"Default (as in settings)",alSaved:"Custom tone saved",rahmat:"Rahmat",magfirat:"Maghfirah",najat:"Najat",rahmatS:"First 10 days",magfiratS:"Second 10 days",najatS:"Last 10 days",rojaL:"Roza",tnames:["Classic Beep","Soft Chime","Digital","Bell","Morning Melody","Harp","Marimba","Sunrise","Alert Pulse","Bird Song","Calm Piano","Classic Ring","Zen Bowl","Fanfare"]});
+Object.assign(T.bn,{tUI:"অ্যাপের ইন্টারফেস (UI)",uiClear:"ট্রান্সপারেন্ট",uiPlain:"সাধারণ UI",uiNormal:"বক্স UI",tLocMode:"লোকেশন পদ্ধতি",lmAuto:"অটোমেটিক (GPS)",lmMan:"ম্যানুয়াল",tToneC:"নিজের অ্যালার্ম টোন (ফাইল)",toneCn:"নিজের টোন",toneDef:"ডিফল্ট (সেটিংস অনুযায়ী)",alSaved:"কাস্টম টোন সংরক্ষিত",rahmat:"রহমত",magfirat:"মাগফিরাত",najat:"নাজাত",rahmatS:"প্রথম ১০ দিন",magfiratS:"দ্বিতীয় ১০ দিন",najatS:"শেষ ১০ দিন",rojaL:"রোজা",tnames:["ক্লাসিক বিপ","মৃদু ঘণ্টা","ডিজিটাল","ঘণ্টাধ্বনি","সকালের সুর","বীণা","মারিম্বা","সূর্যোদয়","অ্যালার্ট পালস","পাখির ডাক","শান্ত পিয়ানো","ক্লাসিক রিং","জেন বোল","বিজয়ধ্বনি"]});
+Object.assign(T.en,{tUI:"App interface (UI)",uiClear:"Transparent",uiPlain:"Plain UI",uiNormal:"Box UI",tLocMode:"Location mode",lmAuto:"Automatic (GPS)",lmMan:"Manual",tToneC:"Your own alarm tone (file)",toneCn:"My tone",toneDef:"Default (as in settings)",alSaved:"Custom tone saved",rahmat:"Rahmat",magfirat:"Maghfirah",najat:"Najat",rahmatS:"First 10 days",magfiratS:"Second 10 days",najatS:"Last 10 days",rojaL:"Roza",tnames:["Classic Beep","Soft Chime","Digital","Bell","Morning Melody","Harp","Marimba","Sunrise","Alert Pulse","Bird Song","Calm Piano","Classic Ring","Zen Bowl","Fanfare"]});
 Object.assign(T.bn,{tUp:"উপজেলা খুঁজুন",upPh:"উপজেলার নাম, যেমন: সাভার",tVil:"গ্রাম / এলাকা খুঁজুন",vlPh:"গ্রাম বা এলাকার নাম",locAutoTag:"অটোমেটিক",locManTag:"ম্যানুয়াল",locMan:"লোকেশন হাতে বাছাই করা আছে",
 crT:"কপিরাইট ও আইনি তথ্য",crRights:"সর্বস্বত্ব সংরক্ষিত",crLaw:"এই অ্যাপের ডিজাইন, সোর্স কোড, লেখা, গ্রাফিক্স ও অন্যান্য মৌলিক উপাদান কপিরাইট আইন, ২০২৩ (গণপ্রজাতন্ত্রী বাংলাদেশ) এবং প্রযোজ্য আন্তর্জাতিক কপিরাইট চুক্তির অধীনে সুরক্ষিত।",crProhib:"স্বত্বাধিকারীর লিখিত অনুমতি ছাড়া এর কোনো অংশ কপি, পরিবর্তন, পুনর্বিতরণ, বিক্রয় বা বাণিজ্যিক কাজে ব্যবহার করা নিষিদ্ধ। এই শর্ত লঙ্ঘন করলে আইনি ব্যবস্থা নেওয়া হতে পারে।",crThird:"তৃতীয় পক্ষের ডেটা ও সেবা (যেমন Open-Meteo, BigDataCloud) এবং ধর্মীয় গ্রন্থের টেক্সট তাদের নিজ নিজ মালিক ও লাইসেন্সের অধীন।",crContact:"অনুমতি বা যোগাযোগের জন্য",crCopied:"কপি হয়েছে"});
 Object.assign(T.en,{tUp:"Find upazila",upPh:"Upazila name, e.g. Savar",tVil:"Find village / area",vlPh:"Village or area name",locAutoTag:"Auto",locManTag:"Manual",locMan:"Location set manually",
@@ -584,7 +584,7 @@ async function audInit(){
   try{const e=$('adS');if(e&&audGet('adhan_a'))e.textContent=t('adSaved')}catch(e){}
 }
 let S=Object.assign({autoUpd:true,stTab:'gen',lang:'bn',theme:'islamic',mode:'auto',main:'h',city:'dhaka',adhan:true,hadj:0,snz:5,tone:0,ui:'normal',locMode:'auto',alarms:ld('cal_alarms',[]),notes:{}},ld('cal_v4',{}));if(S.up&&!S.upz&&!S.vil)S.upz=S.up;
-if(!['islamic','indigo','sunset','midnight','makkah','ramadan','cream','beige','sand'].includes(S.theme))S.theme='islamic';if(S.ui!=='clear')S.ui='normal';
+if(!['islamic','indigo','sunset','midnight','makkah','ramadan','cream','beige','sand'].includes(S.theme))S.theme='islamic';if(S.ui!=='clear'&&S.ui!=='plain')S.ui='normal';
 
 const save=()=>{sv('cal_v4',S);qPush();if(typeof cloudQ==='function')cloudQ()};
 const NATIVE=typeof AndroidApp!=='undefined';
@@ -1537,6 +1537,47 @@ html:not([data-nn]) #tab-cal .cell{min-height:58px}
 html:not([data-nn]) .nb span{font-size:.6rem;letter-spacing:-.2px}
 @keyframes nbhop{0%{transform:translateY(0) scale(1)}35%{transform:translateY(-28px) scale(.82)}75%{transform:translateY(-4px) scale(1.07)}100%{transform:none}}
 @keyframes nbpop{0%{transform:scale(.4)}60%{transform:scale(1.25)}100%{transform:scale(1)}}
+</style>
+<style id="ui-plain">
+/* ===== UI মোড: সাধারণ UI (data-ui=plain) — কোনো বক্স নেই ===== */
+html[data-ui=plain][data-m]:not([data-nn]){--bd:color-mix(in srgb,var(--tx) 14%,transparent);--ln:var(--bd);--r1:0 0 0 0 transparent;--r2:0 0 0 0 transparent;--i1:0 0 0 0 transparent;--i2:0 0 0 0 transparent}
+html[data-ui=plain][data-m]:not([data-nn]) .app,html[data-ui=plain][data-m]:not([data-nn]) .mi,html[data-ui=plain][data-m]:not([data-nn]) .pr,html[data-ui=plain][data-m]:not([data-nn]) .live,html[data-ui=plain][data-m]:not([data-nn]) .bxc,html[data-ui=plain][data-m]:not([data-nn]) .bxs,html[data-ui=plain][data-m]:not([data-nn]) .ay,html[data-ui=plain][data-m]:not([data-nn]) .rs,html[data-ui=plain][data-m]:not([data-nn]) .up,html[data-ui=plain][data-m]:not([data-nn]) .lchip,html[data-ui=plain][data-m]:not([data-nn]) .rr,html[data-ui=plain][data-m]:not([data-nn]) .al,html[data-ui=plain][data-m]:not([data-nn]) .ev,html[data-ui=plain][data-m]:not([data-nn]) .pdc,html[data-ui=plain][data-m]:not([data-nn]) .updbn,html[data-ui=plain][data-m]:not([data-nn]) .glass,html[data-ui=plain][data-m]:not([data-nn]) .box,html[data-ui=plain][data-m]:not([data-nn]) .atc,html[data-ui=plain][data-m]:not([data-nn]) .mq,html[data-ui=plain][data-m]:not([data-nn]) .cal,html[data-ui=plain][data-m]:not([data-nn]) .sic,html[data-ui=plain][data-m]:not([data-nn]) .cell,html[data-ui=plain][data-m]:not([data-nn]) .rd,html[data-ui=plain][data-m]:not([data-nn]) .rd .no,html[data-ui=plain][data-m]:not([data-nn]) .rsh{background:transparent!important;border:none;box-shadow:none!important;border-radius:0}
+html[data-ui=plain][data-m]:not([data-nn]) .pr,html[data-ui=plain][data-m]:not([data-nn]) .live,html[data-ui=plain][data-m]:not([data-nn]) .mi,html[data-ui=plain][data-m]:not([data-nn]) .rr,html[data-ui=plain][data-m]:not([data-nn]) .al,html[data-ui=plain][data-m]:not([data-nn]) .ev,html[data-ui=plain][data-m]:not([data-nn]) .pdc,html[data-ui=plain][data-m]:not([data-nn]) .rs,html[data-ui=plain][data-m]:not([data-nn]) .up,html[data-ui=plain][data-m]:not([data-nn]) .mq,html[data-ui=plain][data-m]:not([data-nn]) .glass{border-bottom:1px solid var(--bd)}
+html[data-ui=plain][data-m]:not([data-nn]) .setBk{border:none}
+html[data-ui=plain][data-m]:not([data-nn]) .hc{border-radius:0;box-shadow:none}
+html[data-ui=plain][data-m]:not([data-nn]) .cn button,html[data-ui=plain][data-m]:not([data-nn]) .nv button,html[data-ui=plain][data-m]:not([data-nn]) .sh button,html[data-ui=plain][data-m]:not([data-nn]) .dib,html[data-ui=plain][data-m]:not([data-nn]) .bxbar button,html[data-ui=plain][data-m]:not([data-nn]) .qpc button,html[data-ui=plain][data-m]:not([data-nn]) .chip,html[data-ui=plain][data-m]:not([data-nn]) .pdt button,html[data-ui=plain][data-m]:not([data-nn]) .seg button{background:transparent!important;border:none;box-shadow:none!important;border-radius:0}
+html[data-ui=plain][data-m]:not([data-nn]) .chip,html[data-ui=plain][data-m]:not([data-nn]) .pdt button{color:var(--sub)}
+html[data-ui=plain][data-m]:not([data-nn]) .seg{background:transparent!important;border:none;border-bottom:1px solid var(--bd);border-radius:0;box-shadow:none;padding:0}
+html[data-ui=plain][data-m]:not([data-nn]) .seg button{color:var(--sub)}
+html[data-ui=plain][data-m]:not([data-nn]) .seg button.on,html[data-ui=plain][data-m]:not([data-nn]) .chip.on,html[data-ui=plain][data-m]:not([data-nn]) .pdt button.on,html[data-ui=plain][data-m]:not([data-nn]) .dib.on{color:var(--ac);font-weight:700;box-shadow:inset 0 -2px 0 var(--ac)!important}
+html[data-ui=plain][data-m]:not([data-nn]) .in,html[data-ui=plain][data-m]:not([data-nn]) select.in,html[data-ui=plain][data-m]:not([data-nn]) textarea.in{background:transparent;border:none;border-bottom:1.5px solid var(--bd);border-radius:0;box-shadow:none}
+html[data-ui=plain][data-m]:not([data-nn]) .in:focus{border-bottom-color:var(--ac);box-shadow:none}
+html[data-ui=plain][data-m]:not([data-nn]) .btn{background:var(--ac);color:#fff;border:none;box-shadow:none;border-radius:999px}
+html[data-ui=plain][data-m]:not([data-nn]) .btn.alt{background:transparent;color:var(--ac);box-shadow:none}
+html[data-ui=plain][data-m]:not([data-nn]) .sw2 i{background:color-mix(in srgb,var(--tx) 20%,transparent);box-shadow:none}
+html[data-ui=plain][data-m]:not([data-nn]) .sw2 i::after{background:#fff;box-shadow:none}
+html[data-ui=plain][data-m]:not([data-nn]) .sw2 input:checked+i{background:var(--ac)}
+html[data-ui=plain][data-m]:not([data-nn]) .sw{box-shadow:none}
+/* নেভিগেশন বার */
+html[data-ui=plain][data-m]:not([data-nn]) nav{background:transparent;border:none;border-top:1px solid var(--bd);border-radius:0;box-shadow:none;margin:0;padding-bottom:6px}
+html[data-ui=plain][data-m]:not([data-nn]) .nbd{display:none}
+html[data-ui=plain][data-m]:not([data-nn]) .nbi{background:transparent;box-shadow:none;color:var(--ac)}
+html[data-ui=plain][data-m]:not([data-nn]) .nb.on{color:var(--ac)!important}
+/* নামাজের সময়: চলমান = সবুজ, শেষ = লাল */
+html[data-ui=plain][data-m]:not([data-nn]) .pr.now,html[data-ui=plain][data-m]:not([data-nn]) .live.on{color:var(--ok);font-weight:700}
+html[data-ui=plain][data-m]:not([data-nn]) .pr.past{color:#ef4444}
+html[data-ui=plain][data-m=light]:not([data-nn]) .pr.past{color:#dc2626}
+html[data-ui=plain][data-m]:not([data-nn]) .rd.td{color:var(--ac);font-weight:700;box-shadow:none}
+html[data-ui=plain][data-m]:not([data-nn]) .rd .no{color:var(--rc)}
+/* ক্যালেন্ডারের ঘর */
+html[data-ui=plain][data-m]:not([data-nn]) .cell.today{background:var(--ac)!important;border-radius:16px}
+html[data-ui=plain][data-m]:not([data-nn]) .cell.today .g{color:#fff!important}
+html[data-ui=plain][data-m]:not([data-nn]) .cell.eid .g{color:var(--gold)!important}
+html[data-ui=plain][data-m]:not([data-nn]) .ptx{border:none;border-radius:0;background:transparent;color:var(--sub);box-shadow:none}
+html[data-ui=plain][data-m]:not([data-nn]) .ptx.on{background:transparent;color:var(--ok);box-shadow:inset 0 -2px 0 var(--ok)}
+html[data-ui=plain][data-m]:not([data-nn]) .ptb{background:transparent;border-radius:0}
+html[data-ui=plain][data-m]:not([data-nn]) .sgr{background:transparent;border:none;border-bottom:1px solid var(--bd);border-radius:0}
+html[data-ui=plain][data-m]:not([data-nn]) .sgact{background:transparent;color:var(--ac);border-radius:0;padding:7px 0;box-shadow:none}
 </style>
 <script>
 (function(){
@@ -2948,8 +2989,9 @@ let cfg={p:'gemini',d:{}};
 try{const s=JSON.parse(localStorage.getItem(CFG_LS)||'null');if(s&&s.d)cfg=s}catch(e){}
 try{const old=localStorage.getItem(KEY_LS);if(old&&!(cfg.d.gemini&&cfg.d.gemini.key)){cfg.d.gemini=Object.assign({},cfg.d.gemini,{key:old})}}catch(e){}
 const saveCfg=()=>{try{localStorage.setItem(CFG_LS,JSON.stringify(cfg))}catch(e){}};
-function cur(){
-  const id=PR[cfg.p]?cfg.p:'gemini',d=cfg.d[id]||{},P=PR[id];
+function cur(){return curOf(PR[cfg.p]?cfg.p:'gemini')}
+function curOf(id){
+  const d=cfg.d[id]||{},P=PR[id];
   return {id:id,t:P.t,model:(d.model||P.model||'').trim(),base:(d.base||P.base||'').trim().replace(/\/+$/,''),key:(d.key||'').trim()};
 }
 
@@ -2985,8 +3027,8 @@ let busy=false,ctl=null;
 const saveHist=()=>{try{localStorage.setItem(HIST_LS,JSON.stringify(hist.slice(-40)))}catch(e){}};
 const getKey=()=>cur().key;
 
-function buildReq(sys,msgs,mdl){
-  const c=cur();if(mdl)c.model=mdl;
+function buildReq(sys,msgs,mdl,pid){
+  const c=pid?curOf(pid):cur();if(mdl)c.model=mdl;
   if(c.t==='g'){
     return {url:c.base+'/models/'+encodeURIComponent(c.model)+':streamGenerateContent?alt=sse',
       headers:{'Content-Type':'application/json','x-goog-api-key':c.key},
@@ -3096,6 +3138,7 @@ function render(){
 function errText(status,msg){
   const d=msg?' ['+String(msg).replace(/\s+/g,' ').slice(0,140)+']':'';
   if(status===401||status===403||(status===400&&/api.?key/i.test(msg||'')))return X('API key সঠিক নয়। ⚙ থেকে key ঠিক করুন।','The API key is not valid. Fix it in ⚙.')+d;
+  if(/credit|quota|billing|insufficient/i.test(msg||''))return X('এই AI সার্ভিসে ক্রেডিট/কোটা নেই। সেখানে ক্রেডিট যোগ করুন, অথবা ⚙ থেকে অন্য সার্ভিস বেছে নিন।','This service has no credits/quota left. Add credits there, or pick another provider in ⚙.')+d;
   if(status===429)return X('ফ্রি সীমা শেষ বা অনেক বেশি অনুরোধ। একটু পরে আবার চেষ্টা করুন।','Free limit reached or too many requests. Try again later.')+d;
   if(status===404)return X('মডেলের নাম বা ঠিকানা (URL) ঠিক নেই। ⚙ খুলে "মডেল তালিকা" চেপে একটি মডেল বেছে নিন।','Model name or URL is wrong. Open ⚙, tap "Load models" and pick one.')+d;
   if(status===500||status===502||status===503||status===504)return X('এই মুহূর্তে AI সার্ভার খুব ব্যস্ত ('+status+')। কয়েক সেকেন্ড পরে আবার পাঠান, অথবা ⚙ থেকে অন্য একটি মডেল বেছে নিন।','The AI server is very busy right now ('+status+'). Try again in a few seconds, or pick another model in ⚙.')+d;
@@ -3108,26 +3151,31 @@ const RT=[429,500,502,503,504];
 const GFB=['gemini-flash-lite-latest','gemini-2.5-flash'];
 const sleep=(ms,sig)=>new Promise((res,rej)=>{const t=setTimeout(res,ms);if(sig)sig.addEventListener('abort',()=>{clearTimeout(t);rej(Object.assign(new Error('abort'),{name:'AbortError'}))},{once:true})});
 async function fetchRetry(sys,msgs,box){
-  const c=cur(),models=[c.model];
-  if(c.t==='g')GFB.forEach(m=>{if(models.indexOf(m)<0)models.push(m)});
+  /* প্রথমে বাছাই করা সার্ভিস, ব্যর্থ হলে key দেওয়া বাকি সার্ভিসগুলো একে একে */
+  const c0=cur(),order=[c0.id];
+  Object.keys(PR).forEach(id=>{if(id===c0.id)return;const o=curOf(id);if(o.key&&o.model&&o.base)order.push(id)});
   let first=null;
-  for(let mi=0;mi<models.length;mi++){
-    const tries=mi===0?3:1;
-    for(let a=0;a<tries;a++){
-      if(a>0||mi>0){
-        box.innerHTML='<i>'+X('সার্ভার ব্যস্ত, আবার চেষ্টা করছি…','Server busy, trying again…')+'</i><span class="cur"></span>';
-        if(a>0)await sleep(1500*a,ctl.signal);
+  PV:for(let pi=0;pi<order.length;pi++){
+    const c=curOf(order[pi]),models=[c.model];
+    if(c.t==='g')GFB.forEach(m=>{if(models.indexOf(m)<0)models.push(m)});
+    for(let mi=0;mi<models.length;mi++){
+      const tries=mi===0?3:1;
+      for(let a=0;a<tries;a++){
+        if(a>0||mi>0||pi>0){
+          box.innerHTML='<i>'+(pi>0&&mi===0&&a===0?X('অন্য AI সার্ভিসে চেষ্টা করছি…','Trying another AI service…'):X('সার্ভার ব্যস্ত, আবার চেষ্টা করছি…','Server busy, trying again…'))+'</i><span class="cur"></span>';
+          if(a>0)await sleep(1500*a,ctl.signal);
+        }
+        const R=buildReq(sys,msgs,models[mi],order[pi]);
+        let res;
+        try{res=await fetch(R.url,{method:'POST',headers:R.headers,body:JSON.stringify(R.body),signal:ctl.signal})}
+        catch(e){if(e&&e.name==='AbortError')throw e;if(!first)first=e;continue}
+        if(res.ok)return {res:res,t:c.t};
+        let m='';try{const j=await res.json();m=(j.error&&(j.error.message||j.error))||j.message||''}catch(e){}
+        const err=Object.assign(new Error(typeof m==='string'?m:JSON.stringify(m)||'http'),{status:res.status});
+        if(!first)first=err;
+        if(mi===0&&RT.indexOf(res.status)<0){if(order.length===1)throw err;continue PV}
+        if(mi>0||res.status===429)break;
       }
-      const R=buildReq(sys,msgs,models[mi]);
-      let res;
-      try{res=await fetch(R.url,{method:'POST',headers:R.headers,body:JSON.stringify(R.body),signal:ctl.signal})}
-      catch(e){if(e&&e.name==='AbortError')throw e;if(!first)first=e;continue}
-      if(res.ok)return res;
-      let m='';try{const j=await res.json();m=(j.error&&(j.error.message||j.error))||j.message||''}catch(e){}
-      const err=Object.assign(new Error(typeof m==='string'?m:JSON.stringify(m)||'http'),{status:res.status});
-      if(!first)first=err;
-      if(mi===0&&RT.indexOf(res.status)<0)throw err;
-      if(mi>0||res.status===429)break;
     }
   }
   throw first||new Error('http');
@@ -3147,8 +3195,8 @@ async function send(q){
   try{
     let msgs=hist.filter(m=>!m.e).slice(-12).map(m=>({role:m.r==='user'?'user':'assistant',content:m.c}));
     while(msgs.length&&msgs[0].role!=='user')msgs.shift();
-    const res=await fetchRetry(sysPrompt(),msgs,box);
-    const feed=mkSSE(t=>{acc+=t;box.innerHTML=fmt(acc)+'<span class="cur"></span>';L.scrollTop=L.scrollHeight},cur().t);
+    const fr=await fetchRetry(sysPrompt(),msgs,box),res=fr.res;
+    const feed=mkSSE(t=>{acc+=t;box.innerHTML=fmt(acc)+'<span class="cur"></span>';L.scrollTop=L.scrollHeight},fr.t);
     const rd=res.body.getReader(),dec=new TextDecoder();
     for(;;){const {value,done}=await rd.read();if(done)break;feed(dec.decode(value,{stream:true}))}
     feed('\n');
@@ -3462,7 +3510,7 @@ transition:opacity .2s,transform .45s cubic-bezier(.34,1.56,.64,1)}
     setTimeout(function(){bot.classList.remove('walk')},dur*1000);
   }
   function tick(){
-    if(!still&&!busy()){ var r=Math.random(); if(r<.45)wander(); else if(r<.75)gesture(); else face(); }
+    if(!still&&!busy()){ var r=Math.random(); if(r<.5)gesture(); else face(); }
     setTimeout(tick,4500+Math.random()*5500);
   }
 
@@ -3492,7 +3540,7 @@ transition:opacity .2s,transform .45s cubic-bezier(.34,1.56,.64,1)}
       var d=0;
       try{ if(n!==curTab)d=tabs.indexOf(n)>tabs.indexOf(curTab)?1:-1; }catch(e){}
       var r=_tab.apply(this,arguments);
-      if(d)pull(d);
+      /* বট আর নিজে থেকে জায়গা বদলায় না */
       return r;
     };
   }
